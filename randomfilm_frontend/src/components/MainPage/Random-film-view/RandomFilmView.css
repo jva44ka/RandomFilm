@@ -1,0 +1,108 @@
+.randomFilmComponent {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1vw;
+    grid-auto-flow: dense;
+}
+    /*grid-template-areas:
+            "FilmImage"
+            "FilmTrailerVideo"
+            "someLabel11 someLabe21"
+            "someLabel12 someLabe22"
+            "someLabel13 someLabe23"
+            "someLabel14 someLabe24"
+            "someLabel15 someLabe25"
+            "someLabel16 someLabe26"
+            "GetFilmButton";*/
+
+.randomFilmComponent > image, video, label {
+    font-size: 2vw;
+    padding: .5em;
+    background: gray;
+    text-align: left;
+    align-items: center;
+}
+
+.randomFilmComponent > image:nth-child(1){
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.randomFilmComponent > video:nth-child(2){
+    grid-column-start: 1;
+    grid-column-end: 3;
+    justify-self: center;
+}
+
+.randomFilmComponent > button:nth-child(15){
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    justify-self: center;
+
+    width: 15vw;
+    height: 10vh;
+    min-width: 10vw;
+    min-height: 5vh;
+
+    margin: 5vh;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 18px;
+    outline: none;
+
+    background-color: coral;
+}
+
+.randomFilmComponent > button:nth-child(15):hover{
+    background-color: rgb(255, 85, 23);
+}
+
+/*
+#FilmImage{
+    grid-area: FilmImage;
+}
+#FilmTrailerVideo{
+    grid-area: FilmTrailerVideo;
+}
+#TitleLabel{
+    grid-area: someLabel11;
+}
+#TitleValue{
+    grid-area: someLabel21;
+}
+#GenreLabel{
+    grid-area: someLabel12;
+}
+#GenreValue{
+    grid-area: someLabel22;
+}
+#DescriptionLabel{
+    grid-area: someLabel13;
+}
+#DescriptionValue{
+    grid-area: someLabel23;
+}
+#DuarationLabel{
+    grid-area: someLabel14;
+}
+#DuarationValue{
+    grid-area: someLabel24;
+}
+#YearLabel{
+    grid-area: someLabel15;
+}
+#YearValue{
+    grid-area: someLabel25;
+}
+#DirectorLabel{
+    grid-area: someLabel16;
+}
+#DirectorValue{
+    grid-area: someLabel26;
+}
+#GetFilmButton{
+    grid-area: GetFilmButton;
+}
+*/
