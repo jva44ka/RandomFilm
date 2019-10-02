@@ -24,4 +24,4 @@ ____
   - Роли (админ, пользователь)
 ____
 Демо главной страницы и работы запроса. После нормальной разметки будет другое видео и скриншоты.
-![Demo RandomFilm2](https://j.gifs.com/k8Bq8E.gif)
+![Demo RandomFilm2](https://gifs.com/gif/randomfilm-demo2-YWrjjO)
