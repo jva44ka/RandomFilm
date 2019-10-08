@@ -9,6 +9,11 @@
 
 }
 
+.main-page-grid > label{
+    background-color: inherit;
+    border-style: inherit;
+}
+
 .main-page-grid > label:nth-child(1){
     grid-column-start: 1;
     grid-column-end: 3;

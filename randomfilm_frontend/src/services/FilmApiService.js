@@ -1,20 +1,31 @@
-import React from 'react'
-
 export default class FilmApiService {
 
     BasePath = 'http://localhost:64303';
-    Controller = 'Films'
+    Controller = 'Films';
     Id = 'Random';
 
-    GetRandomFilm = () => {
+    /*GetRandomFilm = () => {
+        let result = {};
         //Работющий запрос
         fetch("http://localhost:64303/api/Films/Random", {
             method: 'GET',
             mode: 'cors'})
 
             .then(res => res.json())
-            .then((result) => {
-                    console.log(result);
+            .then((resultRequest) => {
+                    //console.log(resultRequest);
+                    result = {
+                        id: resultRequest.id,
+                        title: resultRequest.title,
+                        duaration: resultRequest.duaration,
+                        genre: resultRequest.genre,
+                        description: resultRequest.description,
+                        year: resultRequest.year,
+                        director: resultRequest.director,
+                        urlImg: resultRequest.urlImg,
+                        urlTrailer: resultRequest.urlTrailer
+                    }
+                    //console.log(result);
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -23,15 +34,29 @@ export default class FilmApiService {
                     console.log(error);
                 }
             )
-    }
+        console.log(result);
+        return result;
+    }*/
 
-    getResource = async(controller = this.Controller, id = '') => {
-        let res = await fetch(`${this.BasePath}/api/${controller}/${id}`, {
+    GetResource = async(controller = this.Controller, id = '') => {
+        let result = {};
+        await fetch(`${this.BasePath}/api/${controller}/${id}`, {
             method: 'GET',
             mode: 'cors'})
 
             .then(res => res.json())
-            .then((result) => {
+            .then((resultRequest) => {
+                    result = {
+                        id: resultRequest.id,
+                        title: resultRequest.title,
+                        duaration: resultRequest.duaration,
+                        genre: resultRequest.genre,
+                        description: resultRequest.description,
+                        year: resultRequest.year,
+                        director: resultRequest.director,
+                        urlImg: resultRequest.urlImg,
+                        urlTrailer: resultRequest.urlTrailer
+                    };
                     console.log(result);
                 },
                 // Note: it's important to handle errors here
@@ -40,42 +65,23 @@ export default class FilmApiService {
                 (error) => {
                     console.log(error);
                 }
-            )
-
+            );
         //if (!res.ok) {
         //    throw Error(`Could not fetch ${this.BasePath}` +
         //        `, received ${res.status}`)
         //}
-        return await res;
-    }
+        return await result;
+    };
 
-    async getAllFilms() {
-        const res = await this.getResource('Films');
-        return res.results.map(this._transformFilm);
-    }
+    GetAllFilms = async () => {
+        return await this.GetResource('Films');
+    };
 
-    async getFilmById(id) {
-        const film = await this.getResource(this.Controller, id);
-        return this._transformFilm(film);
-    }
+    GetFilmById = async (id) => {
+        return await this.GetResource('Films', id);
+    };
 
-    async getRandomFilm() {
-        const film = await this.getResource(this.Controller, 'Random');
-
-        return film;//this._transformFilm(film);
-    }
-
-    _transformFilm(film) {
-        return {
-                id: film.id,
-                title: film.title,
-                duaration: film.duaration,
-                genre: film.genre,
-                description: film.description,
-                year: film.year,
-                director: film.director,
-                urlImg: film.urlImg,
-                urlTrailer: film.urlTrailer
-        }
+    GetRandomFilm = async () => {
+        return await this.GetResource('Films', 'Random');
     }
 }

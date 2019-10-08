@@ -1,5 +1,5 @@
 import React from 'react';
-import FilmView from '../Film-view';
+import FilmComponent from '../FilmComponent';
 import apiService from '../../services/FilmApiService'
 
 import './mainPage.css'
@@ -14,15 +14,15 @@ export  default class MainPage extends  React.Component{
                 <label>
                     Здесь вы можете подобрать фильм для себя несколькими способами.
                 </label>
-                <labe>
+                <label>
                     Способ №1: Вам выдается совершенно случайный фильм из базы данных.
-                </labe>
-                <labe>
+                </label>
+                <label>
                     Способ №2: Вам выдается фильм в соответствие с вашими предпочтению по жанрам, длительности и т.д. Необходимо зарегестрироваться/ войти
                     для данного способа (<b>В разработке!</b>)
-                </labe>
-                <FilmView qwerry="http://localhost:64303/api/Films/Random"/>
-                <FilmView qwerry="http://localhost:64303/api/Films/0"/>
+                </label>
+                <FilmComponent FilmSelectFunc={this.api.GetRandomFilm}/>
+                <FilmComponent FilmSelectFunc={this.api.GetFilmById}/>
             </div>
         )
     }
