@@ -19,9 +19,10 @@ export  default class FilmComponent extends  React.Component{
         mini: true
     };
 
-    onButtonClick = () => {
-        const result = this.props.FilmSelectFunc();
+    onButtonClick = async() => {
+        const result = await this.props.FilmSelectFunc();
         console.log(result);
+        console.log(result.id);
         this.setState({
             id: result.id,
             title: result.title,
@@ -37,7 +38,7 @@ export  default class FilmComponent extends  React.Component{
         });
     };
 
-    OpenFullView = () => {
+    ChangeViewSize = () => {
         this.setState((state) => {
             return{
                 id: state.id,
@@ -55,7 +56,7 @@ export  default class FilmComponent extends  React.Component{
         })
     };
 
-    render(){
+    render (){
 
         return (
             <div>
@@ -67,12 +68,12 @@ export  default class FilmComponent extends  React.Component{
                                         film={this.state}
                                         /*film={{ title,
                                                 urlImg} = this.state}*/
-                                        FilmViewClick={this.OpenFullView}/>
+                                        FilmViewClick={this.ChangeViewSize}/>
                                 ):(
                                     //<FilmView film={...{title, duration, genre, description, year, director, urlImg, urlTrailer} = this.state}/>
                                     <FilmFullView
                                         film={this.state}
-                                        FilmViewClick={this.OpenFullView}/>
+                                        FilmViewClick={this.ChangeViewSize}/>
                                 )}
                             <div className="FilmComponent-Flex">
                                 <button id="GetFilmButton" onClick={this.onButtonClick}>Еще фильм</button>

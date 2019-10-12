@@ -70,7 +70,7 @@ export default class FilmApiService {
         //    throw Error(`Could not fetch ${this.BasePath}` +
         //        `, received ${res.status}`)
         //}
-        return await result;
+        return result;
     };
 
     GetAllFilms = async () => {
@@ -82,6 +82,8 @@ export default class FilmApiService {
     };
 
     GetRandomFilm = async () => {
-        return await this.GetResource('Films', 'Random');
+        const result = await this.GetResource('Films', 'Random');
+        console.log(result);
+        return result;
     }
 }

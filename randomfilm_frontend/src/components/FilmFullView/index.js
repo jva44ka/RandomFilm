@@ -51,7 +51,7 @@ import './FilmFullView.css';
 
     const FilmView = ({film, FilmViewClick}) => {
         return (
-            <div className="FilmFillComponent" onClick={FilmViewClick}>
+            <div className="FilmFullComponent" onClick={FilmViewClick}>
                 <label id="FilmTrailerLabel" > Трейлер </label>
                 <label id="FilmTrailerValue">{film.urlTrailer}</label>
                 <label id="TitleLabel">Название</label>

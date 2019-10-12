@@ -1,4 +1,4 @@
-.FilmFillComponent{
+.FilmFullComponent{
     margin: 1vh;
     background-color: lightgrey;
     border-radius: 5px;
@@ -13,11 +13,11 @@
     cursor: pointer;
 }
 
-.FilmFillComponent:hover{
+.FilmFullComponent:hover{
     background-color: #bababa;
 }
 
-.FilmFillComponent > img, label {
+.FilmFullComponent > img, label {
     font-size: 2vw;
     padding: .5em;
     background: gray;
@@ -29,7 +29,7 @@
     cursor: inherit;
 }
 
-.FilmFillComponent > label{
+.FilmFullComponent > label{
     font-size: 18px;
 }
 /*
