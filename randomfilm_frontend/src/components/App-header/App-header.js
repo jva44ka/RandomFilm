@@ -1,6 +1,8 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import logo from '../../logo.svg';
 import './App-header.css';
+
 
 function AppHeader() {
   return (
@@ -8,13 +10,13 @@ function AppHeader() {
         <img src={logo} className="App-logo" alt="logo" />
           <ul className="header-buttons">
               <li>
-                  <a href="/">Главная</a>
+                  <Link to="/">Главная</Link>
               </li>
               <li>
-                  <a href="/Films">Фильмы</a>
+                  <Link to="/Films">Фильмы</Link>
               </li>
               <li>
-                  <a href="/Actors">Актеры</a>
+                  <Link to="/Actors">Актеры</Link>
               </li>
           </ul>
       </header>

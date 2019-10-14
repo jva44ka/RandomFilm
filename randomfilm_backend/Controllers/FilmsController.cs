@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 using randomfilm_backend.Models;
 
@@ -108,6 +109,31 @@ namespace randomfilm_backend.Controllers
         // POST: api/Films
         [HttpPost]
         public async Task<ActionResult<Film>> PostFilm([FromBody]string stringFilm)
+        {
+            Film film = FilmUtility.GetFilmFromJson(stringFilm);
+            _context.Films.Add(film);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (FilmExists(film.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok(film);
+            //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
+        }
+
+        [HttpPost("SpecificityFilm")]
+        [Authorize]
+        public async Task<ActionResult<Film>> SpecificityFilm([FromBody]string stringFilm)
         {
             Film film = FilmUtility.GetFilmFromJson(stringFilm);
             _context.Films.Add(film);

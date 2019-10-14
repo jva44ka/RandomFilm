@@ -53,6 +53,8 @@ namespace randomfilm_backend
             }
 
             app.UseHttpsRedirection();
+            //Аутентификация
+            app.UseAuthentication();
             app.UseMvc(/*routes =>
             {
                 routes.MapRoute(

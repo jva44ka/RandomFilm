@@ -12,3 +12,17 @@ C:\Users\Anton\source\repos\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfil
 C:\Users\Anton\source\repos\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.pdb
 C:\Users\Anton\source\repos\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.dll
 C:\Users\Anton\source\repos\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.pdb
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.deps.json
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.runtimeconfig.json
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.runtimeconfig.dev.json
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.dll
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\bin\Debug\netcoreapp2.2\randomfilm_backend.pdb
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.csprojAssemblyReference.cache
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.csproj.CoreCompileInputs.cache
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.RazorAssemblyInfo.cache
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.RazorAssemblyInfo.cs
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.AssemblyInfoInputs.cache
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.AssemblyInfo.cs
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.RazorTargetAssemblyInfo.cache
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.dll
+C:\Users\Anton\Documents\GitHub\RandomFilm\randomfilm_backend\obj\Debug\netcoreapp2.2\randomfilm_backend.pdb

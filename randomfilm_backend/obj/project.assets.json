@@ -12999,11 +12999,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Anton\\source\\repos\\RandomFilm_Backend\\randomfilm_backend.csproj",
+      "projectUniqueName": "C:\\Users\\Anton\\Documents\\GitHub\\RandomFilm\\randomfilm_backend\\randomfilm_backend.csproj",
       "projectName": "randomfilm_backend",
-      "projectPath": "C:\\Users\\Anton\\source\\repos\\RandomFilm_Backend\\randomfilm_backend.csproj",
+      "projectPath": "C:\\Users\\Anton\\Documents\\GitHub\\RandomFilm\\randomfilm_backend\\randomfilm_backend.csproj",
       "packagesPath": "C:\\Users\\Anton\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Anton\\source\\repos\\RandomFilm_Backend\\obj\\",
+      "outputPath": "C:\\Users\\Anton\\Documents\\GitHub\\RandomFilm\\randomfilm_backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
