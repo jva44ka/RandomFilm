@@ -1,54 +1,41 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+.dotnet-logo, .react-logo{
   height: 10vh;
   pointer-events: none;
-  margin: 0;
+  margin: 2vh;
 }
 
-.App-header {
+.react-logo {
+  animation: App-logo-spin infinite 20s linear;
+}
+
+.AppFooter {
   background-color: #1b1b1b;
-  height: 10vh;
+  height: 100px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   font-size: calc(10px + 2vmin);
   color: white;
+
+  flex: 0 0 auto;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-.header-buttons{
+.frameworks-emblems{
   margin: 0; /* Обнуляем значение отступов */
   padding: 4px; /* Значение полей */
 }
 
-.header-buttons li {
+.frameworks-emblems li {
   display: inline; /* Отображать как строчный элемент */
   list-style: none;
   margin: 0;
   padding: .5rem 1rem;
   border-radius: 3px;
-}
-
-.App-header ul li:hover {
-  background-color: #444;
-}
-
-.App-header a{
-  color: coral;
-  text-decoration: none;
-}
-
-.App-header a:hover {
-  color: rgb(255, 85, 23);
-  text-decoration: none;
 }
 
 @keyframes App-logo-spin {

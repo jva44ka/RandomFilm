@@ -8,9 +8,12 @@ import {
     useParams
 } from "react-router-dom";
 
-import AppHeader from '../App-header/App-header';
+import AppHeader from '../AppHeader';
+import AppFooter from '../AppFooter';
 import MainPage from '../MainPage';
 import FilmsPage from '../FilmsPage';
+
+import './App.css';
 
 function App() {
     return (
@@ -19,6 +22,7 @@ function App() {
                 <AppHeader/>
                 <Route path="/" component={MainPage} exact/>
                 <Route path="/Films" component={FilmsPage}/>
+                <AppFooter/>
             </div>
         </Router>
     );

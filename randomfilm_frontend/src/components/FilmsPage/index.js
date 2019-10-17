@@ -10,12 +10,10 @@ export  default class MainPage extends  React.Component{
 
     render(){
         return (
-            <div className="main-page-grid">
+            <div className="films-page-grid">
                 <label>
                     Здесь бдет список фильмов
                 </label>
-                <FilmComponent FilmSelectFunc={this.api.GetRandomFilm}/>
-                <FilmComponent FilmSelectFunc={this.api.GetFilmById}/>
             </div>
         )
     }

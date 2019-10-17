@@ -1,4 +1,4 @@
-.main-page-grid{
+.films-page-grid{
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: 1fr 1fr;
@@ -7,14 +7,15 @@
     background-color: white;
     border-style: none;
 
+    flex: 1 0 auto;
 }
 
-.main-page-grid > label{
+.films-page-grid > label{
     background-color: inherit;
     border-style: inherit;
 }
 
-.main-page-grid > label:nth-child(1){
+.films-page-grid > label:nth-child(1){
     grid-column-start: 1;
     grid-column-end: 3;
     padding: 5vh;
@@ -23,7 +24,7 @@
     font-size: 32px;
 }
 
-.main-page-grid > label{
+.films-page-grid > label{
     font-size: 24px;
 }
 

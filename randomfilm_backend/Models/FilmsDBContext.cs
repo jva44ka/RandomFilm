@@ -23,7 +23,6 @@ namespace randomfilm_backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-NMP0LC3\\SQLEXPRESS;Initial Catalog=FilmsDB;Integrated Security=True");
             }
         }

@@ -10,7 +10,7 @@ namespace randomfilm_backend.Models
         public string Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
+        public string Role     { get; set; }
         public Account(string id, string login, string password, string role = "")
         {
             this.Id = id;

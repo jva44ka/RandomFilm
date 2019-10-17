@@ -7,6 +7,7 @@
     background-color: white;
     border-style: none;
 
+    flex: 1 0 auto;
 }
 
 .main-page-grid > label{
