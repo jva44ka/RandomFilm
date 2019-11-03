@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace randomfilm_backend.Controllers
@@ -14,10 +16,13 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var nameIdentifier = this.HttpContext.User.Claims
+            .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+            return new string[] { nameIdentifier?.Value, "value1", "value2" };
         }
 
         // GET api/values/5
+        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {

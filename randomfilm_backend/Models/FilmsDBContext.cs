@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+//Data Source = DESKTOP - NMP0LC3\SQLEXPRESS;Initial Catalog = AccountsDB; Integrated Security = True
 
 namespace randomfilm_backend.Models
 {

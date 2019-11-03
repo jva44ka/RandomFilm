@@ -15,6 +15,9 @@ packages/
 
 # React part
 
+# IDE
+.idea
+
 # Logs
 logs
 *.log
