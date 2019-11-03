@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace randomfilm_backend.Models
+namespace randomfilm_backend
 {
-    public class Account
+    public partial class Account
     {
         public string Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public string Role     { get; set; }
-        public Account(string id, string login, string password, string role = "")
+        public string Email { get; set; }
+        public string RoleId { get; set; }
+
+        public virtual Role Role { get; set; }
+
+        public Account()
+        { }
+
+        /*public Account(string id, string login, string password, string role = "")
         {
             this.Id = id;
             this.Login = login;
@@ -24,6 +29,6 @@ namespace randomfilm_backend.Models
             {
                 this.Role = "user";
             }
-        }
+        }*/
     }
 }
