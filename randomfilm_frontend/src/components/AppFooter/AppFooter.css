@@ -1,0 +1,48 @@
+.dotnet-logo, .react-logo{
+  height: 10vh;
+  pointer-events: none;
+  margin: 2vh;
+}
+
+.react-logo {
+  animation: App-logo-spin infinite 20s linear;
+}
+
+.AppFooter {
+  background-color: #1b1b1b;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: calc(10px + 2vmin);
+  color: white;
+
+  flex: 0 0 auto;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.frameworks-emblems{
+  margin: 0; /* Обнуляем значение отступов */
+  padding: 4px; /* Значение полей */
+}
+
+.frameworks-emblems li {
+  display: inline; /* Отображать как строчный элемент */
+  list-style: none;
+  margin: 0;
+  padding: .5rem 1rem;
+  border-radius: 3px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

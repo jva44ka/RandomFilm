@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "randomfilm_backend", "randomfilm_backend.csproj", "{7486451A-863D-434D-B0EA-41F56FEB2E71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "randomfilm_backend.Tests", "..\randomfilm_backend.Tests\randomfilm_backend.Tests.csproj", "{8E28B715-B094-4581-A313-4111DE53C602}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7486451A-863D-434D-B0EA-41F56FEB2E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7486451A-863D-434D-B0EA-41F56FEB2E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7486451A-863D-434D-B0EA-41F56FEB2E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7486451A-863D-434D-B0EA-41F56FEB2E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E28B715-B094-4581-A313-4111DE53C602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E28B715-B094-4581-A313-4111DE53C602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E28B715-B094-4581-A313-4111DE53C602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E28B715-B094-4581-A313-4111DE53C602}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CE3ECBA-653A-4711-8CA9-57574032B0BD}
+	EndGlobalSection
+EndGlobal
