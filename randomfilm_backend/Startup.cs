@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,14 +35,10 @@ namespace randomfilm_backend
 
             // получаем строку подключения из файла конфигурации
             string FilmsDbConnection = Configuration.GetConnectionString("FilmsDBConnection");
-            string AccountsDbConnection = Configuration.GetConnectionString("AccountsDB");
-            // Определяем контексты тут
-            services.AddDbContext<Models.FilmsDBContext>(options =>
+            // Определяем контекст тут
+            services.AddDbContext<Models.RandomFilmDBContext>(options =>
                 options.UseSqlServer(FilmsDbConnection));
-            services.AddScoped<DbContext, Models.FilmsDBContext>();
-            services.AddDbContext<Models.AccountsDBContext>(options =>
-                options.UseSqlServer(AccountsDbConnection));
-            services.AddScoped<DbContext, Models.AccountsDBContext>();
+            services.AddScoped<DbContext, RandomFilmDBContext>();
 
             //Аутентификация
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,6 +66,8 @@ namespace randomfilm_backend
                             ValidateIssuerSigningKey = true,
                         };
                     });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

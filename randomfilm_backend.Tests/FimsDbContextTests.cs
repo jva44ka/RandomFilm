@@ -13,8 +13,8 @@ namespace randomfilm_backend.Tests
         public void TestDBConnection()
         {
             bool result;
-            FilmsDBContext db = new FilmsDBContext();
-            if (db.Database.CanConnect())
+            RandomFilmDBContext db = new RandomFilmDBContext();
+            if (db.Database.CanConnect() || db.Roles.Local.Count > 0)
                 result = true;
             else
                 result = false;

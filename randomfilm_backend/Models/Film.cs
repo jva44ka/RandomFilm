@@ -15,6 +15,15 @@ namespace randomfilm_backend.Models
         public string UrlImg { get; set; }
         public string UrlTrailer { get; set; }
 
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+
+        public Film()
+        {
+            Comments = new HashSet<Comment>();
+            Likes = new HashSet<Like>();
+        }
+
         /// <param name="id">ID</param>
         /// <param name="title">Название</param>
         /// <param name="duration">Длительность</param>
@@ -36,6 +45,9 @@ namespace randomfilm_backend.Models
             this.Director = director;
             this.UrlImg = urlImg;
             this.UrlTrailer = urlTrailer;
+
+            Comments = new HashSet<Comment>();
+            Likes = new HashSet<Like>();
         }
     }
 }

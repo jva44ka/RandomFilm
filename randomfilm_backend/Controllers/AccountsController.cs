@@ -18,25 +18,25 @@ namespace randomfilm_backend.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly AccountsDBContext _context;
+        private readonly RandomFilmDBContext db;
 
-        public AccountsController(AccountsDBContext context)
+        public AccountsController(RandomFilmDBContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: api/Accounts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            return await _context.Accounts.ToListAsync();
+            return await db.Accounts.ToListAsync();
         }
 
         // GET: api/Accounts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(string id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            var account = await db.Accounts.FindAsync(id);
 
             if (account == null)
             {
@@ -48,18 +48,18 @@ namespace randomfilm_backend.Controllers
 
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(string id, Account account)
+        public async Task<IActionResult> PutAccount(int id, Account account)
         {
             if (id != account.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(account).State = EntityState.Modified;
+            db.Entry(account).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -137,21 +137,21 @@ namespace randomfilm_backend.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Account>> DeleteAccount(string id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            var account = await db.Accounts.FindAsync(id);
             if (account == null)
             {
                 return NotFound();
             }
 
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
+            db.Accounts.Remove(account);
+            await db.SaveChangesAsync();
 
             return account;
         }
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            Account person = _context.Accounts.FirstOrDefault(x => x.Login == username && x.Password == password);
+            Account person = db.Accounts.FirstOrDefault(x => x.Login == username && x.Password == password);
             if (person != null)
             {
                 var claims = new List<Claim>
@@ -169,9 +169,9 @@ namespace randomfilm_backend.Controllers
             return null;
         }
 
-        private bool AccountExists(string id)
+        private bool AccountExists(int id)
         {
-            return _context.Accounts.Any(e => e.Id == id);
+            return db.Accounts.Any(e => e.Id == id);
         }
     }
 }

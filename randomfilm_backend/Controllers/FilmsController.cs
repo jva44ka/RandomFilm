@@ -16,9 +16,9 @@ namespace randomfilm_backend.Controllers
     [ApiController]
     public class FilmsController : ControllerBase
     {
-        private readonly FilmsDBContext _context;
+        private readonly RandomFilmDBContext _context;
 
-        public FilmsController(FilmsDBContext context)
+        public FilmsController(RandomFilmDBContext context)
         {
             _context = context;
         }
@@ -81,32 +81,34 @@ namespace randomfilm_backend.Controllers
             return NoContent();
         }
 
-        //// POST: api/Films
-        //[HttpPost]
-        //public async Task<ActionResult<Film>> PostFilm([FromBody]Film film)
-        //{
-        //    _context.Films.Add(film);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (FilmExists(film.Id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return Ok(film);
-        //    //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
-        //
-
         // POST: api/Films
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Film>> PostFilm([FromBody]Film film)
+        {
+            _context.Films.Add(film);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (FilmExists(film.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(film);
+        }
+            //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
+
+
+            // POST: api/Films
         [HttpPost]
         public async Task<ActionResult<Film>> PostFilm([FromBody]string stringFilm)
         {

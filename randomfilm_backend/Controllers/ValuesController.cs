@@ -16,9 +16,7 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var nameIdentifier = this.HttpContext.User.Claims
-            .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-            return new string[] { nameIdentifier?.Value, "value1", "value2" };
+            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -26,7 +24,8 @@ namespace randomfilm_backend.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return String.Format("value is {0}", id);
+            string name = this.HttpContext.User.Identity.Name;
+            return String.Format("Value is:\t{0}\n\rUser Name:\t{1}", id, name);
         }
 
         // POST api/values

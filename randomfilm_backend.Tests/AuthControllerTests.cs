@@ -16,10 +16,10 @@ namespace randomfilm_backend.Tests
     [TestClass]
     public class AuthControllerTests
     {
-        AccountsDBContext db;
+        RandomFilmDBContext db;
         public AuthControllerTests()
         {
-            db = new AccountsDBContext();
+            db = new RandomFilmDBContext();
         }
         [TestMethod]
         public void GetIdentityTest()
@@ -32,8 +32,8 @@ namespace randomfilm_backend.Tests
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login)//,
-                    //new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, db.Roles.First(x => x.Id == person.RoleId).Name)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -82,8 +82,8 @@ namespace randomfilm_backend.Tests
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login)//,
-                    //new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
