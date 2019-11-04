@@ -12,38 +12,34 @@ namespace randomfilm_backend.Models
     /// </summary>
     public static class FilmUtility
     {
+        static RandomFilmDBContext db = new RandomFilmDBContext();
+
         /// <summary>
         /// Метод, возвращающий рандомный фильм из коллекции, переданной в параметр
         /// </summary>
         /// <param name="repository">Коллекция фильмов</param>
         /// <returns>Возвращаемый фильм</returns>
-        public static async Task<Film> GetRandomFilmAsync(IEnumerable<Film> repository)
+        public static async Task<Film> GetRandomFilmAsync()
         {
-            return await Task.Run(() => { return GetRandomFilm(repository); });
+            return await Task.Run(() => { return GetRandomFilm(); });
         }
 
-        public static Film GetRandomFilm(IEnumerable<Film> repository)
+        public static Film GetRandomFilm()
         {
             Random rand = new Random();
-            int index = rand.Next(0, repository.Count());
-            return repository.ElementAt(index);
+            int index = rand.Next(0, db.Films.Count());
+            return db.Films.ElementAt(index);
         }
 
-        public static Film GetFilmFromJson(string film)
+        public static async Task<Film> SpecificityFilmAsync(Account account)
         {
-            XmlDocument node = JsonConvert.DeserializeXmlNode(film);
+            return await Task.Run(() => { return SpecificityFilm(account); });
+        }
 
-            Film result = new Film(
-                int.Parse(node.ChildNodes[0].Value), 
-                node.ChildNodes[1].Value, 
-                TimeSpan.Parse(node.ChildNodes[2].Value),
-                node.ChildNodes[3].Value, 
-                node.ChildNodes[4].Value, 
-                DateTime.Parse(node.ChildNodes[5].Value),
-                node.ChildNodes[6].Value, 
-                node.ChildNodes[7].Value, 
-                node.ChildNodes[8].Value);
-            return result;
+        public static Film SpecificityFilm(Account account)
+        {
+#warning Тут сгенерировать фильм по алгоритму. Данные есть в параметрах
+            return GetRandomFilm();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Accounts
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
             return await db.Accounts.ToListAsync();
@@ -34,7 +36,8 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Accounts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(string id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Account>> GetAccount(int id)
         {
             var account = await db.Accounts.FindAsync(id);
 
@@ -46,8 +49,25 @@ namespace randomfilm_backend.Controllers
             return account;
         }
 
+        // GET: api/Accounts/Self
+        [HttpGet("Self")]
+        [Authorize]
+        public async Task<ActionResult<Account>> GetAccount()
+        {
+            Account account = await db.Accounts.
+                FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return account;
+        }
+
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutAccount(int id, Account account)
         {
             if (id != account.Id)
@@ -76,21 +96,55 @@ namespace randomfilm_backend.Controllers
             return NoContent();
         }
 
-        /*[HttpPost("/Create")]
+        // PUT: api/Accounts/Self
+        [HttpPut("Self")]
+        [Authorize]
+        public async Task<IActionResult> PutAccount(Account account)
+        {
+            if (db.Accounts.
+                FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name) == null)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(account).State = EntityState.Modified;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                int id = db.Accounts.
+                    FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name).Result.Id;
+                if (!AccountExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost("/Create")]
         public async Task<ActionResult> CreateAccount([FromBody] Account account)
         {
             Account user = new Account()
             {
-                Id = (_context.Accounts.Count() + 1).ToString(),
+                //Id = (_context.Accounts.Count() + 1).ToString(),
                 Email = account.Email,
                 Login = account.Login,
                 Password = account.Password,
-                Role = _context.Roles.FirstOrDefault(x => x.Name == "user"),
+                Role = db.Roles.FirstOrDefault(x => x.Name == "user"),
             };
-            _context.Accounts.Add(user);
+            db.Accounts.Add(user);
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -104,38 +158,12 @@ namespace randomfilm_backend.Controllers
                 }
             }
             return Ok(account);
-        }*/
-
-        // POST: api/Accounts
-        [HttpPost("/token")]
-        public ActionResult<string> Token([FromBody] Account account)
-        {
-            var username = account.Login;
-            var password = account.Password;
-
-            var identity = GetIdentity(username, password);
-            if (identity == null)
-            {
-                return BadRequest();
-            }
-
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return jwtToken;
         }
 
         // DELETE: api/Accounts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Account>> DeleteAccount(string id)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Account>> DeleteAccount(int id)
         {
             var account = await db.Accounts.FindAsync(id);
             if (account == null)
@@ -147,26 +175,6 @@ namespace randomfilm_backend.Controllers
             await db.SaveChangesAsync();
 
             return account;
-        }
-
-        private ClaimsIdentity GetIdentity(string username, string password)
-        {
-            Account person = db.Accounts.FirstOrDefault(x => x.Login == username && x.Password == password);
-            if (person != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
-                };
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
-            }
-
-            // если пользователя не найдено
-            return null;
         }
 
         private bool AccountExists(int id)

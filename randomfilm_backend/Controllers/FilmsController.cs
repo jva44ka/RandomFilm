@@ -16,25 +16,25 @@ namespace randomfilm_backend.Controllers
     [ApiController]
     public class FilmsController : ControllerBase
     {
-        private readonly RandomFilmDBContext _context;
+        private readonly RandomFilmDBContext db;
 
         public FilmsController(RandomFilmDBContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: api/Films
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
         {
-            return await _context.Films.ToListAsync();
+            return await db.Films.ToListAsync();
         }
 
         // GET: api/Films/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Film>> GetFilm(int id)
         {
-            Film film = await _context.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
+            Film film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
 
             if (film == null)
             {
@@ -48,11 +48,19 @@ namespace randomfilm_backend.Controllers
         [HttpGet("Random")]
         public async Task<ActionResult<Film>> GetRandomFilm()
         {
-            return await FilmUtility.GetRandomFilmAsync(_context.Films);
+            return await FilmUtility.GetRandomFilmAsync();
+        }
+
+        [HttpGet("SpecificityFilm")]
+        [Authorize]
+        public async Task<ActionResult<Film>> GetSpecificityFilm()
+        {
+            return await FilmUtility.SpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
         }
 
         // PUT: api/Films/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutFilm(int id, Film film)
         {
             if (id != film.Id)
@@ -60,11 +68,11 @@ namespace randomfilm_backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(film).State = EntityState.Modified;
+            db.Entry(film).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -86,10 +94,10 @@ namespace randomfilm_backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<Film>> PostFilm([FromBody]Film film)
         {
-            _context.Films.Add(film);
+            db.Films.Add(film);
             try
             {
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -105,78 +113,26 @@ namespace randomfilm_backend.Controllers
 
             return Ok(film);
         }
-            //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
-
-
-            // POST: api/Films
-        [HttpPost]
-        public async Task<ActionResult<Film>> PostFilm([FromBody]string stringFilm)
-        {
-            Film film = FilmUtility.GetFilmFromJson(stringFilm);
-            _context.Films.Add(film);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (FilmExists(film.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return Ok(film);
-            //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
-        }
-
-        [HttpPost("SpecificityFilm")]
-        [Authorize]
-        public async Task<ActionResult<Film>> SpecificityFilm([FromBody]string stringFilm)
-        {
-            Film film = FilmUtility.GetFilmFromJson(stringFilm);
-            _context.Films.Add(film);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (FilmExists(film.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return Ok(film);
-            //return CreatedAtAction("GetFilm", new { id = film.Id }, film);
-        }
-
 
         // DELETE: api/Films/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Film>> DeleteFilm(int id)
         {
-            var film = await _context.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);//FindAsync(id);
+            var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);//FindAsync(id);
             if (film == null)
             {
                 return NotFound();
             }
-            _context.Films.Remove(film);
-            await _context.SaveChangesAsync();
+            db.Films.Remove(film);
+            await db.SaveChangesAsync();
 
             return film;
         }
 
         private bool FilmExists(int id)
         {
-            return _context.Films.Any(e => e.Id == id);
+            return db.Films.Any(e => e.Id == id);
         }
     }
 }
