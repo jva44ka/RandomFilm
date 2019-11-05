@@ -1,0 +1,6 @@
+{
+  "basePath": "http://localhost:64303",
+  "filmsController": "Films",
+  "authController": "Auth",
+  "getTokenMethod": "token"
+}

@@ -20,8 +20,8 @@ function App() {
         <Router>
             <div className="App">
                 <AppHeader/>
-                <Route path="/" component={MainPage} exact/>
-                <Route path="/Films" component={FilmsPage}/>
+                    <Route path="/" component={MainPage} exact/>
+                    <Route path="/Films" component={FilmsPage}/>
                 <AppFooter/>
             </div>
         </Router>

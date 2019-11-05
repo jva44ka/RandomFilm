@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import logo from '../../logo.svg';
 import './App-header.css';
-
+import authService from '../../services/AuthenticationService';
 
 function AppHeader() {
   return (
@@ -17,6 +17,8 @@ function AppHeader() {
               <li>
                   <Link to="/Actors">Актеры</Link>
               </li>
+          </ul>
+          <ul className="header-auth-buttons">
           </ul>
       </header>
   );

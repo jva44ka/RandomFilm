@@ -1,5 +1,5 @@
 import React from 'react';
-import ApiService from '../../services/FilmApiService';
+//import ApiService from '../../services/FilmApiService';
 
 import './FilmFullView.css';
 
