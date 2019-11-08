@@ -5,15 +5,12 @@ import './index.css';
 import App from './components/App/App';
 import * as serviceWorker from './services/serviceWorker';
 
-import { createStore, applyMiddleware } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import quotesApp from './reducers';
-import thunkMiddleware from 'redux-thunk';
-import api from './middleware/api';
+import redusers from './store/reducers';
 
-let createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(createStore);
 
-let store = createStoreWithMiddleware(quotesApp);
+let store = createStore(redusers);
 
 let rootElement = document.getElementById('root');
 
