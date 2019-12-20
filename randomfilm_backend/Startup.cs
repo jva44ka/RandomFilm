@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.Tracing;
 
 using randomfilm_backend.Models;
 
@@ -39,6 +40,7 @@ namespace randomfilm_backend
             services.AddDbContext<Models.RandomFilmDBContext>(options =>
                 options.UseSqlServer(FilmsDbConnection));
             services.AddScoped<DbContext, RandomFilmDBContext>();
+
 
             //Аутентификация
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -83,7 +85,7 @@ namespace randomfilm_backend
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             //Аутентификация
             app.UseAuthentication();
             app.UseMvc();

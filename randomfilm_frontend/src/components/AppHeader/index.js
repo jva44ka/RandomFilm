@@ -7,7 +7,7 @@ import authService from '../../services/AuthenticationService';
 function AppHeader() {
   return (
       <header className="App-header">
-          <ul className="header-buttons">
+          <ul className="main-buttons">
               <li>
                   <Link to="/">Главная</Link>
               </li>
@@ -18,8 +18,25 @@ function AppHeader() {
                   <Link to="/Actors">Актеры</Link>
               </li>
           </ul>
-          <ul className="header-auth-buttons">
-          </ul>
+          {
+              localStorage.getItem('currentUser') != null?
+              (
+                  <ul className="auth-buttons">
+                      <li>
+                          <Link to="#">Профиль</Link>
+                      </li>
+                      <li>
+                          <Link to="#">Выход</Link>
+                      </li>
+                  </ul>
+              ):(
+                  <ul className="auth-buttons">
+                      <li>
+                          <Link to="/Login">Вход</Link>
+                      </li>
+                  </ul>
+              )
+          }
       </header>
   );
 }

@@ -26,8 +26,7 @@ namespace randomfilm_backend.Models
 
         public static Film GetRandomFilm()
         {
-            Random rand = new Random();
-            int index = rand.Next(0, db.Films.Count());
+            int index = new Random().Next(1, db.Films.Count());
             return db.Films.ElementAt(index);
         }
 

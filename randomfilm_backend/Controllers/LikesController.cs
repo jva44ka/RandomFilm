@@ -50,13 +50,14 @@ namespace randomfilm_backend.Controllers
             int accountId = db.Accounts.
                 FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name).Id;
             var like = await db.Likes.
-                FirstOrDefaultAsync((x) => x.FilmId == id && x.AccountId == accountId) ;
+                FirstOrDefaultAsync((x) => x.FilmId == id && x.AccountId == accountId);
 
             return like;
         }
 
         // POST: api/Likes
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Like>> PostLike(Like like)
         {
             db.Likes.Add(like);
@@ -67,6 +68,7 @@ namespace randomfilm_backend.Controllers
 
         // DELETE: api/Likes/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<Like>> DeleteLike(int id)
         {
             var like = await db.Likes.FindAsync(id);
@@ -77,6 +79,12 @@ namespace randomfilm_backend.Controllers
 
             db.Likes.Remove(like);
             await db.SaveChangesAsync();
+
+            if (HttpContext.User.Identity.Name != like.Account.Login)
+            {
+                //Пользователь пытается удалить не свой лайк
+                Conflict();
+            }
 
             return like;
         }
