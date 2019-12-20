@@ -4,7 +4,7 @@ import apiService from '../../services/FilmApiService'
 
 import './FilmsPage.css'
 
-export  default class MainPage extends  React.Component{
+export  default class FilmsPage extends  React.Component{
 
     api = new apiService();
 

@@ -22,7 +22,7 @@ export  default class MainPage extends  React.Component{
                     для данного способа (<b>В разработке!</b>)
                 </label>
                 <FilmComponent FilmSelectFunc={this.api.GetRandomFilm}/>
-                <FilmComponent FilmSelectFunc={this.api.GetFilmById}/>
+                <FilmComponent FilmSelectFunc={this.api.GetSpecifityFilm}/>
             </div>
         )
     }

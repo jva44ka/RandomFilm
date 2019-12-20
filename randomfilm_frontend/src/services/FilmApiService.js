@@ -54,4 +54,10 @@ export default class FilmApiService {
         console.log(result);
         return result;
     }
+
+    GetSpecifityFilm = async () => {
+        const result = await this.GetResource('Films', 'SpecificityFilm');
+        console.log(result);
+        return result;
+    }
 }

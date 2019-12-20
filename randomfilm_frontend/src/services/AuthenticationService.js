@@ -9,8 +9,9 @@ export  default class AuthenticationService {
 
     login = (login, password) => {
         const requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: {
+                "Accept": "application/json",
                 "Content-Type": "application/json"
                 //'Content-Type': 'application/problem+json; charset=utf-8'
             },
@@ -28,15 +29,13 @@ export  default class AuthenticationService {
             "token": data
         });
         console.log("localstorage: " + {
-            "login": data.login,
-            "token": data.token
+            "login": login,
+            "token": data
         });
     };
 
     logout = () => {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-        ///currentUserSubject.next(null);
     }
 
     tokenRequest = async(requestOptions) => {

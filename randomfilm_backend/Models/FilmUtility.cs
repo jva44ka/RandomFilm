@@ -26,8 +26,8 @@ namespace randomfilm_backend.Models
 
         public static Film GetRandomFilm()
         {
-            int index = new Random().Next(1, db.Films.Count());
-            return db.Films.ElementAt(index);
+            int index = new Random().Next(1, db.Films.Count() + 1);
+            return db.Films.FirstOrDefault(x => x.Id == index);
         }
 
         public static async Task<Film> SpecificityFilmAsync(Account account)
