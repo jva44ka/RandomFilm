@@ -3,48 +3,69 @@ export  default class AuthenticationService {
     authController = 'Auth';
     getTokenMethod = 'token';
 
-    getCurrentUser = () =>{
-        return localStorage.getItem('currentUser');
+    getCurrentUser = () => {
+        return {
+            login: localStorage.getItem('currentLogin'),
+            token: localStorage.getItem('currentToken')
+        }
     };
 
+    setCurrentUser = (login, token) => {
+        console.log("params: ");
+        console.log(JSON.stringify({login, token}));
+        localStorage.setItem('currentLogin', login);
+        localStorage.setItem('currentToken', token);
+        console.log("setted local storage: ");
+        console.log(JSON.stringify({login, token}));
+    }
+
     login = (login, password) => {
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-                //'Content-Type': 'application/problem+json; charset=utf-8'
-            },
-            mode: 'no-cors',
-            body: JSON.stringify({
-                "login": `${login}`,
-                "password": `${password}`
-            })
-        };
 
-        let data = this.tokenRequest(requestOptions);
+        let token;
+        this.tokenRequest(login, password).then(res => token = res);
+        console.log("token after fetch method: ");
+        console.log(token);
 
-        localStorage.setItem('currentUser', {
-            "login": login,
-            "token": data
-        });
-        console.log("localstorage: " + {
-            "login": login,
-            "token": data
-        });
+        this.setCurrentUser(login, token);
+        console.log("localstorage: ");
+        console.log(this.getCurrentUser().token);
     };
 
     logout = () => {
-        localStorage.removeItem('currentUser');
+        this.setCurrentUser("", "");
     }
 
-    tokenRequest = async(requestOptions) => {
-        let data = await fetch(`${this.basePath}/api/${this.authController}/${this.getTokenMethod}`, requestOptions);
-        if (data.status == '404') {
-            this.errorMessage = 'Пользователь не найден';
-        }
-        console.log("response: " + data);
-        console.log("body: " + data.body);
-        return data.body;
+    // Задача данного метода получить token (с этим вроде нет проблем) и ВЕРНУТЬ его из функции (возвращает undefined)
+    tokenRequest = async(login, password) => {
+        const requestOptions = {
+            method: "POST",
+            mode: 'cors',
+            headers: {
+                "Accept": "*/*",
+                "Content-Type": "application/json"
+            }
+            ,
+            body: JSON.stringify({
+                "login": /*"Anton",*/`${login}`,
+                "password": /*"1234"*/`${password}`
+            })
+        };
+
+        let result = "result";
+        result = await fetch(`${this.basePath}/api/${this.authController}/${this.getTokenMethod}`, requestOptions)
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(text) {
+                console.log('Request successful', text);
+                //result = text;
+                return text;
+            })
+            .catch(function(error) {
+                console.log('Request failed', error)
+            });
+        console.log('Result is: ', result);
+        //this.setCurrentUser(login, result);
+        return result;
     }
 }

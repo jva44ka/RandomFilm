@@ -4,6 +4,8 @@ import logo from '../../logo.svg';
 import './App-header.css';
 import authService from '../../services/AuthenticationService';
 
+const getUser = new authService();
+
 function AppHeader() {
   return (
       <header className="App-header">
@@ -19,7 +21,7 @@ function AppHeader() {
               </li>
           </ul>
           {
-              localStorage.getItem('currentUser') != null?
+              getUser.getCurrentUser().token != ""?
               (
                   <ul className="auth-buttons">
                       <li>

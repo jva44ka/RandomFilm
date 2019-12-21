@@ -41,6 +41,16 @@ namespace randomfilm_backend
                 options.UseSqlServer(FilmsDbConnection));
             services.AddScoped<DbContext, RandomFilmDBContext>();
 
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    );
+            });
 
             //Аутентификация
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,6 +99,9 @@ namespace randomfilm_backend
             //Аутентификация
             app.UseAuthentication();
             app.UseMvc();
+
+            //cors
+            app.UseCors("CorsPolicy");
         }
     }
 }

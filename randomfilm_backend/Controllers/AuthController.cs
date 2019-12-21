@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace randomfilm_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     public class AuthController : ControllerBase
     {
         private readonly RandomFilmDBContext db;
@@ -26,7 +28,9 @@ namespace randomfilm_backend.Controllers
 
         // POST: api/Auth
         [HttpPost("token")]
-        public ActionResult<string> Post([FromBody] Account account)
+        //[Produces("application/json")]
+        
+        public ActionResult<string> Post(Account account)
         {
             var username = account.Login;
             var password = account.Password;

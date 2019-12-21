@@ -3,52 +3,6 @@ import React from 'react';
 
 import './FilmFullView.css';
 
-    /*onButtonClick = () => {
-        //Работющий запрос
-        /*fetch(this.props.qwerry, {
-            method: 'GET',
-            mode: 'cors'})
-
-            .then(res => res.json())
-            .then((result) => {
-                    this.setState({
-                            id: result.id,
-                            title: result.title,
-                            duration: result.duration,
-                            genre: result.genre,
-                            description: result.description,
-                            year: result.year,
-                            director: result.director,
-                            urlImg: result.urlImg,
-                            urlTrailer: result.urlTrailer,
-                            showed: true
-                    });
-                    console.log(result);
-                    console.log(this.state);
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    console.log(error);
-                }
-            )*//*
-        const result = this.api.GetRandomFilm();
-        console.log(result);
-        this.setState({
-            id: result.id,
-            title: result.title,
-            duration: result.duration,
-            genre: result.genre,
-            description: result.description,
-            year: result.year,
-            director: result.director,
-            urlImg: result.urlImg,
-            urlTrailer: result.urlTrailer,
-            showed: true
-        });
-    }*/
-
     const FilmView = ({film, FilmViewClick}) => {
         return (
             <div className="FilmFullComponent" onClick={FilmViewClick}>
