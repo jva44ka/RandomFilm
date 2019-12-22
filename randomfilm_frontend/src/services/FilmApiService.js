@@ -12,11 +12,13 @@ export default class FilmApiService {
     GetResource = async(controller = this.Controller, id = '') => {
         let result = {};
         await fetch(`${this.BasePath}/api/${controller}/${id}`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                "Authorization": `Bearer ${this.authApi.getCurrentUser().token}`
-            } },)
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        "Authorization": `Bearer ${this.authApi.getCurrentUser().token}`
+                    }
+                }
+            )
 
             .then(res => res.json())
             .then((resultRequest) => {
