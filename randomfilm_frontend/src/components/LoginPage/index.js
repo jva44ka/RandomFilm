@@ -52,22 +52,28 @@ export  default class LoginPage extends  React.Component{
 
     render(){
         console.log(this.apiService.getCurrentUser().login);
-        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>
+        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>;
         return (
             <div className="login-page-grid">
-                <label>Вход</label>
-                <input  name="login"
-                        value={this.state.login}
-                        onChange={this.handleInputChange}
-                        placeholder="Логин"
-                />
-                <input
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleInputChange}
-                    placeholder="Пароль"
-                />
-                <button onClick={this.loginButtonOnClick}>Вход</button>
+                <form className="box" action="">
+                    <h1>Войти</h1>
+                    <input type="text"
+                           name="login"
+                           value={this.state.login}
+                           onChange={this.handleInputChange}
+                           placeholder="Логин"/>
+
+                    <input type="password"
+                           name="password"
+                           value={this.state.password}
+                           onChange={this.handleInputChange}
+                           placeholder="Пароль"/>
+
+                    <button name="submit"
+                            onClick={this.loginButtonOnClick}>Войти</button>
+                    <br/>
+
+                </form>
             </div>
         )
     }

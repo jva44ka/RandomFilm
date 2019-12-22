@@ -11,13 +11,13 @@ export  default class MainPage extends  React.Component{
     render(){
         return (
             <div className="main-page-grid">
-                <label>
+                <label className="general-instruction-label">
                     Здесь вы можете подобрать фильм для себя несколькими способами.
                 </label>
-                <label>
+                <label className="secondary-instruction-label">
                     Способ №1: Вам выдается совершенно случайный фильм из базы данных.
                 </label>
-                <label>
+                <label className="secondary-instruction-label">
                     Способ №2: Вам выдается фильм в соответствие с вашими предпочтению по жанрам, длительности и т.д. Необходимо зарегестрироваться/ войти
                     для данного способа (<b>В разработке!</b>)
                 </label>

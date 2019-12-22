@@ -1,1 +1,37 @@
+.login-page-grid{
+    /*background: url("./background.png");*/
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
 
+.box {
+    top: 50%;
+    left: 50%;
+    text-align: center;
+}
+
+.box h1{
+    color: white;
+    font-weight: 100;
+}
+
+.box input[type="text"] ,[type="password"] {
+    /*border: 0;*/
+    background: none;
+    display: block;
+    margin:20px auto;
+    text-align: center;
+    border: 2px solid #f00;
+    padding: 14px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.box input[type="text"]:focus ,[type="password"]:focus {
+    width: 250px;
+    border-color: #fff;
+}

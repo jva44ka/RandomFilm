@@ -1,58 +1,69 @@
-.App {
-  text-align: center;
+.app-header {
+  /*background: green;*/
+  padding: 30px;
 }
 
-.App-header {
-  background-color: #1b1b1b;
-  height: 10vh;
+.header__inner {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: flex-start;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .main-buttons{
-  margin: 0; /* Обнуляем значение отступов */
-  padding: 4px; /* Значение полей */
+  flex:1;
+  margin: 0 40px;
+  font-size: 25px;
+  text-transform: none;
 }
 
 .auth-buttons{
-  justify-content: flex-end;
+  font-size: 25px;
+  text-transform: none;
+  margin-top:5px;
 }
 
-.main-buttons li {
-  display: inline; /* Отображать как строчный элемент */
-  list-style: none;
-  margin: 0;
-  padding: .5rem 1rem;
-  border-radius: 3px;
-}
 
-.App-header ul li:hover {
-  background-color: #444;
-}
+.nav_link {
+  display: inline-block;
+  vertical-align: top;
+  margin:0 10px;
 
-.App-header a{
-  color: coral;
+  color:#fff;
   text-decoration: none;
+
+  transition: color.2s linear;
 }
 
-.App-header a:hover {
-  color: rgb(255, 85, 23);
+.nav_link:hover {
+  color: #000;
+}
+
+
+
+.login {
+  margin:0 auto;
   text-decoration: none;
+  outline: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 500;
+  color: #fff;
+  background: #000  ;
+  box-shadow: 0 8px 15px rgba(0,0,0,.1);
+  transition: .3s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login:hover {
+  background: #fff;
+  box-shadow: 0 15px 20px rgba(46,229,157,.4);
+  color: #000 ;
+  transform: translateY(-7px);
 }
