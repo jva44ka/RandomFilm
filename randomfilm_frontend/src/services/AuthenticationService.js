@@ -21,12 +21,16 @@ export  default class AuthenticationService {
 
     login = async (login, password) => {
 
-        let token = await this.tokenRequest(login, password);
-        console.log("token after fetch method: ");
-        console.log(token);
+        let data = await this.tokenRequest(login, password);
 
-        
-        this.setCurrentUser(login, token);
+        if (!data.error) {
+            this.setCurrentUser(login, data);
+            console.log("token after fetch method: ");
+            console.log(data);
+        }
+        else{
+            console.log("something wrong...");
+        }
         console.log("localstorage: ");
         console.log(this.getCurrentUser().token);
     };
@@ -46,26 +50,31 @@ export  default class AuthenticationService {
             }
             ,
             body: JSON.stringify({
-                "login": /*"Anton",*/`${login}`,
-                "password": /*"1234"*/`${password}`
+                "login": `${login}`,
+                "password": `${password}`
             })
         };
 
         let result = "result";
         result = await fetch(`${this.basePath}/api/${this.authController}/${this.getTokenMethod}`, requestOptions)
-            .then(function(response) {
-                return response.text();
+            .then((response) => {
+                if(response.status == 200) {
+                    return response.text();
+                }
+                else{
+                    return{"error": "status "+response.status}
+                }
             })
-            .then(function(text) {
+            .then((text) => {
                 console.log('Request successful', text);
                 //result = text;
                 return text;
             })
-            .catch(function(error) {
-                console.log('Request failed', error)
+            .catch((error) => {
+                console.log('Request failed', error);
+                return{"error": error}
             });
         console.log('Result is: ', result);
-        //this.setCurrentUser(login, result);
         return result;
     }
 }

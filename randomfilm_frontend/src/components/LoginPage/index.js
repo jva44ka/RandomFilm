@@ -68,7 +68,6 @@ export  default class LoginPage extends  React.Component{
                     placeholder="Пароль"
                 />
                 <button onClick={this.loginButtonOnClick}>Вход</button>
-                <label>{this.state.token}</label>
             </div>
         )
     }
