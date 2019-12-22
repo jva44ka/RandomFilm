@@ -3,6 +3,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
+    Redirect,
     Link,
     useRouteMatch,
     useParams
@@ -10,6 +11,7 @@ import {
 import apiService from '../../services/AuthenticationService';
 
 import './styles.css';
+import MainPage from "../MainPage";
 
 export  default class LoginPage extends  React.Component{
 
@@ -27,8 +29,8 @@ export  default class LoginPage extends  React.Component{
         });
     };
 
-    loginButtonOnClick = () => {
-        this.apiService.login(this.state.login, this.state.password);
+    loginButtonOnClick = async() => {
+        await this.apiService.login(this.state.login, this.state.password);
         let user = this.apiService.getCurrentUser();
         if (user){
             console.log("user: " + user);
@@ -49,25 +51,25 @@ export  default class LoginPage extends  React.Component{
     };
 
     render(){
+        console.log(this.apiService.getCurrentUser().login);
+        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>
         return (
-            <Route>
-                <div className="login-page-grid">
-                    <label>Вход</label>
-                    <input  name="login"
-                            value={this.state.login}
-                            onChange={this.handleInputChange}
-                            placeholder="Логин"
-                    />
-                    <input
-                        name="password"
-                        value={this.state.password}
+            <div className="login-page-grid">
+                <label>Вход</label>
+                <input  name="login"
+                        value={this.state.login}
                         onChange={this.handleInputChange}
-                        placeholder="Пароль"
-                    />
-                    <button onClick={this.loginButtonOnClick}>Вход</button>
-                    <label>{this.state.token}</label>
-                </div>
-            </Route>
+                        placeholder="Логин"
+                />
+                <input
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.handleInputChange}
+                    placeholder="Пароль"
+                />
+                <button onClick={this.loginButtonOnClick}>Вход</button>
+                <label>{this.state.token}</label>
+            </div>
         )
     }
 }

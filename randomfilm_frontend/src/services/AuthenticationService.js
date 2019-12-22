@@ -19,13 +19,13 @@ export  default class AuthenticationService {
         console.log(JSON.stringify({login, token}));
     }
 
-    login = (login, password) => {
+    login = async (login, password) => {
 
-        let token;
-        this.tokenRequest(login, password).then(res => token = res);
+        let token = await this.tokenRequest(login, password);
         console.log("token after fetch method: ");
         console.log(token);
 
+        
         this.setCurrentUser(login, token);
         console.log("localstorage: ");
         console.log(this.getCurrentUser().token);
@@ -35,7 +35,7 @@ export  default class AuthenticationService {
         this.setCurrentUser("", "");
     }
 
-    // Задача данного метода получить token (с этим вроде нет проблем) и ВЕРНУТЬ его из функции (возвращает undefined)
+
     tokenRequest = async(login, password) => {
         const requestOptions = {
             method: "POST",
