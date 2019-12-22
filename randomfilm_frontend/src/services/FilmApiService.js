@@ -1,6 +1,9 @@
 import config from '../pathConfig.json';
+import AuthService from './AuthenticationService';
 
 export default class FilmApiService {
+
+    authApi = new AuthService();
 
     BasePath = 'http://localhost:64303';
     Controller = 'Films';
@@ -10,7 +13,10 @@ export default class FilmApiService {
         let result = {};
         await fetch(`${this.BasePath}/api/${controller}/${id}`, {
             method: 'GET',
-            mode: 'cors'})
+            mode: 'cors',
+            headers: {
+                "Authorization": `Bearer ${this.authApi.getCurrentUser().token}`
+            } },)
 
             .then(res => res.json())
             .then((resultRequest) => {

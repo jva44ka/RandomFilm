@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 
 using randomfilm_backend.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace randomfilm_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     public class FilmsController : ControllerBase
     {
         private readonly RandomFilmDBContext db;

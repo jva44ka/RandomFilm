@@ -36,7 +36,7 @@ export default class AppHeader extends React.Component {
                                     <Link to="#">Профиль</Link>
                                 </li>
                                 <li>
-                                    <Link onClick={this.logout}>Выход</Link>
+                                    <Link onClick={this.logout} to="#">Выход</Link>
                                 </li>
                             </ul>
                         ) : (
