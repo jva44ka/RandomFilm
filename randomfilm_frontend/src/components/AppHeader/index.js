@@ -27,13 +27,13 @@ export default class AppHeader extends React.Component {
                                 <Link className="nav_link" to="/">Главная</Link>
                                 <Link className="nav_link" to="/Films">Фильмы</Link>
                                 <Link className="nav_link" to="/Actors">Актеры</Link>
-                                <Link className="nav_link" to="#">О Проекте</Link>
+                                <Link className="nav_link" to="/About">О Проекте</Link>
                             </nav>
                             {
                                 this.apiService.getCurrentUser().login ?
                                     (
                                         <nav className="auth-buttons">
-                                            <Link className="nav_link" to="#">Профиль</Link>
+                                            <Link className="nav_link" to="#">{this.apiService.getCurrentUser().login}</Link>
                                             <Link className="nav_link login" onClick={this.logout} to="#">Выход</Link>
                                         </nav>
                                     ) : (

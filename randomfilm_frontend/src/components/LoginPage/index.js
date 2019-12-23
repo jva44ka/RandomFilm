@@ -29,10 +29,11 @@ export  default class LoginPage extends  React.Component{
         });
     };
 
-    loginButtonOnClick = async() => {
+    loginButtonOnClick = async(e) => {
+        e.preventDefault();
         await this.apiService.login(this.state.login, this.state.password);
         let user = this.apiService.getCurrentUser();
-        if (user){
+        if (user.login){
             console.log("user: " + user);
             console.log("login: " + user.login);
             console.log("token: " + user.token);
@@ -44,6 +45,7 @@ export  default class LoginPage extends  React.Component{
                 }
             });
             this.state.token = user.token;
+            window.location.reload();
         }
         else{
             console.log('not found token');
@@ -70,9 +72,9 @@ export  default class LoginPage extends  React.Component{
                            placeholder="Пароль"/>
 
                     <button name="submit"
+                            type="submit"
                             onClick={this.loginButtonOnClick}>Войти</button>
                     <br/>
-
                 </form>
             </div>
         )

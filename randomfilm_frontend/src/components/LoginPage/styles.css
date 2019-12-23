@@ -1,13 +1,11 @@
 .login-page-grid{
     /*background: url("./background.png");*/
-    margin: 0;
-    padding: 0;
+    /*margin-top: 0;
+    padding: 0;*/
     font-family: sans-serif;
 }
 
 .box {
-    top: 50%;
-    left: 50%;
     text-align: center;
 }
 
@@ -20,7 +18,7 @@
     /*border: 0;*/
     background: none;
     display: block;
-    margin:20px auto;
+    margin: 20px auto;
     text-align: center;
     border: 2px solid #f00;
     padding: 14px;
@@ -34,4 +32,50 @@
 .box input[type="text"]:focus ,[type="password"]:focus {
     width: 250px;
     border-color: #fff;
+}
+
+.box > button {
+    text-decoration: none;
+    outline: none;
+    display: inline-block;
+    padding: 10px 30px;
+    margin: 10px 20px;
+    position: relative;
+    overflow: hidden;
+    /*border: 2px solid #fe6637;*/
+    border: 2px solid #9e31fe;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    /*color: #fe6637;*/
+    color: #9e31fe;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+}
+
+
+
+.box > button:before {
+    content: "";
+    background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: -8px;
+    left: -75px;
+    transform: skewX(-45deg);
+}
+
+.box > button:hover {
+    background: #9e31fe;
+    color: #fff;
+}
+
+.box > button:hover:before {
+    left: 150px;
+    transition: .5s ease-in-out;
+}
+
+.box > button:active{
+    background: #c995fe;
+    transition: 0.05s;
 }
