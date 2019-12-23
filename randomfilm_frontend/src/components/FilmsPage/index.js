@@ -12,7 +12,7 @@ export  default class FilmsPage extends  React.Component{
         return (
             <div className="films-page-grid">
                 <label>
-                    Здесь бдет список фильмов
+                    Здесь будет список фильмов
                 </label>
             </div>
         )

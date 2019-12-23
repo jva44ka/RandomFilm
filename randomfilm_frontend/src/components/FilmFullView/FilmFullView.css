@@ -1,6 +1,5 @@
 .FilmFullComponent{
     margin: 1vh;
-    background-color: lightgrey;
     border-radius: 5px;
 
     display: grid;
@@ -14,17 +13,17 @@
 }
 
 .FilmFullComponent:hover{
-    background-color: #bababa;
+    background-color: rgba(186, 186, 186, 0.25);;
 }
 
 .FilmFullComponent > img, label {
     font-size: 2vw;
     padding: .5em;
-    background: gray;
+    background-color: rgba(186, 186, 186, 0.25);
     text-align: left;
     align-items: center;
     border-color: #1b1b1b;
-    border-radius: inherit;
+    border-radius: 2px;
 
     cursor: inherit;
 }

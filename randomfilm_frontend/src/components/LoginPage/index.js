@@ -29,10 +29,11 @@ export  default class LoginPage extends  React.Component{
         });
     };
 
-    loginButtonOnClick = async() => {
+    loginButtonOnClick = async(e) => {
+        e.preventDefault();
         await this.apiService.login(this.state.login, this.state.password);
         let user = this.apiService.getCurrentUser();
-        if (user){
+        if (user.login){
             console.log("user: " + user);
             console.log("login: " + user.login);
             console.log("token: " + user.token);
@@ -44,6 +45,7 @@ export  default class LoginPage extends  React.Component{
                 }
             });
             this.state.token = user.token;
+            window.location.reload();
         }
         else{
             console.log('not found token');
@@ -52,22 +54,28 @@ export  default class LoginPage extends  React.Component{
 
     render(){
         console.log(this.apiService.getCurrentUser().login);
-        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>
+        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>;
         return (
             <div className="login-page-grid">
-                <label>Вход</label>
-                <input  name="login"
-                        value={this.state.login}
-                        onChange={this.handleInputChange}
-                        placeholder="Логин"
-                />
-                <input
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleInputChange}
-                    placeholder="Пароль"
-                />
-                <button onClick={this.loginButtonOnClick}>Вход</button>
+                <form className="box" action="">
+                    <h1>Войти</h1>
+                    <input type="text"
+                           name="login"
+                           value={this.state.login}
+                           onChange={this.handleInputChange}
+                           placeholder="Логин"/>
+
+                    <input type="password"
+                           name="password"
+                           value={this.state.password}
+                           onChange={this.handleInputChange}
+                           placeholder="Пароль"/>
+
+                    <button name="submit"
+                            type="submit"
+                            onClick={this.loginButtonOnClick}>Войти</button>
+                    <br/>
+                </form>
             </div>
         )
     }
