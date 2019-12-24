@@ -9,9 +9,11 @@ export default class FilmApiService {
     Controller = 'Films';
     Id = 'Random';
 
-    GetResource = async(controller = this.Controller, id = '') => {
+    selectedFilmId;
+
+    GetResource = async(controller = this.Controller, method = '') => {
         let result = {};
-        await fetch(`${this.BasePath}/api/${controller}/${id}`, {
+        await fetch(`${this.BasePath}/api/${controller}/${method}`, {
                     method: 'GET',
                     mode: 'cors',
                     headers: {
@@ -50,7 +52,8 @@ export default class FilmApiService {
     };
 
     GetAllFilms = async () => {
-        return await this.GetResource('Films');
+        const result =  await this.GetResource('Films', "");
+        return result;
     };
 
     GetFilmById = async (id) => {
