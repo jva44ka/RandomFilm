@@ -7,11 +7,10 @@ export default class FilmApiService {
 
     BasePath = 'http://localhost:64303';
     Controller = 'Films';
-    Id = 'Random';
 
     selectedFilmId;
 
-    GetResource = async(controller = this.Controller, method = '') => {
+    GetResource = async(controller = this.Controller, method = "") => {
         let result = {};
         await fetch(`${this.BasePath}/api/${controller}/${method}`, {
                     method: 'GET',
@@ -24,17 +23,7 @@ export default class FilmApiService {
 
             .then(res => res.json())
             .then((resultRequest) => {
-                    result = {
-                        id: resultRequest.id,
-                        title: resultRequest.title,
-                        duaration: resultRequest.duaration,
-                        genre: resultRequest.genre,
-                        description: resultRequest.description,
-                        year: resultRequest.year,
-                        director: resultRequest.director,
-                        urlImg: resultRequest.urlImg,
-                        urlTrailer: resultRequest.urlTrailer
-                    };
+                    result = resultRequest;
                     console.log(result);
                 },
                 // Note: it's important to handle errors here
@@ -44,21 +33,18 @@ export default class FilmApiService {
                     console.log(error);
                 }
             );
-        //if (!res.ok) {
-        //    throw Error(`Could not fetch ${this.BasePath}` +
-        //        `, received ${res.status}`)
-        //}
         return result;
-    };
+    }
 
     GetAllFilms = async () => {
-        const result =  await this.GetResource('Films', "");
+        const result = await this.GetResource('Films', '');
+        console.log(result);
         return result;
-    };
+    }
 
     GetFilmById = async (id) => {
         return await this.GetResource('Films', id);
-    };
+    }
 
     GetRandomFilm = async () => {
         const result = await this.GetResource('Films', 'Random');

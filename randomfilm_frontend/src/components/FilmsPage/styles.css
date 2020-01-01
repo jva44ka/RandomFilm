@@ -2,6 +2,7 @@
     display: flex;
     flex-flow: column;
 
+    background: inherit;
     border-style: none;
 
     flex: 1 0 auto;

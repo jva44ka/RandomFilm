@@ -21,7 +21,19 @@ const FilmListItem = ({film/*, filmClickFunc*/}) => {
                 ):(
                     <img id="FilmImage" src={film.urlImg}/>
                 )}
-                <label id="TitleValue">{film.title}</label>
+                <div className="FilmListItemContent">
+                    <label id="TitleValue">{film.title}</label>
+                    <label>Жанр</label>
+                    <label>{film.genre}</label>
+                    <label>Оценок</label>
+                    <label>
+                        {film.likes ? (
+                            0
+                        ):(
+                            film.likes
+                        )}
+                    </label>
+                </div>
             </div>
         </div>
 

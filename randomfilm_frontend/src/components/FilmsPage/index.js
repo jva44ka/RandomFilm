@@ -8,36 +8,25 @@ export  default class FilmsPage extends  React.Component{
 
     api = new apiService();
 
-    films = [
-        {
-            id: 0,
-            title: "Интерстеллар"
-        },
-        {
-            id: 1,
-            title: "Легенда"
-        }
-    ];
+    films = [];
 
-    searchText = "";
+
 
     state = {
+        searchText: "",
         films: []
     };
-    /*listOfFilms = numbers.map((number) =>
-        <li key={number.id}>
-            {number}
-        </li>
-    );*/
 
     componentDidMount = async () => {
-        /*//this.films = */console.log(await this.api.GetAllFilms());
+        this.films = await this.api.GetAllFilms();
+        console.log(this.films);
         this.setState({films: this.films});
     }
 
     handleInputChange = (event) => {
         this.setState({
-            films: this.films.filter((item) => (item.title == event.target.value))
+            searchText: event.target.value,
+            films: this.films.filter((item) => (item.title.toLowerCase().includes(event.target.value.toLowerCase())))
         })
     }
 
@@ -45,19 +34,21 @@ export  default class FilmsPage extends  React.Component{
         return (
             <div className="films-page">
                 <label>
-                    Спписок фильмов
+                    Список фильмов
                 </label>
                 <input  type="text"
+                        name="searchText"
                         value={this.searchText}
                         onChange={this.handleInputChange}
                         placeholder="Поиск"
                         />
-                {(this.state.films || []).map((item) =>(
+                {
+                    (this.state.films || []).map((item) => (
                         <div key={item.id}>
                             <FilmComponent film={item} />
                         </div>
-                    )
-                )}
+                    ))
+                }
             </div>
         )
     }
