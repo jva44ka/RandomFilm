@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace randomfilm_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     public class LikesController : ControllerBase
     {
         private readonly RandomFilmDBContext db;
@@ -58,8 +60,22 @@ namespace randomfilm_backend.Controllers
         // POST: api/Likes
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Like>> PostLike(Like like)
+        public async Task<ActionResult<Like>> PostLike(Like requestLike)
         {
+            //Лайк уже существует?
+            if (db.Likes.FirstOrDefault(x => (x.FilmId == requestLike.FilmId) && 
+                (x.AccountId == db.Accounts.FirstOrDefault(y => y.Login == HttpContext.User.Identity.Name).Id)) != null)
+            {
+                //Пользователь пытается поставить существующий лайк
+                return Conflict();
+            }
+
+            Like like = new Like
+            {
+                FilmId = requestLike.FilmId,
+                AccountId = db.Accounts.FirstOrDefault(x => x.Login == HttpContext.User.Identity.Name).Id,
+                LikeOrDislike = requestLike.LikeOrDislike,
+            };
             db.Likes.Add(like);
             await db.SaveChangesAsync();
 
@@ -77,16 +93,16 @@ namespace randomfilm_backend.Controllers
                 return NotFound();
             }
 
-            db.Likes.Remove(like);
-            await db.SaveChangesAsync();
-
             if (HttpContext.User.Identity.Name != like.Account.Login)
             {
                 //Пользователь пытается удалить не свой лайк
-                Conflict();
+                return Conflict();
             }
 
-            return like;
+            db.Likes.Remove(like);
+            await db.SaveChangesAsync();
+
+            return Ok();
         }
 
         private bool LikeExists(int id)

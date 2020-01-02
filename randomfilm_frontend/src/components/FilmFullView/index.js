@@ -15,7 +15,7 @@ import './FilmFullView.css';
                 <label id="DescriptionLabel">Опсиание</label>
                 <label id="DescriptionValue">{film.description}</label>
                 <label id="DuarationLabel">Длительность</label>
-                <label id="DuarationValue">{film.duaration}</label>
+                <label id="DuarationValue">{film.duration}</label>
                 <label id="YearLabel">Год</label>
                 <label id="YearValue">{film.year}</label>
                 <label id="DirectorLabel">Продюссер</label>
