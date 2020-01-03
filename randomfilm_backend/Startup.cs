@@ -32,7 +32,13 @@ namespace randomfilm_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
+                })
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling
+                    = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // получаем строку подключения из файла конфигурации
             string FilmsDbConnection = Configuration.GetConnectionString("FilmsDBConnection");

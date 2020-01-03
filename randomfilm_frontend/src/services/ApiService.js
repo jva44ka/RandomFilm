@@ -4,25 +4,44 @@ export default class FilmApiService {
 
     BasePath = 'http://localhost:64303';
 
-    Request = async(controller, method, httpMehtod, token = "") => {
+    Request = async(controller, method, httpMehtod, token = "", body = "") => {
         let result = {};
-        let headers = {};
+        let headers = {
+            "Accept": "*/*",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json"
+        };
+
         if (token){
             headers = {
-                "Authorization": `Bearer ${token}`
+                "Accept": "*/*",
+                "Access-Control-Allow-Origin": "*",
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             }
         }
-        await fetch(`${this.BasePath}/api/${controller}/${method}`, {
+
+        let fetchOptions = {
+            method: httpMehtod,
+            mode: 'cors',
+            headers: headers,
+        };
+
+        if (body) {
+            fetchOptions = {
                 method: httpMehtod,
                 mode: 'cors',
-                headers: headers
-            }
-        )
+                headers: headers,
+                body: body,
+            };
+        }
 
+        await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions)
             .then(res => res.json())
             .then((resultRequest) => {
                     result = resultRequest;
                     console.log(result);
+                    return resultRequest;
                 },
                 (error) => {
                     console.log(error);
@@ -39,11 +58,19 @@ export default class FilmApiService {
         return await this.Request(controller, method, 'GET');
     }
 
-    PostAuthRequest = async(controller, method, token) => {
-        return await this.Request(controller, method, 'POST', token);
+    PostAuthRequest = async(controller, method, token, body) => {
+        return await this.Request(controller, method, 'POST', token, body);
     }
 
-    PostNonAuthRequest = async(controller, method) => {
-        return await this.Request(controller, method, 'POST');
+    PostNonAuthRequest = async(controller, method, body) => {
+        return await this.Request(controller, method, 'POST', '', body);
+    }
+
+    DeleteAuthRequest = async(controller, method, token) => {
+        return await this.Request(controller, method, 'DELETE', token);
+    }
+
+    DeleteNonAuthRequest = async(controller, method) => {
+        return await this.Request(controller, method, 'DELETE', '');
     }
 }

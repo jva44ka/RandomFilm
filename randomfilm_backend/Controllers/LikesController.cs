@@ -25,6 +25,7 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Likes
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<Like>>> GetLikes()
         {
             return await db.Likes.ToListAsync();
@@ -32,6 +33,7 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Likes/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Like>> GetLike(int id)
         {
             var like = await db.Likes.FindAsync(id);
@@ -45,14 +47,12 @@ namespace randomfilm_backend.Controllers
         }
 
         // GET: api/Likes/ByFilm/5
-        [HttpGet("ByFilm/{id}")]
+        [HttpGet("ByFilm/{filmId}")]
         [Authorize]
-        public async Task<ActionResult<Like>> GetLikeByFilm(int id)
+        public async Task<ActionResult<Like>> GetLikeByFilm(int filmId)
         {
-            int accountId = db.Accounts.
-                FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name).Id;
-            var like = await db.Likes.
-                FirstOrDefaultAsync((x) => x.FilmId == id && x.AccountId == accountId);
+            var account = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
+            var like = await db.Likes.FirstOrDefaultAsync((x) => x.FilmId == filmId && x.AccountId == account.Id);
 
             return like;
         }
@@ -60,7 +60,7 @@ namespace randomfilm_backend.Controllers
         // POST: api/Likes
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Like>> PostLike(Like requestLike)
+        public async Task<ActionResult<Like>> PostLike([FromBody]Like requestLike)
         {
             //Лайк уже существует?
             if (db.Likes.FirstOrDefault(x => (x.FilmId == requestLike.FilmId) && 
@@ -80,6 +80,30 @@ namespace randomfilm_backend.Controllers
             await db.SaveChangesAsync();
 
             return CreatedAtAction("GetLike", new { id = like.Id }, like);
+        }
+
+        // DELETE: api/Likes/ByFilm/5
+        [HttpDelete("ByFilm/{filmId}")]
+        [Authorize]
+        public async Task<ActionResult> DeleteLikeByFilm(int filmId)
+        {
+            var like = db.Likes.FirstOrDefault(x => (x.FilmId == filmId) && 
+                (x.AccountId == db.Accounts.FirstOrDefault(y => y.Login == HttpContext.User.Identity.Name).Id));
+            if (like == null)
+            {
+                return NotFound();
+            }
+
+            if (HttpContext.User.Identity.Name != db.Accounts.FirstOrDefault(x => x.Id == like.AccountId).Login)
+            {
+                //Пользователь пытается удалить не свой лайк
+                return Conflict();
+            }
+
+            db.Likes.Remove(like);
+            await db.SaveChangesAsync();
+
+            return Ok();
         }
 
         // DELETE: api/Likes/5

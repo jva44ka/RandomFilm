@@ -11,20 +11,31 @@
     flex: 1 0 auto;
 }
 
-.film-page > input{
-    background: rgba(200,200,200,0.75);
-    margin: 0 40vw;
-    text-align: center;
-    border-radius: 5px;
-    min-height: 30px;
+.likeButton_disabled, .dislikeButton_disabled, .likeButton_enabled, .dislikeButton_enabled{
+    justify-self: center;
+    height: 250px;
+    width: 250px;
+}
+
+.likeButton_disabled{
+    background: url(./like_disabled.png) no-repeat;
+}
+
+.dislikeButton_disabled{
+    background: url(./dislike_disabled.png) no-repeat;
+}
+
+.likeButton_enabled{
+    background: url(./like_enabled.png) no-repeat;
+}
+
+.dislikeButton_enabled{
+    background: url(./dislike_enabled.png) no-repeat;
 }
 
 .film-page > label{
     background-color: inherit;
     border-style: inherit;
-}
-
-.film-page > label{
     font-size: 24px;
 }
 

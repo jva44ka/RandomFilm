@@ -29,7 +29,7 @@ export  default class LoginPage extends  React.Component{
         });
     };
 
-    loginButtonOnClick = async(e) => {
+    onFormSubmit = async(e) => {
         e.preventDefault();
         await this.apiService.login(this.state.login, this.state.password);
         let user = this.apiService.getCurrentUser();
@@ -57,7 +57,9 @@ export  default class LoginPage extends  React.Component{
         if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>;
         return (
             <div className="login-page-grid">
-                <form className="box" action="">
+                <form   className="box"
+                        action=""
+                        onSubmit={this.onFormSubmit}>
                     <h1>Войти</h1>
                     <input type="text"
                            name="login"

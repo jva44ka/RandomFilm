@@ -10,14 +10,21 @@ export default class FilmApiService {
     Controller = 'Likes';
 
     GetSelfLikeByFilmId = async (id) => {
-        return await this.apiService.GetAuthRequest(this.Controller, `ByFilm/${id}`, this.authApi.getCurrentUser().token);
+        let result = await this.apiService.GetAuthRequest(this.Controller, `ByFilm/${id}`, this.authApi.getCurrentUser().token);
+        console.log(result);
+        return result;
     }
 
     PostSelfLike = async (filmId, likeOrDislike) => {
-        return await this.apiService.PostAuthRequest(this.Controller, `${id}`, this.authApi.getCurrentUser().token);
+        let body = {
+            filmId: filmId,
+            likeOrDislike: likeOrDislike
+        };
+        console.log(body);
+        return await this.apiService.PostAuthRequest(this.Controller, '', this.authApi.getCurrentUser().token, JSON.stringify(body));
     }
 
-    DeleteSelfLike = async (id) => {
-        //return await this.apiService.PostAuthRequest(this.Controller, `ByFilm/${id}`, this.authApi.getCurrentUser().token);
+    DeleteSelfLike = async (filmId) => {
+        return await this.apiService.DeleteAuthRequest(this.Controller, `ByFilm/${filmId}`, this.authApi.getCurrentUser().token);
     }
 }
