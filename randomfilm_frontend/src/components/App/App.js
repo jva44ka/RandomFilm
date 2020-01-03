@@ -11,6 +11,7 @@ import {
 import AppHeader from '../AppHeader';
 import AppFooter from '../AppFooter';
 import MainPage from '../MainPage';
+import FilmPage from '../FilmPage';
 import FilmsPage from '../FilmsPage';
 import LoginPage from '../LoginPage';
 
@@ -22,6 +23,7 @@ function App() {
             <div className="App">
                 <AppHeader/>
                     <Route path="/" component={MainPage} exact/>
+                    <Route path="/Film" component={FilmPage}/>
                     <Route path="/Films" component={FilmsPage}/>
                     <Route path="/Login" component={LoginPage}/>
                 <AppFooter/>

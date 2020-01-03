@@ -8,6 +8,10 @@ export  default class MainPage extends  React.Component{
 
     api = new apiService();
 
+    state =  {
+        isFilmSelected: false
+    };
+
     render(){
         return (
             <div className="main-page-grid">

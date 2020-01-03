@@ -19,16 +19,5 @@
 .films-page > label{
     background-color: inherit;
     border-style: inherit;
-}
-
-.films-page > label{
     font-size: 24px;
 }
-
-
-/*.main-page-grid{
-    display: flex;
-    justify-self: center;
-    justify-items: center;
-    flex-direction: row;
-}*/

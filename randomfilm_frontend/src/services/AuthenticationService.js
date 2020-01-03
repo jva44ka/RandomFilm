@@ -62,12 +62,11 @@ export  default class AuthenticationService {
                     return response.text();
                 }
                 else{
-                    return{"error": "status "+response.status}
+                    return{"error": "status " + response.status}
                 }
             })
             .then((text) => {
                 console.log('Request successful', text);
-                //result = text;
                 return text;
             })
             .catch((error) => {

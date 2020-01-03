@@ -1,4 +1,5 @@
 import React from 'react';
+
 import FilmComponent from '../FilmListItem';
 import apiService from '../../services/FilmApiService'
 
@@ -10,11 +11,10 @@ export  default class FilmsPage extends  React.Component{
 
     films = [];
 
-
-
     state = {
         searchText: "",
-        films: []
+        films: [],
+        isFilmSelected: false
     };
 
     componentDidMount = async () => {
@@ -45,7 +45,7 @@ export  default class FilmsPage extends  React.Component{
                 {
                     (this.state.films || []).map((item) => (
                         <div key={item.id}>
-                            <FilmComponent film={item} />
+                            <FilmComponent film={item}/>
                         </div>
                     ))
                 }
