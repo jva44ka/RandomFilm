@@ -27,16 +27,16 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Films
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
+        public async Task<ActionResult<IEnumerable<Models.Film>>> GetFilms()
         {
             return await db.Films.ToListAsync();
         }
 
         // GET: api/Films/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Film>> GetFilm(int id)
+        public async Task<ActionResult<Models.Film>> GetFilm(int id)
         {
-            Film film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
+            Models.Film film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
 
             if (film == null)
             {
@@ -48,22 +48,33 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Films/Random
         [HttpGet("Random")]
-        public async Task<ActionResult<Film>> GetRandomFilm()
+        public async Task<ActionResult<Models.Film>> GetRandomFilm()
         {
-            return await FilmSelection.GetRandomFilmAsync();
+            Film randomFilm = await FilmSelection.GetRandomFilmAsync();
+            FilmsGenres[] filmsGenres = db.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
+            //FilmsGenres[] filmsGenres = randomFilm.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
+            Genre[] genresCache = db.Genres.ToArray();
+            List<Genre> genres = new List<Genre>();
+            for (int i = 0; i < filmsGenres.Length; i++)
+            {
+                genres.Add(genresCache.FirstOrDefault(x => x.Id == filmsGenres[i].GenreId));
+            }
+
+            randomFilm.Genres = genres;
+            return randomFilm;
         }
 
         [HttpGet("SpecificityFilm")]
         [Authorize]
-        public async Task<ActionResult<Film>> GetSpecificityFilm()
+        public async Task<ActionResult<Models.Film>> GetSpecificityFilm()
         {
-            return await FilmSelection.SpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
+            return await FilmSelection.GetSpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
         }
 
         // PUT: api/Films/5
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> PutFilm(int id, Film film)
+        public async Task<IActionResult> PutFilm(int id, Models.Film film)
         {
             if (id != film.Id)
             {
@@ -94,7 +105,7 @@ namespace randomfilm_backend.Controllers
         // POST: api/Films
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<Film>> PostFilm([FromBody]Film film)
+        public async Task<ActionResult<Models.Film>> PostFilm([FromBody] Models.Film film)
         {
             db.Films.Add(film);
             try
@@ -119,7 +130,7 @@ namespace randomfilm_backend.Controllers
         // DELETE: api/Films/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<Film>> DeleteFilm(int id)
+        public async Task<ActionResult<Models.Film>> DeleteFilm(int id)
         {
             var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
             if (film == null)

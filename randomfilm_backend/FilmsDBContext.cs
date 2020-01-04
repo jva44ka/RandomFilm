@@ -1,20 +1,18 @@
 ﻿using System;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
-namespace randomfilm_backend.Models
+using randomfilm_backend.Models;
+
+namespace randomfilm_backend
 {
-    /// <summary>
-    /// Контекст базы данных
-    /// </summary>
-    public partial class RandomFilmDBContext : DbContext
+    public partial class FilmsDBContext : DbContext
     {
-        public RandomFilmDBContext()
-        { }
+        public FilmsDBContext()
+        {
+        }
 
-        public RandomFilmDBContext(DbContextOptions<RandomFilmDBContext> options)
+        public FilmsDBContext(DbContextOptions<FilmsDBContext> options)
             : base(options)
         { }
 
@@ -30,12 +28,8 @@ namespace randomfilm_backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile("appsettings.json")
-               .Build();
-                string connectionString = configuration.GetConnectionString("FilmsDBConnection");
-                optionsBuilder.UseSqlServer(connectionString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-NMP0LC3\\SQLEXPRESS;Initial Catalog=FilmsDB;Integrated Security=True");
             }
         }
 
@@ -82,8 +76,6 @@ namespace randomfilm_backend.Models
                 entity.Property(e => e.Description).HasMaxLength(4000);
 
                 entity.Property(e => e.Director).HasMaxLength(255);
-
-                entity.Ignore(e => e.Genres);
 
                 entity.Property(e => e.Title).HasMaxLength(255);
 

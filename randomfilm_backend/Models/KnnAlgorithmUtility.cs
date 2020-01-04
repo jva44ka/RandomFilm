@@ -14,6 +14,9 @@ namespace randomfilm_backend.Models
         /// <returns>Хеш таблица вида "жанр, массив фильмов с этим жанром"</returns>
         private Dictionary<string, Film[]> GetGenres(Film[] films)
         {
+            List<string> genres = new List<string>();
+
+            var dic = new Dictionary<string, Film[]>();
             return null;
         }
     }
