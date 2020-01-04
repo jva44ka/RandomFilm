@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace randomfilm_backend.Models
 {
     /// <summary>
-    /// Утилитарный класс для обработки данных типа Film или IEnumerable<Film>
+    /// Утилитарный класс для подбора фильма несколькими способами
     /// </summary>
-    public static class FilmUtility
+    public static class FilmSelection
     {
         static RandomFilmDBContext db = new RandomFilmDBContext();
 
         /// <summary>
         /// Метод, возвращающий рандомный фильм из коллекции, переданной в параметр
         /// </summary>
-        /// <param name="repository">Коллекция фильмов</param>
         /// <returns>Возвращаемый фильм</returns>
         public static async Task<Film> GetRandomFilmAsync()
         {
@@ -26,8 +26,9 @@ namespace randomfilm_backend.Models
 
         public static Film GetRandomFilm()
         {
-            int index = new Random().Next(1, db.Films.Count() + 1);
-            return db.Films.FirstOrDefault(x => x.Id == index);
+            Film[] filmsCache = db.Films.ToArray();
+            int index = new Random().Next(0, filmsCache.Length);
+            return filmsCache.ElementAt(index);
         }
 
         public static async Task<Film> SpecificityFilmAsync(Account account)

@@ -50,14 +50,14 @@ namespace randomfilm_backend.Controllers
         [HttpGet("Random")]
         public async Task<ActionResult<Film>> GetRandomFilm()
         {
-            return await FilmUtility.GetRandomFilmAsync();
+            return await FilmSelection.GetRandomFilmAsync();
         }
 
         [HttpGet("SpecificityFilm")]
         [Authorize]
         public async Task<ActionResult<Film>> GetSpecificityFilm()
         {
-            return await FilmUtility.SpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
+            return await FilmSelection.SpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
         }
 
         // PUT: api/Films/5
@@ -121,7 +121,7 @@ namespace randomfilm_backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<Film>> DeleteFilm(int id)
         {
-            var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);//FindAsync(id);
+            var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
             if (film == null)
             {
                 return NotFound();
