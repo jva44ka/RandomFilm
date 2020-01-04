@@ -20,6 +20,7 @@ namespace randomfilm_backend.Models
         {
             Comments = new HashSet<Comment>();
             FilmsGenres = new HashSet<FilmsGenres>();
+            //Likes = new List<Like>();
             Likes = new HashSet<Like>();
         }
 
@@ -46,6 +47,7 @@ namespace randomfilm_backend.Models
 
             Comments = new HashSet<Comment>();
             FilmsGenres = new HashSet<FilmsGenres>();
+            //Likes = new List<Like>(); 
             Likes = new HashSet<Like>();
         }
 

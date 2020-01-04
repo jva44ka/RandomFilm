@@ -8,7 +8,17 @@ import FilmApiSrvice from '../../services/FilmApiService'
 
 export  default  class  FilmListItem extends React.Component {
 
+    genresArrayToString = (genres) => {
+        let result = "";
+        genres.forEach(item => {
+                result += item.name + ", ";
+            }
+        );
+        return result.substring(0, result.length - 2);
+    }
+
     state = {
+        genre: this.genresArrayToString(this.props.film.genres),
         isFilmSelected: false
     }
 
@@ -47,15 +57,9 @@ export  default  class  FilmListItem extends React.Component {
                     <div className="FilmListItemContent">
                         <label id="TitleValue">{this.props.film.title}</label>
                         <label>Жанр</label>
-                        <label>{this.props.film.genre}</label>
+                        <label>{this.state.genre}</label>
                         <label>Оценок</label>
-                        <label>
-                            {this.props.film.likes ? (
-                                0
-                            ) : (
-                                this.props.film.likes.length
-                            )}
-                        </label>
+                        <label>{this.props.film.likes.length}</label>
                     </div>
                 </div>
             </div>

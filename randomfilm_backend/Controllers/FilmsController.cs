@@ -29,7 +29,7 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Film>>> GetFilms()
         {
-            return await db.Films.ToListAsync();
+            return FilmUtility.GetPreparedFilms(await db.Films.ToListAsync());
         }
 
         // GET: api/Films/5
@@ -43,15 +43,15 @@ namespace randomfilm_backend.Controllers
                 return NotFound();//NotFound();
             }
 
-            return film;
+            return FilmUtility.GetPreparedFilm(film);
         }
 
         // GET: api/Films/Random
         [HttpGet("Random")]
         public async Task<ActionResult<Models.Film>> GetRandomFilm()
         {
-            Film randomFilm = await FilmSelection.GetRandomFilmAsync();
-            FilmsGenres[] filmsGenres = db.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
+            Film randomFilm = await FilmUtility.GetRandomFilmAsync();
+            /*FilmsGenres[] filmsGenres = db.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
             //FilmsGenres[] filmsGenres = randomFilm.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
             Genre[] genresCache = db.Genres.ToArray();
             List<Genre> genres = new List<Genre>();
@@ -60,15 +60,15 @@ namespace randomfilm_backend.Controllers
                 genres.Add(genresCache.FirstOrDefault(x => x.Id == filmsGenres[i].GenreId));
             }
 
-            randomFilm.Genres = genres;
-            return randomFilm;
+            randomFilm.Genres = genres;*/
+            return FilmUtility.GetPreparedFilm(randomFilm);
         }
 
         [HttpGet("SpecificityFilm")]
         [Authorize]
         public async Task<ActionResult<Models.Film>> GetSpecificityFilm()
         {
-            return await FilmSelection.GetSpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
+            return await FilmUtility.GetSpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
         }
 
         // PUT: api/Films/5

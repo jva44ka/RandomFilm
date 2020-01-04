@@ -12,13 +12,14 @@ export  default class FilmsPage extends  React.Component{
     state = {
         film: {},
         like: {},
+        genreString: "",
         likeOrDislike: undefined,
         isLikeThere: false,
         comments: [],
     };
 
     componentDidMount = async() => {
-        let film = await this.filmApiService.getSelectFilm();
+        let film = await this.filmApiService.GetFilmById(await this.filmApiService.getSelectFilm().id);
         console.log(film);
 
         let like = await this.likesApiService.GetSelfLikeByFilmId(film.id);
@@ -31,14 +32,26 @@ export  default class FilmsPage extends  React.Component{
             isLikeThere = true;
         }
 
+        let genres = this.genresArrayToString(film.genres);
+
         this.setState({
             film: film,
             like: like,
+            genreString: genres,
             likeOrDislike: likeOrDislike,
             isLikeThere: isLikeThere,
         });
         console.log("likeOrDislike " + this.state.likeOrDislike);
         console.log("isLikeThere " + this.state.isLikeThere);
+    }
+
+    genresArrayToString = (genres) => {
+        let result = "";
+        genres.forEach(item => {
+                result += item.name + ", ";
+            }
+        );
+        return result.substring(0, result.length - 2);
     }
 
     like = async() => {
@@ -122,7 +135,7 @@ export  default class FilmsPage extends  React.Component{
                 <label>Трейлер</label>
                 <label>{this.state.film.urlTrailer}</label>
                 <label>Жанр</label>
-                <label>{this.state.film.genre}</label>
+                <label>{this.state.genreString}</label>
                 <label>Опсиание</label>
                 <label>{this.state.film.description}</label>
                 <label>Длительность</label>

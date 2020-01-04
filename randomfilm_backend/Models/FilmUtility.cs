@@ -11,7 +11,7 @@ namespace randomfilm_backend.Models
     /// <summary>
     /// Утилитарный класс для манипуляций с фильмом только уже с контекстом всей бд
     /// </summary>
-    public static class FilmSelection
+    public static class FilmUtility
     {
         static RandomFilmDBContext db = new RandomFilmDBContext();
 
@@ -57,8 +57,25 @@ namespace randomfilm_backend.Models
             {
                 genres.Add(genresCache.FirstOrDefault(x => x.Id == filmsGenres[i].GenreId));
             }
+            sourceFilm.Genres = genres;
+
+            // Подготовка likes
+            var likes = db.Likes.Where(x => x.FilmId == sourceFilm.Id);
+            sourceFilm.Likes = likes.ToList();
+
+            // Подготовка comments
+            // -----еще не реализованы
 
             return sourceFilm;
+        }
+
+        public static List<Film> GetPreparedFilms(List<Film> sourceFilms)
+        {
+            foreach (var item in sourceFilms)
+            {
+                GetPreparedFilm(item);
+            }
+            return sourceFilms;
         }
     }
 }
