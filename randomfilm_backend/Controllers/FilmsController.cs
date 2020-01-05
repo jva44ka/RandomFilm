@@ -29,7 +29,7 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Film>>> GetFilms()
         {
-            return FilmUtility.GetPreparedFilms(await db.Films.ToListAsync());
+            return FilmUtility.GetPreparedFilms(await db.Films.ToListAsync()).OrderBy(x => x.Title).ToArray();
         }
 
         // GET: api/Films/5

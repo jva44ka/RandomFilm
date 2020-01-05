@@ -36,10 +36,9 @@ namespace randomfilm_backend.Models
             return await Task.Run(() => { return GetSpecificityFilm(account); });
         }
 
-        public static Film GetSpecificityFilm(Account account)
+        public static Film GetSpecificityFilm(Account user)
         {
-#warning Тут сгенерировать фильм по алгоритму. Данные есть в параметрах
-            return GetRandomFilm();
+            return KnnAlgorithmUtility.GetFilm(user);
         }
 
 #warning Костыль

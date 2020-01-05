@@ -74,8 +74,7 @@ export  default class LoginPage extends  React.Component{
                            placeholder="Пароль"/>
 
                     <button name="submit"
-                            type="submit"
-                            onClick={this.loginButtonOnClick}>Войти</button>
+                            type="submit">Войти</button>
                     <br/>
                 </form>
             </div>
