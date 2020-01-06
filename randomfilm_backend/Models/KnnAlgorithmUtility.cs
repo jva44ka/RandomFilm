@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace randomfilm_backend.Models
 {
@@ -58,13 +57,6 @@ namespace randomfilm_backend.Models
 
             /* 5. Выборка фильма для пользователя */
             result = GetFilm(user, nearestToUser);
-
-            /* Удаление ссылок для очистки сборщиком мусора*/
-            accountsCache = null;
-            genresCache = null;
-            filmsCache = null;
-            filmsGenresCache = null;
-            likesCache = null;
 
             return result; ;
         }
@@ -144,7 +136,7 @@ namespace randomfilm_backend.Models
         /// Расчитывает расстояния других пользователей до конкретного в многомерном пространстве лайков
         /// </summary>
         /// <param name="user">Пользователь, расстояние до которого ищется от других пользователей</param>
-        /// /// <param name="userMethrics">Средние значения (метрики) пользователя, до которого исчется расстояния</param>
+        /// <param name="userMethrics">Средние значения (метрики) пользователя, до которого исчется расстояния</param>
         /// <param name="methrics">Пары "пользователь-средние оценки" других пользователей</param>
         /// <returns>Пары "пользователь-дистанция до исходного пользователя"</returns>
         private static Dictionary<Account, double> GetDistances(Account user, double[] userMethrics, Dictionary<Account, double[]> methrics)

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace randomfilm_backend.Models
 {
