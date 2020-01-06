@@ -15,22 +15,33 @@
     justify-self: center;
     height: 250px;
     width: 250px;
+    cursor: pointer;
+    border: none;
+    outline: none;
 }
 
-.likeButton_disabled{
-    background: url(./like_disabled.png) no-repeat;
+.likeButton_disabled:hover, .likeButton_enabled:hover{
+    background: url(./like_hover.png) no-repeat;
 }
 
-.dislikeButton_disabled{
-    background: url(./dislike_disabled.png) no-repeat;
+.dislikeButton_disabled:hover, .dislikeButton_enabled:hover{
+    background: url(./dislike_hover.png) no-repeat;
 }
 
 .likeButton_enabled{
     background: url(./like_enabled.png) no-repeat;
 }
 
+.likeButton_disabled{
+    background: url(./like_disabled.png) no-repeat;
+}
+
 .dislikeButton_enabled{
     background: url(./dislike_enabled.png) no-repeat;
+}
+
+.dislikeButton_disabled{
+    background: url(./dislike_disabled.png) no-repeat;
 }
 
 .film-page > label{

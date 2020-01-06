@@ -51,16 +51,6 @@ namespace randomfilm_backend.Controllers
         public async Task<ActionResult<Models.Film>> GetRandomFilm()
         {
             Film randomFilm = await FilmUtility.GetRandomFilmAsync();
-            /*FilmsGenres[] filmsGenres = db.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
-            //FilmsGenres[] filmsGenres = randomFilm.FilmsGenres.Where(x => x.FilmId == randomFilm.Id).ToArray();
-            Genre[] genresCache = db.Genres.ToArray();
-            List<Genre> genres = new List<Genre>();
-            for (int i = 0; i < filmsGenres.Length; i++)
-            {
-                genres.Add(genresCache.FirstOrDefault(x => x.Id == filmsGenres[i].GenreId));
-            }
-
-            randomFilm.Genres = genres;*/
             return FilmUtility.GetPreparedFilm(randomFilm);
         }
 
