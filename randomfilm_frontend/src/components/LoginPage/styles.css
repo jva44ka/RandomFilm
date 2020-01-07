@@ -1,7 +1,4 @@
 .login-page-grid{
-    /*background: url("./background.png");*/
-    /*margin-top: 0;
-    padding: 0;*/
     font-family: sans-serif;
 }
 
@@ -15,7 +12,6 @@
 }
 
 .box input[type="text"] ,[type="password"] {
-    /*border: 0;*/
     background: none;
     display: block;
     margin: 20px auto;
@@ -42,11 +38,9 @@
     margin: 10px 20px;
     position: relative;
     overflow: hidden;
-    /*border: 2px solid #fe6637;*/
     border: 2px solid #9e31fe;
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
-    /*color: #fe6637;*/
     color: #9e31fe;
     transition: .2s ease-in-out;
     cursor: pointer;

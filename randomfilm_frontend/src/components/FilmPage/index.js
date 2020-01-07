@@ -23,7 +23,7 @@ export  default class FilmsPage extends  React.Component{
     componentDidMount = async() => {
         window.scrollTo(0, 0);
 
-        let film = await this.filmApiService.GetFilmById(await this.filmApiService.getSelectFilm().id);
+        let film = FilmApiService.selectedFilm;
         console.log(film);
 
         let like = await this.likesApiService.GetSelfLikeByFilmId(film.id);

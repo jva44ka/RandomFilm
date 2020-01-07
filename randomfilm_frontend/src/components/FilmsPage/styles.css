@@ -3,8 +3,6 @@
     flex-flow: column;
     border-style: none;
 
-    background: url(../App/background.png) no-repeat ;
-
     flex: 1 0 auto;
 }
 

@@ -7,7 +7,6 @@ import image from './image-not-found.png'
 import FilmApiSrvice from '../../services/FilmApiService'
 
 export  default  class  FilmListItem extends React.Component {
-
     genresArrayToString = (genres) => {
         let result = "";
         genres.forEach(item => {
@@ -17,12 +16,12 @@ export  default  class  FilmListItem extends React.Component {
         return result.substring(0, result.length - 2);
     }
 
+    apiService = new FilmApiSrvice();
+
     state = {
         genre: this.genresArrayToString(this.props.film.genres),
         isFilmSelected: false
     }
-
-    apiService = new FilmApiSrvice();
 
     setRedirect = () => {
         this.setState({
@@ -37,8 +36,7 @@ export  default  class  FilmListItem extends React.Component {
     }
 
     filmClickFunc = async (event) => {
-        //this.apiService.selectedFilm = this.props.film;
-        this.apiService.setSelectedFilm(this.props.film);
+        FilmApiSrvice.selectedFilm = this.props.film;
         console.log("Film Id is: " + this.apiService.selectedFilm.id);
         this.setRedirect();
     }
