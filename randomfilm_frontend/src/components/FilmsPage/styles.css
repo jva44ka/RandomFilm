@@ -1,9 +1,9 @@
 .films-page{
     display: flex;
     flex-flow: column;
-
-    background: inherit;
     border-style: none;
+
+    background: url(../App/background.png) no-repeat ;
 
     flex: 1 0 auto;
 }
@@ -20,4 +20,12 @@
     background-color: inherit;
     border-style: inherit;
     font-size: 24px;
+}
+
+.loadingImgDiv{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    background: inherit repeat-y;
 }

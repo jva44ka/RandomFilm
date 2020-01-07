@@ -4,6 +4,8 @@ import FilmFullView from '../FilmFullView';
 
 import './FilmComponent.css';
 
+import loadingImg from '../GeneralResources/loadingGif.svg';
+
 export  default class FilmComponent extends  React.Component{
     state={
         id:     null,
@@ -16,11 +18,17 @@ export  default class FilmComponent extends  React.Component{
         urlImg:     null,//'https://www.okino.ua/media/var/news/2019/01/11/avengers-infinity-war-poster.jpg',
         urlTrailer: null,
         showed: false,
-        mini: true
+        mini: true,
+        loading: false
     };
 
     onButtonClick = async() => {
+        this.setState({
+            loading: true
+        });
         const result = await this.props.FilmSelectFunc();
+        //const response = await this.props.FilmSelectFunc();
+        //const result = await response.json();
         console.log(result);
         console.log(result.id);
         this.setState({
@@ -34,23 +42,14 @@ export  default class FilmComponent extends  React.Component{
             urlImg: result.urlImg,
             urlTrailer: result.urlTrailer,
             showed: true,
-            mini: true
+            mini: true,
+            loading: false
         });
     };
 
     ChangeViewSize = () => {
         this.setState((state) => {
             return{
-                id: state.id,
-                title: state.title,
-                duration: state.duration,
-                genre: state.genre,
-                description: state.description,
-                year: state.year,
-                director: state.director,
-                urlImg: state.urlImg,
-                urlTrailer: state.urlTrailer,
-                showed: state.showed,
                 mini: !state.mini
             }
         })
@@ -60,31 +59,36 @@ export  default class FilmComponent extends  React.Component{
 
         return (
             <div>
-                {this.state.showed?
-                    (
-                        <div className="FilmComponent">
-                            {this.state.mini?(
-                                    <FilmMiniView
-                                        film={this.state}
-                                        /*film={{ title,
-                                                urlImg} = this.state}*/
-                                        FilmViewClick={this.ChangeViewSize}/>
-                                ):(
-                                    //<FilmView film={...{title, duration, genre, description, year, director, urlImg, urlTrailer} = this.state}/>
-                                    <FilmFullView
-                                        film={this.state}
-                                        FilmViewClick={this.ChangeViewSize}/>
-                                )}
-                            <div className="FilmComponent-Flex">
-                                <button id="GetFilmButton" onClick={this.onButtonClick}>Еще фильм</button>
-                            </div>
-                        </div>
-                    ):(
-                        <div className="FilmComponent-Flex">
-                            <button id="GetFilmButton" onClick={this.onButtonClick}>Получить фильм</button>
-                        </div>
-                    )
-                }
+                {!this.state.loading ? (
+                    <div>
+                        {this.state.showed?
+                            (
+                                <div className="FilmComponent">
+                                    {this.state.mini?(
+                                        <FilmMiniView
+                                            film={this.state}
+                                            FilmViewClick={this.ChangeViewSize}/>
+                                    ):(
+                                        <FilmFullView
+                                            film={this.state}
+                                            FilmViewClick={this.ChangeViewSize}/>
+                                    )}
+                                    <div className="FilmComponent-Flex">
+                                        <button id="GetFilmButton" onClick={this.onButtonClick}>Еще фильм</button>
+                                    </div>
+                                </div>
+                            ):(
+                                <div className="FilmComponent-Flex">
+                                    <button id="GetFilmButton" onClick={this.onButtonClick}>Получить фильм</button>
+                                </div>
+                            )
+                        }
+                    </div>
+                ) : (
+                    <div className="FilmComponent">
+                        <img src={loadingImg} id="loadingImg" width="200" height="200"/>
+                    </div>
+                )}
             </div>
         )
     }

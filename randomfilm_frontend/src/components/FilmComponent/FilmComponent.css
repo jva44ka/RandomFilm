@@ -1,4 +1,7 @@
 .FilmComponent{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     margin: 1vh;
     background-color: rgba(211, 211, 211, 0.25);
     border-radius: 10px;
@@ -31,6 +34,11 @@
     background-color: rgb(255, 85, 23);
     cursor: pointer;
 }*/
+
+.FilmComponent > #loadingImg {
+    width: 200px;
+    height: 200px;
+}
 
 .FilmComponent-Flex > button:nth-child(1) {
     text-decoration: none;

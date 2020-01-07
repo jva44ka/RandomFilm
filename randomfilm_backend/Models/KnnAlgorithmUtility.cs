@@ -194,8 +194,15 @@ namespace randomfilm_backend.Models
             }
 
             // Сортируем получившийся словарь по убыванию рейтинга и даем первый элемент как результат
-#warning Исключение: пустое множество
-            Film result = filmsLikes.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.First();
+            Film result;
+            try
+            {
+                result = filmsLikes.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.First();
+            }
+            catch(System.InvalidOperationException ex)
+            {
+                result = null;
+            }
             return result;
 
         }
