@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactPlayer from 'react-player';
+
 import FilmApiService from '../../services/FilmApiService';
 import LikesApiService from '../../services/LikesApiService';
 
@@ -19,6 +21,8 @@ export  default class FilmsPage extends  React.Component{
     };
 
     componentDidMount = async() => {
+        window.scrollTo(0, 0);
+
         let film = await this.filmApiService.GetFilmById(await this.filmApiService.getSelectFilm().id);
         console.log(film);
 
@@ -131,9 +135,13 @@ export  default class FilmsPage extends  React.Component{
 
         return (
             <div className="film-page">
-                <label>{this.state.film.title}</label>
-                <label>Трейлер</label>
-                <label>{this.state.film.urlTrailer}</label>
+                <ReactPlayer
+                    url={this.state.film.urlTrailer}
+                    controls={true}
+                    id="videoPlayer"
+                    youtubeConfig={{ playerVars: { showinfo: 1 , autoplay: 0} }}
+                    />
+                <label id="filmTitle">{this.state.film.title}</label>
                 <label>Жанр</label>
                 <label>{this.state.genreString}</label>
                 <label>Опсиание</label>
