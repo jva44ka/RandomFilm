@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace randomfilm_backend.Models
 {
+    /// <summary>
+    /// Алгоритм выдачи фильма с учетом предпочтений пользователя (на основе метода ближайших k соседей)
+    /// Кратко: алгоритм высчитывает средние значения пользователя по каждому жанру (1 - все лайки, -1 - все дизлайки), высчитывает
+    /// также средние значения у всех пользователей пользователей, находит ближайших соседей по этим значениям и смотрит
+    /// какие у этих соседей общие лайкнутые фильмы.
+    /// </summary>
     public static class KnnAlgorithmUtility
     {
         // Количество ближайших соседей
@@ -18,10 +24,10 @@ namespace randomfilm_backend.Models
         private static Like[] likesCache;
 
         /// <summary>
-        /// Публичный метод для 
+        /// Публичный метод для использования данного алгоритма 
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+        /// <param name="user">Пользователь, под которого подбирается фильм</param>
+        /// <returns>Фильм</returns>
         public static Film GetFilm(Account user)
         {
             Film result;

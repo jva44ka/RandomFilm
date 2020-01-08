@@ -35,7 +35,8 @@ namespace randomfilm_backend.Models
 
         public static Film GetSpecificityFilm(Account user)
         {
-            return KnnAlgorithmUtility.GetFilm(user);
+            //return KnnAlgorithmUtility.GetFilm(user);
+            return SameUsersAlgorithmUtility.GetFilm(user);
         }
 
 #warning Костыль
