@@ -36,7 +36,7 @@ export  default class FilmsPage extends  React.Component{
             isLikeThere = true;
         }
 
-        let genres = this.genresArrayToString(film.genres);
+        let genres = this.genresArrayToString(film.filmsGenres);
 
         this.setState({
             film: film,
@@ -49,10 +49,10 @@ export  default class FilmsPage extends  React.Component{
         console.log("isLikeThere " + this.state.isLikeThere);
     }
 
-    genresArrayToString = (genres) => {
+    genresArrayToString = (filmsGenres) => {
         let result = "";
-        genres.forEach(item => {
-                result += item.name + ", ";
+        filmsGenres.forEach(item => {
+                result += item.genre.name + ", ";
             }
         );
         return result.substring(0, result.length - 2);

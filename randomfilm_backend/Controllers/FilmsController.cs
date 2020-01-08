@@ -26,36 +26,46 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Film>>> GetFilms()
         {
-            return FilmUtility.GetPreparedFilms(await db.Films.ToListAsync()).OrderBy(x => x.Title).ToArray();
+            return await db.Films
+                        .Include(x => x.Likes)
+                        .Include(x => x.FilmsGenres)
+                            .ThenInclude(x => x.Genre) 
+                        .Where(x => x.FilmsGenres.FirstOrDefault(y => y.FilmId == x.Id) != null)
+                        .ToArrayAsync();
         }
 
         // GET: api/Films/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Film>> GetFilm(int id)
+        public async Task<ActionResult<Film>> GetFilm(int id)
         {
-            Models.Film film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
+            Film film = await db.Films
+                                .Include(x => x.Likes)
+                                .Include(x => x.FilmsGenres)
+                                    .ThenInclude(x => x.Genre)
+                                .Where(x => x.FilmsGenres.FirstOrDefault(y => y.FilmId == x.Id) != null)
+                                .FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
 
             if (film == null)
             {
-                return NotFound();//NotFound();
+                return NotFound();
             }
 
-            return FilmUtility.GetPreparedFilm(film);
+            return film;
         }
 
         // GET: api/Films/Random
         [HttpGet("Random")]
         public async Task<ActionResult<Models.Film>> GetRandomFilm()
         {
-            Film randomFilm = await FilmUtility.GetRandomFilmAsync();
-            return FilmUtility.GetPreparedFilm(randomFilm);
+            return await FilmUtility.GetRandomFilmAsync();
         }
 
         [HttpGet("SpecificityFilm")]
         [Authorize]
         public async Task<ActionResult<Models.Film>> GetSpecificityFilm()
         {
-            Film result = await FilmUtility.GetSpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
+            Account user = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
+            Film result = await FilmUtility.GetSpecificityFilmAsync(user);
             return result;
         }
 

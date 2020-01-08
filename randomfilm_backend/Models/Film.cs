@@ -11,7 +11,6 @@ namespace randomfilm_backend.Models
         public string Description { get; set; }
         public DateTime? Year { get; set; }
         public string Director { get; set; }
-        public List<Genre> Genres { get; set; }
         public string UrlImg { get; set; }
         public string UrlTrailer { get; set; }
 
@@ -20,7 +19,6 @@ namespace randomfilm_backend.Models
         {
             Comments = new HashSet<Comment>();
             FilmsGenres = new HashSet<FilmsGenres>();
-            //Likes = new List<Like>();
             Likes = new HashSet<Like>();
         }
 
@@ -47,7 +45,6 @@ namespace randomfilm_backend.Models
 
             Comments = new HashSet<Comment>();
             FilmsGenres = new HashSet<FilmsGenres>();
-            //Likes = new List<Like>(); 
             Likes = new HashSet<Like>();
         }
 

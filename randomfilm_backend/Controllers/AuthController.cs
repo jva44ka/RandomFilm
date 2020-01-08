@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using randomfilm_backend.Models;
 
@@ -24,14 +26,12 @@ namespace randomfilm_backend.Controllers
 
         // POST: api/Auth
         [HttpPost("token")]
-        //[Produces("application/json")]
-        
-        public ActionResult<string> Post(Account account)
+        public async Task<ActionResult<string>> Post(Account account)
         {
             var username = account.Login;
             var password = account.Password;
 
-            ClaimsIdentity identity = GetIdentity(username, password);
+            ClaimsIdentity identity = await GetIdentity(username, password);
             if (identity == null)
             {
                 return BadRequest();
@@ -51,16 +51,17 @@ namespace randomfilm_backend.Controllers
             return Ok(jwtToken);
         }
 
-        public ClaimsIdentity GetIdentity(string username, string password)
+        public async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            Account person = db.Accounts.FirstOrDefault(x => x.Login == username && x.Password == password);
+            Account person = await db.Accounts
+                                    .Include(x => x.Role)
+                                    .FirstOrDefaultAsync(x => x.Login == username && x.Password == password);
             if (person != null)
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-#warning Решить проблему с person.Role == null
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, db.Roles.First(x => x.Id == person.RoleId).Name)
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

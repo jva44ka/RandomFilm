@@ -7,10 +7,10 @@ import image from './image-not-found.png'
 import FilmApiSrvice from '../../services/FilmApiService'
 
 export  default  class  FilmListItem extends React.Component {
-    genresArrayToString = (genres) => {
+    genresArrayToString = (filmsGenres) => {
         let result = "";
-        genres.forEach(item => {
-                result += item.name + ", ";
+        filmsGenres.forEach(item => {
+                result += item.genre.name + ", ";
             }
         );
         return result.substring(0, result.length - 2);
@@ -19,7 +19,7 @@ export  default  class  FilmListItem extends React.Component {
     apiService = new FilmApiSrvice();
 
     state = {
-        genre: this.genresArrayToString(this.props.film.genres),
+        genre: this.genresArrayToString(this.props.film.filmsGenres),
         isFilmSelected: false
     }
 

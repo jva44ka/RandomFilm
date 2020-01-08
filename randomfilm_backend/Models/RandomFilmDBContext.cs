@@ -81,7 +81,7 @@ namespace randomfilm_backend.Models
 
                 entity.Property(e => e.Director).HasMaxLength(255);
 
-                entity.Ignore(e => e.Genres);
+                //entity.Ignore(e => e.Genres);
 
                 entity.Property(e => e.Title).HasMaxLength(255);
 
