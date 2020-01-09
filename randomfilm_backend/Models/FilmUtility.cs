@@ -36,15 +36,15 @@ namespace randomfilm_backend.Models
             return filmsCache.ElementAt(index);
         }
 
-        public static async Task<Film> GetSpecificityFilmAsync(Account account)
+        public static async Task<Film> GetSpecificityFilmAsync(Account user)
         {
-            return await Task.Run(() => { return GetSpecificityFilm(account); });
+            return await SameUsersAlgorithmUtility.GetFilm(user); ;
         }
 
-        public static Film GetSpecificityFilm(Account user)
-        {
-            //return KnnAlgorithmUtility.GetFilm(user);
-            return SameUsersAlgorithmUtility.GetFilm(user);
-        }
+        //public static Film GetSpecificityFilm(Account user)
+        //{
+        //    //return KnnAlgorithmUtility.GetFilm(user);
+        //    //return SameUsersAlgorithmUtility.GetFilm(user);
+        //}
     }
 }

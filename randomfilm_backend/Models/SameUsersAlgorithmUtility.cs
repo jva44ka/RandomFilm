@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace randomfilm_backend.Models
 {
@@ -13,13 +15,11 @@ namespace randomfilm_backend.Models
     public static class SameUsersAlgorithmUtility
     {
         // Количество ближайших соседей
-        private const int k = 3;
+        private const int k = 1;
 
         private static RandomFilmDBContext db = new RandomFilmDBContext();
 
         private static Account[] accountsCache;
-        private static Genre[] genresCache;
-        private static FilmsGenres[] filmsGenresCache;
         private static Film[] filmsCache;
         private static Like[] likesCache;
 
@@ -28,14 +28,17 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static Film GetFilm(Account user)
+        public static async Task<Film> GetFilm(Account user)
         {
             Film result;
 
             // 0. Вытаскивыние базы в кеш
-            accountsCache = db.Accounts.ToArray();
-            filmsCache = db.Films.ToArray();
-            likesCache = db.Likes.ToArray();
+            accountsCache = await db.Accounts.Include(x => x.Likes)
+                                        .ToArrayAsync();
+            filmsCache = await db.Films.Include(x => x.Likes)
+                                    .ToArrayAsync();
+            likesCache = await db.Likes.Include(x => x.Film)
+                                    .ToArrayAsync();
 
             /* 1. Нахождение для каждого пользователя общих лайков с нашим пользователем*/
             Dictionary<Account, int> usersMatches = GetUsersWithSameLakes(user);
@@ -81,6 +84,7 @@ namespace randomfilm_backend.Models
                         matches++;
                 }
                 result.Add(accountsCache[i], matches);
+                matches = 0;
             }
             return result;
         }
@@ -108,7 +112,7 @@ namespace randomfilm_backend.Models
                 for (int k = 0; k < nearestToUser.Keys.Count; k++)
                 {
                     Like like = likesCache.FirstOrDefault(x => (x.FilmId == notLikedFilmsByUser[i].Id) &&
-                                    x.AccountId == nearestToUser.Keys.ElementAt(k).Id);
+                                    (x.AccountId == nearestToUser.Keys.ElementAt(k).Id));
                     if (like != null)
                     {
                         if (like.LikeOrDislike)

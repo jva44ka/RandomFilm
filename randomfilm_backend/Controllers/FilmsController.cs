@@ -64,8 +64,8 @@ namespace randomfilm_backend.Controllers
         [Authorize]
         public async Task<ActionResult<Models.Film>> GetSpecificityFilm()
         {
-            Account user = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
-            Film result = await FilmUtility.GetSpecificityFilmAsync(user);
+            Account thisUser = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
+            Film result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
             return result;
         }
 
