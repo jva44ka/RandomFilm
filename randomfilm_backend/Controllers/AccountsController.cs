@@ -67,6 +67,39 @@ namespace randomfilm_backend.Controllers
             return account;
         }
 
+        // POST: api/Accounts/Create
+        [HttpPost("/Create")]
+        public async Task<ActionResult> CreateAccount([FromBody] Account account)
+        {
+            // Валидация полей (в емейле собака и точка, в пароле заглавные и цифры и т.д.)
+
+            // Создание нового аккаунта(user) на основе присланых данных (account)
+            Account newAccount = new Account()
+            {
+                Email = account.Email,
+                Login = account.Login,
+                Password = account.Password,
+                Role = await db.Roles.FirstOrDefaultAsync(x => x.Name == "user"),
+            };
+            db.Accounts.Add(newAccount);
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (AccountExists(newAccount.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return Ok();
+        }
+
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
@@ -130,36 +163,6 @@ namespace randomfilm_backend.Controllers
             }
 
             return NoContent();
-        }
-
-        [HttpPost("/Create")]
-        public async Task<ActionResult> CreateAccount([FromBody] Account account)
-        {
-            Account user = new Account()
-            {
-                //Id = (_context.Accounts.Count() + 1).ToString(),
-                Email = account.Email,
-                Login = account.Login,
-                Password = account.Password,
-                Role = db.Roles.FirstOrDefault(x => x.Name == "user"),
-            };
-            db.Accounts.Add(user);
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AccountExists(account.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return Ok(account);
         }
 
         // DELETE: api/Accounts/5

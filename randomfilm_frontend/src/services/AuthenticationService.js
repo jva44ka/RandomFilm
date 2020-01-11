@@ -1,7 +1,10 @@
+import ApiService from './ApiService';
+
 export  default class AuthenticationService {
-    basePath = 'http://localhost:64303';
     authController = 'Auth';
     getTokenMethod = 'token';
+
+    apiService = new ApiService();
 
     getCurrentUser = () => {
         return {
@@ -21,18 +24,24 @@ export  default class AuthenticationService {
 
     login = async (login, password) => {
 
-        let data = await this.tokenRequest(login, password);
+        let response = await this.tokenRequest(login, password);
 
-        if (!data.error) {
+        if (response.status === 200){
+            let data = await response.text();
             this.setCurrentUser(login, data);
             console.log("token after fetch method: ");
             console.log(data);
+            console.log("token in storage is: ");
+            console.log(this.getCurrentUser().token);
+            return response;
         }
+
         else{
-            console.log("something wrong...");
+            console.log("something wrong in auth...");
+            console.log("token in storage is: ");
+            console.log(this.getCurrentUser().token);
+            return response;
         }
-        console.log("localstorage: ");
-        console.log(this.getCurrentUser().token);
     };
 
     logout = () => {
@@ -41,39 +50,10 @@ export  default class AuthenticationService {
 
 
     tokenRequest = async(login, password) => {
-        const requestOptions = {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                "Accept": "*/*",
-                "Content-Type": "application/json"
-            }
-            ,
-            body: JSON.stringify({
-                "login": `${login}`,
-                "password": `${password}`
-            })
-        };
-
-        let result = "result";
-        result = await fetch(`${this.basePath}/api/${this.authController}/${this.getTokenMethod}`, requestOptions)
-            .then((response) => {
-                if(response.status == 200) {
-                    return response.text();
-                }
-                else{
-                    return{"error": "status " + response.status}
-                }
-            })
-            .then((text) => {
-                console.log('Request successful', text);
-                return text;
-            })
-            .catch((error) => {
-                console.log('Request failed', error);
-                return{"error": error}
-            });
-        console.log('Result is: ', result);
-        return result;
+        let body = JSON.stringify({
+            "login": `${login}`,
+            "password": `${password}`
+        });
+        return await this.apiService.PostNonAuthRequest(this.authController, this.getTokenMethod, body);
     }
 }

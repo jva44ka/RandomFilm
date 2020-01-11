@@ -22,12 +22,16 @@ export  default class FilmsPage extends  React.Component{
 
     componentDidMount = async () => {
         this.setState({loading: true});
-        this.films = await this.api.GetAllFilms();
+        let response = await this.api.GetAllFilms();
+        console.log("status is " + response.status);
+        if (response.status === 200){
+            this.films = await response.json();
+        }
         console.log(this.films);
         this.setState({
-                films: this.films,
-                loading: false
-            });
+            films: this.films,
+            loading: false
+        });
     }
 
     handleInputChange = (event) => {

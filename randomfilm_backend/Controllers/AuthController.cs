@@ -34,7 +34,7 @@ namespace randomfilm_backend.Controllers
             ClaimsIdentity identity = await GetIdentity(username, password);
             if (identity == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var now = DateTime.UtcNow;

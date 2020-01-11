@@ -26,9 +26,11 @@ export  default class FilmComponent extends  React.Component{
         this.setState({
             loading: true
         });
-        const result = await this.props.FilmSelectFunc();
-        //const response = await this.props.FilmSelectFunc();
-        //const result = await response.json();
+        const response = await this.props.FilmSelectFunc();
+        let result = {};
+        if (response.status === 200) {
+            result = await response.json();
+        }
         console.log(result);
         console.log(result.id);
         this.setState({

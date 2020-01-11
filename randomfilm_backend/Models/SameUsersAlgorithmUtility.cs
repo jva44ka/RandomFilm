@@ -51,6 +51,11 @@ namespace randomfilm_backend.Models
             /* 3. Выборка фильма для пользователя */
             result = SelectFilm(user, nearestToUser);
 
+            /* 4. Удаление из переменных класса ссылок на объекты таблиц для удаления сборщиком мусора*/
+            accountsCache = null;
+            filmsCache = null;
+            likesCache = null;
+
             return result; ;
         }
 

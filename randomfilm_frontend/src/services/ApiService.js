@@ -5,7 +5,6 @@ export default class FilmApiService {
     BasePath = 'http://localhost:64303';
 
     Request = async(controller, method, httpMehtod, token = "", body = "") => {
-        let result = {};
         let headers = {
             "Accept": "*/*",
             "Access-Control-Allow-Origin": "*",
@@ -36,18 +35,7 @@ export default class FilmApiService {
             };
         }
 
-        await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions)
-            .then(res => res.json())
-            .then((resultRequest) => {
-                    result = resultRequest;
-                    console.log(result);
-                    return resultRequest;
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
-        return result;
+        return await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions);
     }
 
     GetAuthRequest = async(controller, method, token) => {

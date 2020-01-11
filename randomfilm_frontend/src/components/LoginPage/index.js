@@ -8,19 +8,18 @@ import {
     useRouteMatch,
     useParams
 } from "react-router-dom";
-import apiService from '../../services/AuthenticationService';
+import ApiService from '../../services/AuthenticationService';
 
 import './styles.css';
-import MainPage from "../MainPage";
 
 export  default class LoginPage extends  React.Component{
 
-    apiService = new apiService();
+    apiService = new ApiService();
 
     state={
         login: "",
         password: "",
-        token: ""
+        validationMessage: ""
     };
 
     handleInputChange = (event) => {
@@ -31,23 +30,32 @@ export  default class LoginPage extends  React.Component{
 
     onFormSubmit = async(e) => {
         e.preventDefault();
-        await this.apiService.login(this.state.login, this.state.password);
-        let user = this.apiService.getCurrentUser();
-        if (user.login){
+        let response = await this.apiService.login(this.state.login, this.state.password);
+        if (response.status === 200){
+            let user = this.apiService.getCurrentUser();
             console.log("user: " + user);
             console.log("login: " + user.login);
             console.log("token: " + user.token);
             this.setState((prevState) => {
                 return {
                     login: prevState.login,
-                    password: prevState.password,
-                    token: user.token
+                    password: prevState.password
                 }
             });
-            this.state.token = user.token;
             window.location.reload();
         }
         else{
+            if (response.status === 404){
+                this.setState({validationMessage: "Неверный логин/пароль"});
+            }
+            if (response.status === 500){
+                this.setState({validationMessage: "Ошибка сервера"});
+            }
+
+            //Другая ошибка
+            if(this.state.validationMessage === ""){
+                this.setState({validationMessage: "Неопознаная ошибка"});
+            }
             console.log('not found token');
         }
     };
@@ -72,6 +80,14 @@ export  default class LoginPage extends  React.Component{
                            value={this.state.password}
                            onChange={this.handleInputChange}
                            placeholder="Пароль"/>
+
+                    {this.state.validationMessage ? (
+                        <label id="validationMessage">
+                            {this.state.validationMessage}
+                        </label>
+                    ):(
+                        <div/>
+                    )}
 
                     <button name="submit"
                             type="submit">Войти</button>

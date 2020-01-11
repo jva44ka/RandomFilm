@@ -26,7 +26,11 @@ export  default class FilmsPage extends  React.Component{
         let film = FilmApiService.selectedFilm;
         console.log(film);
 
-        let like = await this.likesApiService.GetSelfLikeByFilmId(film.id);
+        let like = {};
+        let likeResponse = await this.likesApiService.GetSelfLikeByFilmId(film.id);
+        if (likeResponse.status === 200){
+            like = await likeResponse.json();
+        }
         console.log(like);
 
         let likeOrDislike;
@@ -59,31 +63,43 @@ export  default class FilmsPage extends  React.Component{
     }
 
     like = async() => {
-        await this.likesApiService.PostSelfLike(this.state.film.id, true);
-        let like = await this.likesApiService.GetSelfLikeByFilmId(this.state.film.id);
-        this.setState({
-            like: like,
-            likeOrDislike: like.likeOrDislike,
-            isLikeThere: true,
-        });
+        let likePostResponse = await this.likesApiService.PostSelfLike(this.state.film.id, true);
+        if (likePostResponse.status === 200 || 201) {
+            let currentLikeResponse = await this.likesApiService.GetSelfLikeByFilmId(this.state.film.id);
+            if (currentLikeResponse.status === 200){
+                let likeData = currentLikeResponse.json();
+                this.setState({
+                    like: likeData,
+                    likeOrDislike: likeData.likeOrDislike,
+                    isLikeThere: true,
+                });
+            }
+        }
     }
 
     dislike = async() => {
-        await this.likesApiService.PostSelfLike(this.state.film.id, false);
-        let like = await this.likesApiService.GetSelfLikeByFilmId(this.state.film.id);
-        this.setState({
-            like: like,
-            likeOrDislike: like.likeOrDislike,
-            isLikeThere: true,
-        });
+        let likePostResponse = await this.likesApiService.PostSelfLike(this.state.film.id, false);
+        if (likePostResponse.status === 200 || 201) {
+            let currentLikeResponse = await this.likesApiService.GetSelfLikeByFilmId(this.state.film.id);
+            if (currentLikeResponse.status === 200){
+                let likeData = currentLikeResponse.json();
+                this.setState({
+                    like: likeData,
+                    likeOrDislike: likeData.likeOrDislike,
+                    isLikeThere: true,
+                });
+            }
+        }
     }
 
     unLike = async() => {
-        await this.likesApiService.DeleteSelfLike(this.state.film.id);
-        this.setState({
-            like: {},
-            isLikeThere: false,
-        });
+        let response = await this.likesApiService.DeleteSelfLike(this.state.film.id);
+        if (response.status === 200) {
+            this.setState({
+                like: {},
+                isLikeThere: false,
+            });
+        }
     }
 
     likeOnClick = async() => {
