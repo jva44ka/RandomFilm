@@ -31,7 +31,7 @@ namespace randomfilm_backend.Controllers
             var username = account.Login;
             var password = account.Password;
 
-            ClaimsIdentity identity = await GetIdentity(username, password);
+            ClaimsIdentity identity = await GetIdentity(username, password, db);
             if (identity == null)
             {
                 return NotFound();
@@ -51,7 +51,7 @@ namespace randomfilm_backend.Controllers
             return Ok(jwtToken);
         }
 
-        public async Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentity(string username, string password, RandomFilmDBContext db)
         {
             Account person = await db.Accounts
                                     .Include(x => x.Role)
@@ -71,11 +71,6 @@ namespace randomfilm_backend.Controllers
 
             // если пользователя не найдено
             return null;
-        }
-
-        private bool AccountExists(int id)
-        {
-            return db.Accounts.Any(e => e.Id == id);
         }
     }
 }

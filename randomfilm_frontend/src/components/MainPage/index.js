@@ -22,8 +22,8 @@ export  default class MainPage extends  React.Component{
                     Способ №1: Вам выдается совершенно случайный фильм из базы данных.
                 </label>
                 <label className="secondary-instruction-label">
-                    Способ №2: Вам выдается фильм в соответствие с вашими предпочтению по жанрам, длительности и т.д. Необходимо зарегестрироваться/ войти
-                    для данного способа (<b>В разработке!</b>)
+                    Способ №2: Вам выдается фильм в соответствие с вашими предпочтениями. Необходимо зарегестрироваться/войти
+                    для данного способа.
                 </label>
                 <FilmComponent FilmSelectFunc={this.api.GetRandomFilm}/>
                 <FilmComponent FilmSelectFunc={this.api.GetSpecifityFilm}/>
