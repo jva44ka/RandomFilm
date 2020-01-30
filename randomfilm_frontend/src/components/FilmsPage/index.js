@@ -43,13 +43,13 @@ export  default class FilmsPage extends  React.Component{
 
     render = () => {
         return (
-            <div>
+            <div className="filmsPageContainer">
                 {this.state.loading ? (
                     <div className="loadingImgDiv">
                         <img src={loadingImg}/>
                     </div>
                 ) : (
-                    <div className="films-page">
+                    <div className="films-list">
                         <label>
                             Список фильмов
                         </label>
