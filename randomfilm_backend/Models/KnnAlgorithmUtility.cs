@@ -1,4 +1,5 @@
-﻿using System;
+﻿using randomfilm_backend.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -91,7 +92,6 @@ namespace randomfilm_backend.Models
         /// <returns></returns>
         private static double GetAveregeLikeInGenre(Account account, Genre genre)
         {
-#warning Я этот метот писал ночью и у меня были нереальные затупы, могут быть ошибки. Очень опасный метод
             double result;
             double summOfLikes = 0;
             double numberOfLikes = 0;

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Models
 {

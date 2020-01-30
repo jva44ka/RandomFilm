@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using randomfilm_backend;
 using randomfilm_backend.Models;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Controllers
 {

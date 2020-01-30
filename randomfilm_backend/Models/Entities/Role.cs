@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace randomfilm_backend.Models
+namespace randomfilm_backend.Models.Entities
 {
     public partial class Role
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using randomfilm_backend.Models;
 using Microsoft.AspNetCore.Cors;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Controllers
 {
@@ -24,7 +25,7 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Films
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Film>>> GetFilms()
+        public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
         {
             return await db.Films
                         .Include(x => x.Likes)
@@ -55,14 +56,14 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Films/Random
         [HttpGet("Random")]
-        public async Task<ActionResult<Models.Film>> GetRandomFilm()
+        public async Task<ActionResult<Film>> GetRandomFilm()
         {
             return await FilmUtility.GetRandomFilmAsync();
         }
 
         [HttpGet("SpecificityFilm")]
         [Authorize]
-        public async Task<ActionResult<Models.Film>> GetSpecificityFilm()
+        public async Task<ActionResult<Film>> GetSpecificityFilm()
         {
             Account thisUser = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
             Film result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
@@ -72,7 +73,7 @@ namespace randomfilm_backend.Controllers
         // PUT: api/Films/5
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> PutFilm(int id, Models.Film film)
+        public async Task<IActionResult> PutFilm(int id, Film film)
         {
             if (id != film.Id)
             {
@@ -103,7 +104,7 @@ namespace randomfilm_backend.Controllers
         // POST: api/Films
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<Models.Film>> PostFilm([FromBody] Models.Film film)
+        public async Task<ActionResult<Film>> PostFilm([FromBody] Film film)
         {
             db.Films.Add(film);
             try
@@ -128,7 +129,7 @@ namespace randomfilm_backend.Controllers
         // DELETE: api/Films/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<Models.Film>> DeleteFilm(int id)
+        public async Task<ActionResult<Film>> DeleteFilm(int id)
         {
             var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
             if (film == null)

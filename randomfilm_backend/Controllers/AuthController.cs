@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using randomfilm_backend.Models;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Controllers
 {

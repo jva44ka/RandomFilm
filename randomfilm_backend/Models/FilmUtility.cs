@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using randomfilm_backend.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,22 +30,9 @@ namespace randomfilm_backend.Models
             return films.ElementAt(index);
         }
 
-        public static Film GetRandomFilm()
-        {
-            Film[] filmsCache = db.Films.ToArray();
-            int index = new Random().Next(0, filmsCache.Length);
-            return filmsCache.ElementAt(index);
-        }
-
         public static async Task<Film> GetSpecificityFilmAsync(Account user)
         {
-            return await SameUsersAlgorithmUtility.GetFilm(user); ;
+            return await SameUsersAlgorithmUtility.GetFilm(user);
         }
-
-        //public static Film GetSpecificityFilm(Account user)
-        //{
-        //    //return KnnAlgorithmUtility.GetFilm(user);
-        //    //return SameUsersAlgorithmUtility.GetFilm(user);
-        //}
     }
 }
