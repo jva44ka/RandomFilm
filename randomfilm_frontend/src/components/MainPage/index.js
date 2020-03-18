@@ -1,8 +1,8 @@
 import React from 'react';
-import FilmComponent from '../FilmComponent';
+import FilmComponent from './FilmComponent';
 import apiService from '../../services/FilmApiService'
 
-import './mainPage.css'
+import './styles.css'
 
 export  default class MainPage extends  React.Component{
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FilmComponent from '../FilmListItem';
+import FilmComponent from './FilmListItem';
 import apiService from '../../services/FilmApiService'
 
 import loadingImg from '../GeneralResources/loadingGif.svg';

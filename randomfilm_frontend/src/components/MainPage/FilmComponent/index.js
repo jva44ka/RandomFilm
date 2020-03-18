@@ -1,10 +1,10 @@
 import React from 'react';
-import FilmMiniView from '../FilmMiniView';
-import FilmFullView from '../FilmFullView';
+import FilmMiniView from './FilmMiniView';
+import FilmFullView from './FilmFullView';
 
-import './FilmComponent.css';
+import './styles.css';
 
-import loadingImg from '../GeneralResources/loadingGif.svg';
+import loadingImg from '../../GeneralResources/loadingGif.svg';
 
 export  default class FilmComponent extends  React.Component{
     state={
@@ -15,7 +15,7 @@ export  default class FilmComponent extends  React.Component{
         description: null,
         year:   null,
         director:   null,
-        urlImg:     null,//'https://www.okino.ua/media/var/news/2019/01/11/avengers-infinity-war-poster.jpg',
+        urlImg:     null,
         urlTrailer: null,
         showed: false,
         mini: true,

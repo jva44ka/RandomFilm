@@ -1,7 +1,7 @@
 import React from 'react';
 //import ApiService from '../../services/FilmApiService';
 
-import './FilmFullView.css';
+import './styles.css';
 
     const FilmView = ({film, FilmViewClick}) => {
         return (

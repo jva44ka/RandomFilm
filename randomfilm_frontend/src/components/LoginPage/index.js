@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import ApiService from '../../services/AuthenticationService';
 
 import './styles.css';
@@ -65,9 +57,9 @@ export  default class LoginPage extends  React.Component{
         if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>;
         return (
             <div className="login-page-grid">
-                <form   className="box"
-                        action=""
-                        onSubmit={this.onFormSubmit}>
+                    <form   className="box"
+                            action=""
+                            onSubmit={this.onFormSubmit}>
                     <h1>Войти</h1>
                     <input type="text"
                            name="login"

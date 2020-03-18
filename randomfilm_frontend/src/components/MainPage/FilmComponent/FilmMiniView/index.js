@@ -1,7 +1,7 @@
 import React from 'react';
 
 import image from './image-not-found.png';
-import './FilmMiniView.css';
+import './styles.css';
 
     const FilmMiniView = ({film, FilmViewClick}) =>{
 
