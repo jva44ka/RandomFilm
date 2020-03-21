@@ -15,7 +15,7 @@ import FilmPage from '../FilmPage';
 import FilmsPage from '../FilmsPage';
 import LoginPage from '../LoginPage';
 
-import './App.css';
+import './styles.css';
 
 function App() {
     return (

@@ -1,8 +1,9 @@
+import config from '../pathConfig';
 import ApiService from './ApiService';
 
 export  default class AuthenticationService {
-    authController = 'Auth';
-    getTokenMethod = 'token';
+    authController = config.authController;
+    getTokenMethod = config.getTokenMethod;
 
     apiService = new ApiService();
 

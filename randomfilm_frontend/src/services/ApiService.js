@@ -2,7 +2,7 @@ import config from '../pathConfig.json';
 
 export default class FilmApiService {
 
-    BasePath = 'http://localhost:64303';
+    BasePath = config.basePath; //'http://localhost:64303';
 
     Request = async(controller, method, httpMehtod, token = "", body = "") => {
         let headers = {

@@ -28,9 +28,9 @@ const handleInputChange = (state, payload) => {
     }
 };
 
-const onSubmit = async(state, event) => {
+const onSubmit = (state, event) => {
     event.preventDefault();
-    let response = await apiService.login(state.login, state.password);
+    let response = apiService.login(state.login, state.password);
     console.log('respone is:');
     console.log(response);
     console.log('status respone is:');
@@ -63,7 +63,8 @@ const onSubmit = async(state, event) => {
             default:
                 console.log('not found token');
                 return {
-                    ...state,
+                    login: state.login,
+                    password: state.password,
                     validationMessage: "Неопознаная ошибка"
                 };
         }

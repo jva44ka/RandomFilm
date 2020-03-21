@@ -7,7 +7,7 @@ export default class FilmApiService {
     apiService = new ApiService();
     authApi = new AuthService();
 
-    Controller = 'Films';
+    Controller = config.filmsController;
 
     selectedFilm = {};
 

@@ -16,7 +16,10 @@ class LoginPage extends  React.Component{
             <div className="login-page-grid">
                     <form   className="box"
                             action=""
-                            onSubmit={this.props.onFormSubmit}>
+                            onSubmit={(e) => {
+                                this.props.onFormSubmit(e);
+                                this.forceUpdate();
+                            }}>
                     <h1>Войти</h1>
                     <input type="text"
                            name="login"

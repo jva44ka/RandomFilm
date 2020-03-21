@@ -5,7 +5,7 @@ html, body {
 }
 
 .App{
-    background: url("./background.png");
+    background: url("./background3.png");
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
