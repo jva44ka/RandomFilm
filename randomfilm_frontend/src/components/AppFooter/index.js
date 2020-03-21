@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import './AppFooter.css';
+import './styles.css';
 
 import reactImg from '../../logo.svg';
 import dotnetImg from './dotnet.png';

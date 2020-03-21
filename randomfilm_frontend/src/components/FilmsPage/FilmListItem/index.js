@@ -4,7 +4,7 @@ import {Redirect} from "react-router-dom";
 
 import './styles.css';
 import image from './image-not-found.png'
-import FilmApiSrvice from '../../services/FilmApiService'
+import FilmApiSrvice from '../../../services/FilmApiService'
 
 export  default  class  FilmListItem extends React.Component {
     genresArrayToString = (filmsGenres) => {
