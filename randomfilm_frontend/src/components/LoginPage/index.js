@@ -1,7 +1,9 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux';
 import ApiService from '../../services/AuthenticationService';
+import { getToken } from "../../actions/getTokenFromApi.js";
 
 import './styles.css';
 
@@ -17,8 +19,10 @@ class LoginPage extends  React.Component{
                     <form   className="box"
                             action=""
                             onSubmit={(e) => {
-                                this.props.onFormSubmit(e);
-                                this.forceUpdate();
+                                e.preventDefault();
+                                this.props.requestToken('Anton', this.props.password);
+                                /*this.props.onFormSubmit(e);
+                                this.forceUpdate();*/
                             }}>
                     <h1>Войти</h1>
                     <input type="text"
@@ -51,13 +55,16 @@ class LoginPage extends  React.Component{
 }
 
 const mapDispatchToProps = (dispatch) => {
+    console.log('mapDispatchToProps');
     return{
         handleInputChange: (event) => dispatch({type: 'LoginPage_HandleInputChange', payload: event}),
-        onFormSubmit: (event) => dispatch({type: 'LoginPage_OnFormSubmit', payload: event})
+        onFormSubmit: (event) => { dispatch({type: 'LoginPage_OnFormSubmit', payload: event});},
+        requestToken: (login, password) => dispatch(getToken(login, password))
     }
 }
 
 const mapStateToProps = (state) => {
+    console.log('mapStateToProps');
     return {
         login: state.login,
         password: state.password,
@@ -65,4 +72,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export  default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

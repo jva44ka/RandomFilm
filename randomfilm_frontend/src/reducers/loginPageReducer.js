@@ -1,4 +1,5 @@
 import ApiService from '../services/AuthenticationService';
+import { GET_TOKEN_REQUEST, GET_TOKEN_SUCCESS, GET_TOKEN_FAIL } from '../actions/getTokenFromApi.js';
 
 const initialState = {
     login: "",
@@ -15,6 +16,12 @@ const loginReducer = (state = initialState, action) => {
 
         case 'LoginPage_OnFormSubmit':
             return onSubmit(state, action.payload);
+
+        case GET_TOKEN_SUCCESS:
+            return updateStateWithLogin(state);
+
+        case GET_TOKEN_FAIL:
+            return updateStateWithFail(state, action.payload);
 
         default:
             return state;
@@ -44,7 +51,7 @@ const onSubmit = (state, event) => {
             ...state,
             login: state.login,
             password: state.password
-        }
+        };
     }
     else{
         switch(response.status) {
@@ -68,6 +75,37 @@ const onSubmit = (state, event) => {
                     validationMessage: "Неопознаная ошибка"
                 };
         }
+    }
+};
+
+const updateStateWithLogin = (state) => {
+    //Меняем стейт для перерендера
+    return{
+        ...state,
+        validationMessage: "Успех!"
+    }
+};
+
+const updateStateWithFail = (state, payload) => {
+    switch(payload.status) {
+        case 404:
+            return {
+                ...state,
+                validationMessage: "Неверный логин/пароль"
+            };
+
+        case 500:
+            return {
+                ...state,
+                validationMessage: "Ошибка сервера"
+            };
+
+        default:
+            console.log('not found token');
+            return {
+                ...state,
+                validationMessage: "Неопознаная ошибка"
+            };
     }
 };
 
