@@ -35,9 +35,9 @@ export const getToken = (login, password) => async(dispatch) => {
 
         if (response.status === 200) {
             dispatch({
-                type: GET_TOKEN_SUCCESS,
-                payload: response.text()
+                type: GET_TOKEN_SUCCESS
             });
+            console.log('response is: ' + JSON.stringify(response));
         }
         else {
             dispatch({

@@ -5,7 +5,7 @@ const initialState = {
     login: "",
     password: "",
     validationMessage: ""
-}
+};
 
 const apiService = new ApiService();
 
