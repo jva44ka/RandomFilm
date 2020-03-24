@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import ApiService from '../../services/AuthenticationService';
-import { getToken } from "../../actions/getTokenFromApi.js";
+import { getToken } from "../../actions/loginPageActions";
 
 import './styles.css';
 
@@ -58,7 +58,8 @@ const mapStateToProps = (state) => {
     return {
         login: state.loginPageReducer.login,
         password: state.loginPageReducer.password,
-        validationMessage: state.loginPageReducer.validationMessage
+        validationMessage: state.loginPageReducer.validationMessage,
+        flagForRender: state.loginPageReducer.flagForRender
     };
 }
 

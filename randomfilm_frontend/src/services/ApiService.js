@@ -2,7 +2,7 @@ import config from '../pathConfig.json';
 
 export default class FilmApiService {
 
-    BasePath = config.basePath; //'http://localhost:64303';
+    BasePath = config.basePath;
 
     Request = async(controller, method, httpMehtod, token = "", body = "") => {
         let headers = {
@@ -36,29 +36,29 @@ export default class FilmApiService {
         }
 
         return await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions);
-    }
+    };
 
     GetAuthRequest = async(controller, method, token) => {
         return await this.Request(controller, method, 'GET', token);
-    }
+    };
 
     GetNonAuthRequest = async(controller, method) => {
         return await this.Request(controller, method, 'GET');
-    }
+    };
 
     PostAuthRequest = async(controller, method, token, body) => {
         return await this.Request(controller, method, 'POST', token, body);
-    }
+    };
 
     PostNonAuthRequest = async(controller, method, body) => {
         return await this.Request(controller, method, 'POST', '', body);
-    }
+    };
 
     DeleteAuthRequest = async(controller, method, token) => {
         return await this.Request(controller, method, 'DELETE', token);
-    }
+    };
 
     DeleteNonAuthRequest = async(controller, method) => {
         return await this.Request(controller, method, 'DELETE', '');
-    }
+    };
 }

@@ -16,7 +16,7 @@ const middleWare = composeEnhanser(
     applyMiddleware(thunk)
 );
 
-const store = createStore(rootReducer, middleWare /*window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()*/);
+const store = createStore(rootReducer, middleWare);
 
 ReactDOM.render(
     <Provider store={store}>
