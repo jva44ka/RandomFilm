@@ -24,7 +24,7 @@ const AppHeader = ({isAuth, logout}) => {
                             <Link className="nav_link" to="/About">О Проекте</Link>
                         </nav>
                         {
-                            authService.getCurrentUser().login ?
+                            authService.getCurrentUser().login || isAuth ?
                                 (
                                     <nav className="auth-buttons">
                                         <Link className="nav_link" to="#">{authService.getCurrentUser().login}</Link>
@@ -50,6 +50,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
+    console.log('state of the header state is: ');
+    console.log(JSON.stringify(state));
     return {
         isAuth: state.appHeaderReducer.isAuth
     };
