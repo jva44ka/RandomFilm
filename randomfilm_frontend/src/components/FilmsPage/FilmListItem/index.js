@@ -5,41 +5,34 @@ import {Redirect} from "react-router-dom";
 import './styles.css';
 import image from './image-not-found.png'
 import FilmApiSrvice from '../../../services/FilmApiService'
+import genresToString from '../../../services/genresStringify';
 
 export  default  class  FilmListItem extends React.Component {
-    genresArrayToString = (filmsGenres) => {
-        let result = "";
-        filmsGenres.forEach(item => {
-                result += item.genre.name + ", ";
-            }
-        );
-        return result.substring(0, result.length - 2);
-    }
 
     apiService = new FilmApiSrvice();
 
     state = {
-        genre: this.genresArrayToString(this.props.film.filmsGenres),
+        genre: genresToString(this.props.film),
         isFilmSelected: false
-    }
+    };
 
     setRedirect = () => {
         this.setState({
             isFilmSelected: true
         })
-    }
+    };
 
     renderRedirect = () => {
         if (this.state.isFilmSelected) {
             return <Redirect to='/Film'/>
         }
-    }
+    };
 
     filmClickFunc = async (event) => {
         FilmApiSrvice.selectedFilm = this.props.film;
         console.log("Film Id is: " + this.apiService.selectedFilm.id);
         this.setRedirect();
-    }
+    };
 
     render = () => {
         return (
@@ -61,7 +54,6 @@ export  default  class  FilmListItem extends React.Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }

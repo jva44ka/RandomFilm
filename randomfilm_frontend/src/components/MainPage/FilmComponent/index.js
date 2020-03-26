@@ -1,97 +1,77 @@
 import React from 'react';
+import {connect} from "react-redux";
+
 import FilmMiniView from './FilmMiniView';
 import FilmFullView from './FilmFullView';
+import {getFilm, FILMCOMPONENT_CHANGE_SIZE} from "../../../actions/filmComponentActions";
 
 import './styles.css';
+import loadingImg from '../../../generalResources/loadingGif.svg';
 
-import loadingImg from '../../GeneralResources/loadingGif.svg';
+const FilmComponent = ({id, title, duration, genre, description, year, director, urlImg, urlTrailer,
+                           filmsGenres, showed, mini, loading, onChangeViewSize, onClickGetFilmButton, FilmSelectFunc}) => {
 
-export  default class FilmComponent extends  React.Component{
-    state={
-        id:     null,
-        title:  null,
-        duration:   null,
-        genre:  null,
-        description: null,
-        year:   null,
-        director:   null,
-        urlImg:     null,
-        urlTrailer: null,
-        showed: false,
-        mini: true,
-        loading: false
-    };
-
-    onButtonClick = async() => {
-        this.setState({
-            loading: true
-        });
-        const response = await this.props.FilmSelectFunc();
-        let result = {};
-        if (response.status === 200) {
-            result = await response.json();
-        }
-        console.log(result);
-        console.log(result.id);
-        this.setState({
-            id: result.id,
-            title: result.title,
-            duration: result.duration,
-            genre: result.genre,
-            description: result.description,
-            year: result.year,
-            director: result.director,
-            urlImg: result.urlImg,
-            urlTrailer: result.urlTrailer,
-            showed: true,
-            mini: true,
-            loading: false
-        });
-    };
-
-    ChangeViewSize = () => {
-        this.setState((state) => {
-            return{
-                mini: !state.mini
-            }
-        })
-    };
-
-    render (){
-
-        return (
-            <div>
-                {!this.state.loading ? (
-                    <div>
-                        {this.state.showed?
-                            (
-                                <div className="FilmComponent">
-                                    {this.state.mini?(
-                                        <FilmMiniView
-                                            film={this.state}
-                                            FilmViewClick={this.ChangeViewSize}/>
-                                    ):(
-                                        <FilmFullView
-                                            film={this.state}
-                                            FilmViewClick={this.ChangeViewSize}/>
-                                    )}
-                                    <div className="FilmComponent-Flex">
-                                        <button id="GetFilmButton" onClick={this.onButtonClick}>Еще фильм</button>
-                                    </div>
-                                </div>
-                            ):(
+    const film = {id, title, duration, genre, description, year, director, urlImg,
+                    urlTrailer, filmsGenres, showed, mini, loading};
+    return (
+        <div>
+            {!loading ? (
+                <div>
+                    {showed?
+                        (
+                            <div className="FilmComponent">
+                                {mini?(
+                                    <FilmMiniView
+                                        film={film}
+                                        FilmViewClick={onChangeViewSize}/>
+                                ):(
+                                    <FilmFullView
+                                        film={film}
+                                        FilmViewClick={onChangeViewSize}/>
+                                )}
                                 <div className="FilmComponent-Flex">
-                                    <button id="GetFilmButton" onClick={this.onButtonClick}>Получить фильм</button>
+                                    <button id="GetFilmButton" onClick={() => {onClickGetFilmButton(FilmSelectFunc)}}>Еще фильм</button>
                                 </div>
-                            )
-                        }
-                    </div>
-                ) : (
-                    <div className="FilmComponent">
-                        <img src={loadingImg} id="loadingImg" width="200" height="200"/>
-                    </div>
-                )}
-            </div>
-        )
+                            </div>
+                        ):(
+                            <div className="FilmComponent-Flex">
+                                <button id="GetFilmButton" onClick={() => {onClickGetFilmButton(FilmSelectFunc)}}>Получить фильм</button>
+                            </div>
+                        )
+                    }
+                </div>
+            ) : (
+                <div className="FilmComponent">
+                    <img src={loadingImg} id="loadingImg" width="200" height="200"/>
+                </div>
+            )}
+        </div>
+    )
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onChangeViewSize: () => dispatch({type: FILMCOMPONENT_CHANGE_SIZE}),
+        onClickGetFilmButton: (FilmSelectFunc) => dispatch(getFilm(FilmSelectFunc))
     }
-}
+};
+
+const mapStateToProps = (state) => {
+    return {
+        id: state.filmComponentReducer.id,
+        title: state.filmComponentReducer.title,
+        duration: state.filmComponentReducer.duration,
+        genre:  state.filmComponentReducer.genre,
+        description: state.filmComponentReducer.description,
+        year:   state.filmComponentReducer.year,
+        director:   state.filmComponentReducer.director,
+        urlImg:     state.filmComponentReducer.urlImg,
+        urlTrailer: state.filmComponentReducer.urlTrailer,
+        filmsGenres: state.filmComponentReducer.filmsGenres,
+        showed: state.filmComponentReducer.showed,
+        mini: state.filmComponentReducer.mini,
+        loading: state.filmComponentReducer.loading
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilmComponent);

@@ -1,15 +1,15 @@
 import React from 'react';
 
 import FilmComponent from './FilmListItem';
-import apiService from '../../services/FilmApiService'
+import ApiService from '../../services/FilmApiService'
 
-import loadingImg from '../GeneralResources/loadingGif.svg';
+import loadingImg from '../../generalResources/loadingGif.svg';
 
 import './styles.css'
 
 export  default class FilmsPage extends  React.Component{
 
-    api = new apiService();
+    api = new ApiService();
 
     films = [];
 

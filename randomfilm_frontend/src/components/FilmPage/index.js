@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player';
 
 import FilmApiService from '../../services/FilmApiService';
 import LikesApiService from '../../services/LikesApiService';
+import getGenresString from '../../services/genresStringify';
 
 import './styles.css'
 
@@ -40,7 +41,7 @@ export  default class FilmsPage extends  React.Component{
             isLikeThere = true;
         }
 
-        let genres = this.genresArrayToString(film.filmsGenres);
+        let genres = getGenresString(film);
 
         this.setState({
             film: film,
@@ -51,16 +52,7 @@ export  default class FilmsPage extends  React.Component{
         });
         console.log("likeOrDislike " + this.state.likeOrDislike);
         console.log("isLikeThere " + this.state.isLikeThere);
-    }
-
-    genresArrayToString = (filmsGenres) => {
-        let result = "";
-        filmsGenres.forEach(item => {
-                result += item.genre.name + ", ";
-            }
-        );
-        return result.substring(0, result.length - 2);
-    }
+    };
 
     like = async() => {
         let likePostResponse = await this.likesApiService.PostSelfLike(this.state.film.id, true);
