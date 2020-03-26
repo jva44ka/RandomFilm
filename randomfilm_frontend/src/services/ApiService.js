@@ -2,10 +2,9 @@ import config from '../pathConfig.json';
 
 export default class FilmApiService {
 
-    BasePath = 'http://localhost:64303';
+    BasePath = config.basePath;
 
     Request = async(controller, method, httpMehtod, token = "", body = "") => {
-        let result = {};
         let headers = {
             "Accept": "*/*",
             "Access-Control-Allow-Origin": "*",
@@ -36,41 +35,30 @@ export default class FilmApiService {
             };
         }
 
-        await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions)
-            .then(res => res.json())
-            .then((resultRequest) => {
-                    result = resultRequest;
-                    console.log(result);
-                    return resultRequest;
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
-        return result;
-    }
+        return await fetch(`${this.BasePath}/api/${controller}/${method}`, fetchOptions);
+    };
 
     GetAuthRequest = async(controller, method, token) => {
         return await this.Request(controller, method, 'GET', token);
-    }
+    };
 
     GetNonAuthRequest = async(controller, method) => {
         return await this.Request(controller, method, 'GET');
-    }
+    };
 
     PostAuthRequest = async(controller, method, token, body) => {
         return await this.Request(controller, method, 'POST', token, body);
-    }
+    };
 
     PostNonAuthRequest = async(controller, method, body) => {
         return await this.Request(controller, method, 'POST', '', body);
-    }
+    };
 
     DeleteAuthRequest = async(controller, method, token) => {
         return await this.Request(controller, method, 'DELETE', token);
-    }
+    };
 
     DeleteNonAuthRequest = async(controller, method) => {
         return await this.Request(controller, method, 'DELETE', '');
-    }
+    };
 }

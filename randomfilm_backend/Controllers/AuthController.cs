@@ -5,12 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using randomfilm_backend;
 using randomfilm_backend.Models;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Controllers
 {
@@ -28,17 +27,15 @@ namespace randomfilm_backend.Controllers
 
         // POST: api/Auth
         [HttpPost("token")]
-        //[Produces("application/json")]
-        
-        public ActionResult<string> Post(Account account)
+        public async Task<ActionResult<string>> Post(Account account)
         {
             var username = account.Login;
             var password = account.Password;
 
-            ClaimsIdentity identity = GetIdentity(username, password);
+            ClaimsIdentity identity = await GetIdentity(username, password, db);
             if (identity == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var now = DateTime.UtcNow;
@@ -55,16 +52,17 @@ namespace randomfilm_backend.Controllers
             return Ok(jwtToken);
         }
 
-        public ClaimsIdentity GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentity(string username, string password, RandomFilmDBContext db)
         {
-            Account person = db.Accounts.FirstOrDefault(x => x.Login == username && x.Password == password);
+            Account person = await db.Accounts
+                                    .Include(x => x.Role)
+                                    .FirstOrDefaultAsync(x => x.Login == username && x.Password == password);
             if (person != null)
             {
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-#warning Решить проблему с person.Role == null
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, db.Roles.First(x => x.Id == person.RoleId).Name)
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role.Name)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -74,11 +72,6 @@ namespace randomfilm_backend.Controllers
 
             // если пользователя не найдено
             return null;
-        }
-
-        private bool AccountExists(int id)
-        {
-            return db.Accounts.Any(e => e.Id == id);
         }
     }
 }

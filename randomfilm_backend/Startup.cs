@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics.Tracing;
 
 using randomfilm_backend.Models;
 
@@ -32,26 +25,21 @@ namespace randomfilm_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .ConfigureApiBehaviorOptions(options =>
-                {
-                    options.SuppressUseValidationProblemDetailsForInvalidModelStateResponses = true;
-                })
-                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling
-                    = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc(options => options.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // получаем строку подключения из файла конфигурации
             string FilmsDbConnection = Configuration.GetConnectionString("FilmsDBConnection");
             // Определяем контекст тут
-            services.AddDbContext<Models.RandomFilmDBContext>(options =>
-                options.UseSqlServer(FilmsDbConnection));
+            services.AddDbContext<Models.RandomFilmDBContext>(options => options.UseSqlServer(FilmsDbConnection));
             services.AddScoped<DbContext, RandomFilmDBContext>();
 
             // Add service and create Policy with options
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
@@ -89,7 +77,7 @@ namespace randomfilm_backend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

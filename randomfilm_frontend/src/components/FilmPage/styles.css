@@ -2,35 +2,14 @@
     display: grid;
     grid-auto-columns: 1fr 1fr;
     grid-auto-rows: auto;
-
-
-    background: url("../App/background.png");
-    background-repeat: repeat-y;
     border-style: none;
 
     flex: 1 0 auto;
 }
 
-.likeButton_disabled, .dislikeButton_disabled, .likeButton_enabled, .dislikeButton_enabled{
+.film-page > #videoPlayer {
+    grid-column: 1/3;
     justify-self: center;
-    height: 250px;
-    width: 250px;
-}
-
-.likeButton_disabled{
-    background: url(./like_disabled.png) no-repeat;
-}
-
-.dislikeButton_disabled{
-    background: url(./dislike_disabled.png) no-repeat;
-}
-
-.likeButton_enabled{
-    background: url(./like_enabled.png) no-repeat;
-}
-
-.dislikeButton_enabled{
-    background: url(./dislike_enabled.png) no-repeat;
 }
 
 .film-page > label{
@@ -39,8 +18,47 @@
     font-size: 24px;
 }
 
-.film-page > label:nth-child(1){
-    font-size: 36px;
+#filmTitle{
+    font-size: 48px;
     justify-self: center;
     grid-column: 1/3;
+}
+
+.likeButton_disabled, .dislikeButton_disabled, .likeButton_enabled, .dislikeButton_enabled{
+    justify-self: center;
+    height: 250px;
+    width: 250px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.likeButton_disabled:hover, .likeButton_enabled:hover{
+    background: url(./like_hover.png) no-repeat;
+}
+
+.dislikeButton_disabled:hover, .dislikeButton_enabled:hover{
+    background: url(./dislike_hover.png) no-repeat;
+}
+
+.likeButton_enabled{
+    background: url(./like_enabled.png) no-repeat;
+}
+
+.likeButton_disabled{
+    background: url(./like_disabled.png) no-repeat;
+}
+
+.dislikeButton_enabled{
+    background: url(./dislike_enabled.png) no-repeat;
+}
+
+.dislikeButton_disabled{
+    background: url(./dislike_disabled.png) no-repeat;
+}
+
+.film-page > label:nth-child(3), .film-page label:nth-child(4),
+.film-page label:nth-child(7), .film-page label:nth-child(8),
+.film-page label:nth-child(11), .film-page label:nth-child(12){
+    background: rgba(150, 150, 150, 0.25);
 }

@@ -1,26 +1,37 @@
 import React from 'react';
 
-import FilmComponent from '../FilmListItem';
-import apiService from '../../services/FilmApiService'
+import FilmComponent from './FilmListItem';
+import ApiService from '../../services/FilmApiService'
+
+import loadingImg from '../../generalResources/loadingGif.svg';
 
 import './styles.css'
 
 export  default class FilmsPage extends  React.Component{
 
-    api = new apiService();
+    api = new ApiService();
 
     films = [];
 
     state = {
-        searchText: "",
+        isFilmSelected: false,
         films: [],
-        isFilmSelected: false
+        loading: false,
+        searchText: "",
     };
 
     componentDidMount = async () => {
-        this.films = await this.api.GetAllFilms();
+        this.setState({loading: true});
+        let response = await this.api.GetAllFilms();
+        console.log("status is " + response.status);
+        if (response.status === 200){
+            this.films = await response.json();
+        }
         console.log(this.films);
-        this.setState({films: this.films});
+        this.setState({
+            films: this.films,
+            loading: false
+        });
     }
 
     handleInputChange = (event) => {
@@ -32,23 +43,31 @@ export  default class FilmsPage extends  React.Component{
 
     render = () => {
         return (
-            <div className="films-page">
-                <label>
-                    Список фильмов
-                </label>
-                <input  type="text"
-                        name="searchText"
-                        value={this.searchText}
-                        onChange={this.handleInputChange}
-                        placeholder="Поиск"
+            <div className="filmsPageContainer">
+                {this.state.loading ? (
+                    <div className="loadingImgDiv">
+                        <img src={loadingImg}/>
+                    </div>
+                ) : (
+                    <div className="films-list">
+                        <label>
+                            Список фильмов
+                        </label>
+                        <input  type="text"
+                                name="searchText"
+                                value={this.searchText}
+                                onChange={this.handleInputChange}
+                                placeholder="Поиск"
                         />
-                {
-                    (this.state.films || []).map((item) => (
-                        <div key={item.id}>
-                            <FilmComponent film={item}/>
-                        </div>
-                    ))
-                }
+                        {
+                            (this.state.films || []).map((item) => (
+                                <div key={item.id}>
+                                    <FilmComponent film={item}/>
+                                </div>
+                            ))
+                        }
+                    </div>
+                )}
             </div>
         )
     }

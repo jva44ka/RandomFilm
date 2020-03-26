@@ -1,12 +1,12 @@
 import React from 'react';
-import FilmComponent from '../FilmComponent';
-import apiService from '../../services/FilmApiService'
+import FilmComponent from './FilmComponent';
+import ApiService from '../../services/FilmApiService'
 
-import './mainPage.css'
+import './styles.css'
 
 export  default class MainPage extends  React.Component{
 
-    api = new apiService();
+    apiService = new ApiService();
 
     state =  {
         isFilmSelected: false
@@ -22,11 +22,11 @@ export  default class MainPage extends  React.Component{
                     Способ №1: Вам выдается совершенно случайный фильм из базы данных.
                 </label>
                 <label className="secondary-instruction-label">
-                    Способ №2: Вам выдается фильм в соответствие с вашими предпочтению по жанрам, длительности и т.д. Необходимо зарегестрироваться/ войти
-                    для данного способа (<b>В разработке!</b>)
+                    Способ №2: Вам выдается фильм в соответствие с вашими предпочтениями. Необходимо зарегестрироваться/войти
+                    для данного способа.
                 </label>
-                <FilmComponent FilmSelectFunc={this.api.GetRandomFilm}/>
-                <FilmComponent FilmSelectFunc={this.api.GetSpecifityFilm}/>
+                <FilmComponent FilmSelectFunc={this.apiService.GetRandomFilm}/>
+                <FilmComponent FilmSelectFunc={this.apiService.GetSpecifityFilm}/>
             </div>
         )
     }

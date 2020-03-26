@@ -1,9 +1,10 @@
 import React from 'react';
-//import ApiService from '../../services/FilmApiService';
+import getFilmGenres from '../../../../services/genresStringify';
 
-import './FilmFullView.css';
+import './styles.css';
 
     const FilmView = ({film, FilmViewClick}) => {
+        let genresString = getFilmGenres(film);
         return (
             <div className="FilmFullComponent" onClick={FilmViewClick}>
                 <label id="FilmTrailerLabel" > Трейлер </label>
@@ -11,7 +12,7 @@ import './FilmFullView.css';
                 <label id="TitleLabel">Название</label>
                 <label id="TitleValue">{film.title}</label>
                 <label id="GenreLabel">Жанр</label>
-                <label id="GenreValue">{film.genre}</label>
+                <label id="GenreValue">{genresString}</label>
                 <label id="DescriptionLabel">Опсиание</label>
                 <label id="DescriptionValue">{film.description}</label>
                 <label id="DuarationLabel">Длительность</label>

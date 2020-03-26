@@ -7,7 +7,7 @@ export default class FilmApiService {
     apiService = new ApiService();
     authApi = new AuthService();
 
-    Controller = 'Likes';
+    Controller = config.likesController;
 
     GetSelfLikeByFilmId = async (id) => {
         let result = await this.apiService.GetAuthRequest(this.Controller, `ByFilm/${id}`, this.authApi.getCurrentUser().token);

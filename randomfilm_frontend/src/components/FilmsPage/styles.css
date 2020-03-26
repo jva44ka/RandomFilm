@@ -1,14 +1,20 @@
-.films-page{
+.filmsPageContainer{
     display: flex;
     flex-flow: column;
+    justify-content: center;
+    flex: 1 0 auto;
+}
 
-    background: inherit;
+.films-list{
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
     border-style: none;
 
     flex: 1 0 auto;
 }
 
-.films-page > input{
+.films-list > input{
     background: rgba(200,200,200,0.75);
     margin: 0 40vw;
     text-align: center;
@@ -16,8 +22,14 @@
     min-height: 30px;
 }
 
-.films-page > label{
+.films-list > label{
     background-color: inherit;
     border-style: inherit;
     font-size: 24px;
+}
+
+.loadingImgDiv{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }

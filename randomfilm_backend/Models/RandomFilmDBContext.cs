@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Models
 {
@@ -21,6 +20,8 @@ namespace randomfilm_backend.Models
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Film> Films { get; set; }
+        public virtual DbSet<FilmsGenres> FilmsGenres { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
 
@@ -39,7 +40,7 @@ namespace randomfilm_backend.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<Account>(entity =>
             {
@@ -81,7 +82,7 @@ namespace randomfilm_backend.Models
 
                 entity.Property(e => e.Director).HasMaxLength(255);
 
-                entity.Property(e => e.Genre).HasMaxLength(255);
+                //entity.Ignore(e => e.Genres);
 
                 entity.Property(e => e.Title).HasMaxLength(255);
 
@@ -90,6 +91,28 @@ namespace randomfilm_backend.Models
                 entity.Property(e => e.UrlTrailer).HasMaxLength(255);
 
                 entity.Property(e => e.Year).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<FilmsGenres>(entity =>
+            {
+                entity.ToTable("Films&Genres");
+
+                entity.HasOne(d => d.Film)
+                    .WithMany(p => p.FilmsGenres)
+                    .HasForeignKey(d => d.FilmId)
+                    .HasConstraintName("FK_FilmsGenre_ToFilms");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.FilmsGenres)
+                    .HasForeignKey(d => d.GenreId)
+                    .HasConstraintName("FK_FilmsGenres_ToGenres");
+            });
+
+            modelBuilder.Entity<Genre>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(32);
             });
 
             modelBuilder.Entity<Like>(entity =>
@@ -109,7 +132,9 @@ namespace randomfilm_backend.Models
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Name).HasMaxLength(32);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(32);
             });
         }
     }

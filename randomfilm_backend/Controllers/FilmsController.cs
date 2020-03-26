@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 
 using randomfilm_backend.Models;
 using Microsoft.AspNetCore.Cors;
+using randomfilm_backend.Models.Entities;
 
 namespace randomfilm_backend.Controllers
 {
@@ -29,18 +27,28 @@ namespace randomfilm_backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
         {
-            return await db.Films.ToListAsync();
+            return await db.Films
+                        .Include(x => x.Likes)
+                        .Include(x => x.FilmsGenres)
+                            .ThenInclude(x => x.Genre) 
+                        .Where(x => x.FilmsGenres.FirstOrDefault(y => y.FilmId == x.Id) != null)
+                        .ToArrayAsync();
         }
 
         // GET: api/Films/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Film>> GetFilm(int id)
         {
-            Film film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
+            Film film = await db.Films
+                                .Include(x => x.Likes)
+                                .Include(x => x.FilmsGenres)
+                                    .ThenInclude(x => x.Genre)
+                                .Where(x => x.FilmsGenres.FirstOrDefault(y => y.FilmId == x.Id) != null)
+                                .FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
 
             if (film == null)
             {
-                return NotFound();//NotFound();
+                return NotFound();
             }
 
             return film;
@@ -57,7 +65,9 @@ namespace randomfilm_backend.Controllers
         [Authorize]
         public async Task<ActionResult<Film>> GetSpecificityFilm()
         {
-            return await FilmUtility.SpecificityFilmAsync(db.Accounts.FirstOrDefault(x => x.Login == this.HttpContext.User.Identity.Name));
+            Account thisUser = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
+            Film result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
+            return result;
         }
 
         // PUT: api/Films/5
@@ -94,7 +104,7 @@ namespace randomfilm_backend.Controllers
         // POST: api/Films
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<Film>> PostFilm([FromBody]Film film)
+        public async Task<ActionResult<Film>> PostFilm([FromBody] Film film)
         {
             db.Films.Add(film);
             try
@@ -121,7 +131,7 @@ namespace randomfilm_backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<Film>> DeleteFilm(int id)
         {
-            var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);//FindAsync(id);
+            var film = await db.Films.FirstOrDefaultAsync((findingFilm) => findingFilm.Id == id);
             if (film == null)
             {
                 return NotFound();

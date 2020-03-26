@@ -1,84 +1,66 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
-import apiService from '../../services/AuthenticationService';
+import { Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
+import ApiService from '../../services/AuthenticationService';
+import { getToken } from "../../actions/loginPageActions";
 
 import './styles.css';
-import MainPage from "../MainPage";
 
-export  default class LoginPage extends  React.Component{
+const apiService = new ApiService();
 
-    apiService = new apiService();
-
-    state={
-        login: "",
-        password: "",
-        token: ""
-    };
-
-    handleInputChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    };
-
-    onFormSubmit = async(e) => {
-        e.preventDefault();
-        await this.apiService.login(this.state.login, this.state.password);
-        let user = this.apiService.getCurrentUser();
-        if (user.login){
-            console.log("user: " + user);
-            console.log("login: " + user.login);
-            console.log("token: " + user.token);
-            this.setState((prevState) => {
-                return {
-                    login: prevState.login,
-                    password: prevState.password,
-                    token: user.token
-                }
-            });
-            this.state.token = user.token;
-            window.location.reload();
-        }
-        else{
-            console.log('not found token');
-        }
-    };
-
-    render(){
-        console.log(this.apiService.getCurrentUser().login);
-        if (this.apiService.getCurrentUser().login) return <Redirect to="/"/>;
-        return (
-            <div className="login-page-grid">
+const LoginPage = ({login, password, validationMessage, handleInputChange, requestToken}) => {
+    if (apiService.getCurrentUser().login) return <Redirect to="/"/>;
+    return (
+        <div className="login-page-grid">
                 <form   className="box"
                         action=""
-                        onSubmit={this.onFormSubmit}>
-                    <h1>Войти</h1>
-                    <input type="text"
-                           name="login"
-                           value={this.state.login}
-                           onChange={this.handleInputChange}
-                           placeholder="Логин"/>
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            requestToken(login, password);
+                        }}>
+                <h1>Войти</h1>
+                <input type="text"
+                       name="login"
+                       value={login}
+                       onChange={handleInputChange}
+                       placeholder="Логин"/>
 
-                    <input type="password"
-                           name="password"
-                           value={this.state.password}
-                           onChange={this.handleInputChange}
-                           placeholder="Пароль"/>
+                <input type="password"
+                       name="password"
+                       value={password}
+                       onChange={handleInputChange}
+                       placeholder="Пароль"/>
 
-                    <button name="submit"
-                            type="submit"
-                            onClick={this.loginButtonOnClick}>Войти</button>
-                    <br/>
-                </form>
-            </div>
-        )
+                {validationMessage ? (
+                    <label id="validationMessage">
+                        {validationMessage}
+                    </label>
+                ):(
+                    <div/>
+                )}
+
+                <button name="submit"
+                        type="submit">Войти</button>
+                <br/>
+            </form>
+        </div>
+    )
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        handleInputChange: (event) => dispatch({type: 'LoginPage_HandleInputChange', payload: event}),
+        requestToken: (login, password) => dispatch(getToken(login, password))
     }
-}
+};
+
+const mapStateToProps = (state) => {
+    return {
+        login: state.loginPageReducer.login,
+        password: state.loginPageReducer.password,
+        validationMessage: state.loginPageReducer.validationMessage,
+        flagForRender: state.loginPageReducer.flagForRender
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
