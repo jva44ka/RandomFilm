@@ -1,5 +1,7 @@
 {
-  "basePath": "http://localhost:64303",
+  "basePath": "http://localhost:5000",
+  "port64303": "64303",
+  "port5000": "5000",
   "filmsController": "Films",
   "likesController": "Likes",
   "authController": "Auth",
