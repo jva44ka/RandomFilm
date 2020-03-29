@@ -1,0 +1,34 @@
+.films-preview{
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+
+    background: inherit;
+    border-style: none;
+
+    flex: 1 0 auto;
+}
+
+.films-preview > label{
+    background-color: inherit;
+    border-style: inherit;
+}
+
+.films-preview > label:nth-child(1){
+    grid-column-start: 1;
+    grid-column-end: 3;
+    padding: 5vh;
+    background-color: inherit;
+    border-style: inherit;
+}
+
+.general-instruction-label{
+    text-align: center;
+    font-size: 24px;
+}
+
+.secondary-instruction-label{
+    font-size: 20px;
+    margin: 20px;
+}

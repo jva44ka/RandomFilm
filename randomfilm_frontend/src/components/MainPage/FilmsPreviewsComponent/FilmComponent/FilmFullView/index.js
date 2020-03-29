@@ -1,5 +1,5 @@
 import React from 'react';
-import getFilmGenres from '../../../../services/genresStringify';
+import getFilmGenres from '../../../../../services/genresStringify';
 
 import './styles.css';
 
