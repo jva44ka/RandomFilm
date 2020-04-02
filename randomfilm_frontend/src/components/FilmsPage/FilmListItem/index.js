@@ -11,6 +11,8 @@ export  default  class  FilmListItem extends React.Component {
 
     apiService = new FilmApiSrvice();
 
+    id = this.props.film.id;
+
     state = {
         genre: genresToString(this.props.film),
         isFilmSelected: false
@@ -24,11 +26,12 @@ export  default  class  FilmListItem extends React.Component {
 
     renderRedirect = () => {
         if (this.state.isFilmSelected) {
-            return <Redirect to='/Film'/>
+            //return <Redirect to="/Film"/>
+            return <Redirect to={`/Film/${this.id}`}/>
         }
     };
 
-    filmClickFunc = async (event) => {
+    filmClickFunc = (event) => {
         FilmApiSrvice.selectedFilm = this.props.film;
         console.log("Film Id is: " + this.apiService.selectedFilm.id);
         this.setRedirect();

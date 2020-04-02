@@ -7,7 +7,7 @@ import getGenresString from '../../services/genresStringify';
 
 import './styles.css'
 
-export  default class FilmsPage extends  React.Component{
+export  default class FilmPage extends  React.Component{
 
     filmApiService = new FilmApiService();
     likesApiService = new LikesApiService();
@@ -24,13 +24,24 @@ export  default class FilmsPage extends  React.Component{
     componentDidMount = async() => {
         window.scrollTo(0, 0);
 
-        let film = FilmApiService.selectedFilm;
-        console.log(film);
+        let paramId = this.props.match.params.id;
+
+        let film = {};
+        let filmRespone = await this.filmApiService.GetFilmById(paramId);// FilmApiService.selectedFilm;
+        if (filmRespone.status === 200){
+            film = await filmRespone.json();
+        }
+        else{
+            console.log('Film getting error: ' + filmRespone.status);
+        }
 
         let like = {};
         let likeResponse = await this.likesApiService.GetSelfLikeByFilmId(film.id);
         if (likeResponse.status === 200){
             like = await likeResponse.json();
+        }
+        else{
+            console.log('Like respone error: ' + likeResponse.status);
         }
         console.log(like);
 
@@ -67,7 +78,7 @@ export  default class FilmsPage extends  React.Component{
                 });
             }
         }
-    }
+    };
 
     dislike = async() => {
         let likePostResponse = await this.likesApiService.PostSelfLike(this.state.film.id, false);
@@ -82,7 +93,7 @@ export  default class FilmsPage extends  React.Component{
                 });
             }
         }
-    }
+    };
 
     unLike = async() => {
         let response = await this.likesApiService.DeleteSelfLike(this.state.film.id);
@@ -92,7 +103,7 @@ export  default class FilmsPage extends  React.Component{
                 isLikeThere: false,
             });
         }
-    }
+    };
 
     likeOnClick = async() => {
         if(this.state.isLikeThere){
@@ -109,7 +120,7 @@ export  default class FilmsPage extends  React.Component{
         }
         console.log("likeOrDislike " + this.state.likeOrDislike);
         console.log("isLikeThere " + this.state.isLikeThere);
-    }
+    };
 
     dislikeOnClick = async() => {
         if(this.state.isLikeThere){
@@ -126,7 +137,7 @@ export  default class FilmsPage extends  React.Component{
         }
         console.log("likeOrDislike " + this.state.likeOrDislike);
         console.log("isLikeThere " + this.state.isLikeThere);
-    }
+    };
 
     render = () => {
         let likeClassName = "likeButton_disabled";
