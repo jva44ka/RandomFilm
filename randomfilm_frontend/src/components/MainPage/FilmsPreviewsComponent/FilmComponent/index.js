@@ -8,7 +8,7 @@ import loadingImg from '../../../../generalResources/loadingGif.svg';
 
 const FilmComponent = (props) => {
     return (
-        <div>
+        <React.Fragment>
             {!props.loading ? (
                 <div>
                     {props.showed?
@@ -39,7 +39,7 @@ const FilmComponent = (props) => {
                     <img src={loadingImg} id="loadingImg" width="200" height="200"/>
                 </div>
             )}
-        </div>
+        </React.Fragment>
     )
 }
 

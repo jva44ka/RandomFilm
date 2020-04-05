@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import FilmComponent from './FilmListItem';
-import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsListPageAction';
+import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsPageActions';
 
 import loadingImg from '../../generalResources/loadingGif.svg';
 import './styles.css'
@@ -53,11 +53,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        isFilmSelected: state.filmsListPageReducer.isFilmSelected,
-        films: state.filmsListPageReducer.films,
-        filmsShowed: state.filmsListPageReducer.filmsShowed,
-        loading: state.filmsListPageReducer.loading,
-        searchText: state.filmsListPageReducer.searchText,
+        films: state.filmsPageReducer.films,
+        filmsShowed: state.filmsPageReducer.filmsShowed,
+        loading: state.filmsPageReducer.loading,
+        searchText: state.filmsPageReducer.searchText,
     };
 };
 

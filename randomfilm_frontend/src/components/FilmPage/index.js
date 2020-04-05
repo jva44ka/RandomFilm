@@ -1,13 +1,15 @@
 import React from 'react';
+import {connect} from "react-redux";
 import ReactPlayer from 'react-player';
 
 import FilmApiService from '../../services/FilmApiService';
 import LikesApiService from '../../services/LikesApiService';
 import getGenresString from '../../services/genresStringify';
+import {getFilm, getLike, FILMPAGE_LIKE_CLICK, FILMPAGE_DISLIKE_CLICK} from "../../actions/filmPageActions";
 
 import './styles.css'
 
-export  default class FilmPage extends  React.Component{
+class FilmPage extends  React.Component{
 
     filmApiService = new FilmApiService();
     likesApiService = new LikesApiService();
@@ -108,10 +110,10 @@ export  default class FilmPage extends  React.Component{
     likeOnClick = async() => {
         if(this.state.isLikeThere){
             if(this.state.likeOrDislike){
-                await  this.unLike();
+                await this.unLike();
             }
             else {
-                await  this.unLike();
+                await this.unLike();
                 await this.like();
             }
         }
@@ -158,8 +160,7 @@ export  default class FilmPage extends  React.Component{
                     url={this.state.film.urlTrailer}
                     controls={true}
                     id="videoPlayer"
-                    youtubeConfig={{ playerVars: { showinfo: 1 , autoplay: 0} }}
-                    />
+                    youtubeConfig={{ playerVars: { showinfo: 1 , autoplay: 0} }}/>
                 <label id="filmTitle">{this.state.film.title}</label>
                 <label>Жанр</label>
                 <label>{this.state.genreString}</label>
@@ -183,3 +184,24 @@ export  default class FilmPage extends  React.Component{
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onLikeClick: (event) => dispatch({type: FILMPAGE_LIKE_CLICK, payload: event}),
+        onDislikeClick: (event) => dispatch({type: FILMPAGE_DISLIKE_CLICK, payload: event}),
+        getFilm: () => dispatch(getFilm())
+    }
+};
+
+const mapStateToProps = (state) => {
+    return {
+        film: state.filmPageReducer.film,
+        like: state.filmPageReducer.like,
+        genreString: state.filmPageReducer.genreString,
+        likeOrDislike: state.filmPageReducer.likeOrDislike,
+        isLikeThere: state.filmPageReducer.isLikeThere,
+        comments: state.filmPageReducer.comments,
+    };
+};
+
+//export default connect(mapStateToProps, mapDispatchToProps)(FilmPage);
+export default FilmPage;

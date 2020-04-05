@@ -1,5 +1,5 @@
 import {FILMSPAGE_GET_FILMS_REQUEST, FILMSPAGE_GET_FILMS_SUCCSESS,
-    FILMSPAGE_GET_FILMS_FAIL, FILMSPAGE_CHANGE_INPUT} from "../actions/filmsListPageAction";
+    FILMSPAGE_GET_FILMS_FAIL, FILMSPAGE_CHANGE_INPUT} from "../actions/filmsPageActions";
 
 const initialState = {
     isFilmSelected: false,
