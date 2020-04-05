@@ -1,13 +1,11 @@
 import React from 'react';
+import {connect} from "react-redux";
 
 import FilmComponent from './FilmListItem';
-
-import loadingImg from '../../generalResources/loadingGif.svg';
-
 import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsListPageAction';
 
+import loadingImg from '../../generalResources/loadingGif.svg';
 import './styles.css'
-import {connect} from "react-redux";
 
 class FilmsPage extends  React.Component{
 
@@ -31,8 +29,7 @@ class FilmsPage extends  React.Component{
                                 name="searchText"
                                 value={this.props.searchText}
                                 onChange={this.props.handleInputChange}
-                                placeholder="Поиск"
-                        />
+                                placeholder="Поиск"/>
                         {
                             (this.props.filmsShowed || []).map((item) => (
                                 <div key={item.id}>
