@@ -1,11 +1,14 @@
 import { combineReducers } from 'redux';
 import loginPageReducer from './loginPageReducer';
 import appHeaderReducer from './appHeaderReducer';
-import filmComponentReducer from './filmComponentReducer';
+import filmsPreviewsComponentReducer from './filmsPreviewsComponentReducer';
+import filmsPageReducer from './filmsPageReducer';
+import filmPageReducer from './filmPageReducer';
 
 export default combineReducers({
-    //anotherReducer,
     loginPageReducer,
     appHeaderReducer,
-    filmComponentReducer
+    filmsPreviewsComponentReducer,
+    filmsPageReducer,
+    filmPageReducer
 })

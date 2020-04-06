@@ -1,50 +1,22 @@
 import React from 'react';
+import {connect} from "react-redux";
 
 import FilmComponent from './FilmListItem';
-import ApiService from '../../services/FilmApiService'
+import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsPageActions';
 
 import loadingImg from '../../generalResources/loadingGif.svg';
-
 import './styles.css'
 
-export  default class FilmsPage extends  React.Component{
+class FilmsPage extends  React.Component{
 
-    api = new ApiService();
-
-    films = [];
-
-    state = {
-        isFilmSelected: false,
-        films: [],
-        loading: false,
-        searchText: "",
+    componentDidMount = () => {
+        this.props.getFilms();
     };
-
-    componentDidMount = async () => {
-        this.setState({loading: true});
-        let response = await this.api.GetAllFilms();
-        console.log("status is " + response.status);
-        if (response.status === 200){
-            this.films = await response.json();
-        }
-        console.log(this.films);
-        this.setState({
-            films: this.films,
-            loading: false
-        });
-    }
-
-    handleInputChange = (event) => {
-        this.setState({
-            searchText: event.target.value,
-            films: this.films.filter((item) => (item.title.toLowerCase().includes(event.target.value.toLowerCase())))
-        })
-    }
 
     render = () => {
         return (
             <div className="filmsPageContainer">
-                {this.state.loading ? (
+                {this.props.loading ? (
                     <div className="loadingImgDiv">
                         <img src={loadingImg}/>
                     </div>
@@ -55,12 +27,11 @@ export  default class FilmsPage extends  React.Component{
                         </label>
                         <input  type="text"
                                 name="searchText"
-                                value={this.searchText}
-                                onChange={this.handleInputChange}
-                                placeholder="Поиск"
-                        />
+                                value={this.props.searchText}
+                                onChange={this.props.handleInputChange}
+                                placeholder="Поиск"/>
                         {
-                            (this.state.films || []).map((item) => (
+                            (this.props.filmsShowed || []).map((item) => (
                                 <div key={item.id}>
                                     <FilmComponent film={item}/>
                                 </div>
@@ -72,3 +43,21 @@ export  default class FilmsPage extends  React.Component{
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        handleInputChange: (event) => dispatch({type: FILMSPAGE_CHANGE_INPUT, payload: event}),
+        getFilms: () => dispatch(getFilms())
+    }
+};
+
+const mapStateToProps = (state) => {
+    return {
+        films: state.filmsPageReducer.films,
+        filmsShowed: state.filmsPageReducer.filmsShowed,
+        loading: state.filmsPageReducer.loading,
+        searchText: state.filmsPageReducer.searchText,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilmsPage);
