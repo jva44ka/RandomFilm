@@ -18,21 +18,36 @@ namespace randomfilm_backend.Models
         /// Метод, возвращающий рандомный фильм из коллекции, переданной в параметр
         /// </summary>
         /// <returns>Возвращаемый фильм</returns>
-        public static async Task<Film> GetRandomFilmAsync()
+        public static async Task<Film[]> GetRandomFilmAsync()
         {
-            Film[] films = await db.Films
+            //Вытаскиваем бд в кеш
+            List<Film> filmsCache = await db.Films
                                 .Include(x => x.Likes)
                                 .Include(x => x.FilmsGenres)
                                     .ThenInclude(x => x.Genre)
                                 .Where(x => x.FilmsGenres.FirstOrDefault(y => y.FilmId == x.Id) != null)
-                                .ToArrayAsync();
-            int index = new Random().Next(0, films.Length);
-            return films.ElementAt(index);
+                                .ToListAsync();
+            Film[] result = new Film[filmsCache.Count];
+
+            //Буферные переменные для работы с рандомной выборкой и переброса из коллекции в коллекцию
+            int filmsCacheCount = filmsCache.Count;
+            Random random = new Random();
+            Film selectedFilm;
+
+            //Заполнение массива рандомными фильмами
+            for (int i = 0; i < filmsCacheCount; i++)
+            {
+                selectedFilm = filmsCache[random.Next(0, filmsCache.Count)];
+                result[i] = selectedFilm;
+                filmsCache.Remove(selectedFilm);
+            }
+
+            return result;
         }
 
-        public static async Task<Film> GetSpecificityFilmAsync(Account user)
+        public static async Task<List<Film>> GetSpecificityFilmAsync(Account user)
         {
-            return await SameUsersAlgorithmUtility.GetFilm(user);
+            return await SameUsersAlgorithmUtility.GetFilms(user);
         }
     }
 }

@@ -22,10 +22,10 @@ const FilmsPreviewsComponent = (props) => {
                 для данного способа.
             </label>
             <FilmComponent filmSelectFunc={props.getRandomFilm} changeSizeFunc={props.changeSizeRandomFilm}
-                           film={props.randomFilm} loading={props.randomFilmLoading}
+                           film={props.randomFilm[0]} loading={props.randomFilmLoading}
                            mini={props.randomFilmMini} showed={props.randomFilmShowed}/>
             <FilmComponent filmSelectFunc={props.getSpecificityFilm} changeSizeFunc={props.changeSizespecificityFilm}
-                           film={props.specificityFilm} loading={props.specificityFilmLoading}
+                           film={props.specificityFilm[0]} loading={props.specificityFilmLoading}
                            mini={props.specificityFilmMini} showed={props.specificityFilmShowed}/>
         </div>
     )
