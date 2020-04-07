@@ -9,8 +9,6 @@ export default class FilmApiService {
 
     Controller = config.filmsController;
 
-    selectedFilm = {};
-
     GetAllFilms = async () => {
         return await this.apiService.GetNonAuthRequest(this.Controller, '');
     };
@@ -19,11 +17,11 @@ export default class FilmApiService {
         return await this.apiService.GetNonAuthRequest(this.Controller, id);
     };
 
-    GetRandomFilm = async () => {
+    GetRandomFilms = async () => {
         return await this.apiService.GetNonAuthRequest(this.Controller, 'Random');
     };
 
-    GetSpecifityFilm = async () => {
-        return await this.apiService.GetAuthRequest(this.Controller, 'SpecificityFilm', this.authApi.getCurrentUser().token);
+    GetSpecifityFilms = async () => {
+        return await this.apiService.GetAuthRequest(this.Controller, 'Specificity', this.authApi.getCurrentUser().token);
     };
 }

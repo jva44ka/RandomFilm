@@ -29,9 +29,9 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static async Task<Film> GetFilm(Account user)
+        public static async Task<List<Film>> GetFilms(Account user)
         {
-            Film result;
+            List<Film> result;
 
             // 0. Вытаскивыние базы в кеш
             accountsCache = await db.Accounts.Include(x => x.Likes)
@@ -50,14 +50,14 @@ namespace randomfilm_backend.Models
                 .Take(SameUsersAlgorithmUtility.k).ToDictionary(x => x.Key, x => x.Value);
 
             /* 3. Выборка фильма для пользователя */
-            result = SelectFilm(user, nearestToUser);
+            result = SelectFilms(user, nearestToUser);
 
             /* 4. Удаление из переменных класса ссылок на объекты таблиц для удаления сборщиком мусора*/
             accountsCache = null;
             filmsCache = null;
             likesCache = null;
 
-            return result; ;
+            return result;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace randomfilm_backend.Models
         /// <param name="user">Пользователь, для которого подбирается фильм</param>
         /// <param name="nearestToUser">Ближайшие соседи</param>
         /// <returns>Подобраный фильм</returns>
-        private static Film SelectFilm(Account user, Dictionary<Account, int> nearestToUser)
+        private static List<Film> SelectFilms(Account user, Dictionary<Account, int> nearestToUser)
         {
             // Выясняем какие фильмы еще не оценивал (соответственно не смотрел) пользователь (посмотрел)
             Film[] notLikedFilmsByUser = GetNotLikedFilmsByUser(user);
@@ -132,10 +132,13 @@ namespace randomfilm_backend.Models
             }
 
             // Сортируем получившийся словарь по убыванию рейтинга и даем первый элемент как результат
-            Film result;
+            List<Film> result;
             try
             {
-                result = filmsLikes.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.First();
+                result = filmsLikes.OrderByDescending(x => x.Value)
+                                    .ToDictionary(x => x.Key, x => x.Value)
+                                    .Keys
+                                    .ToList();
             }
             catch(System.InvalidOperationException ex)
             {

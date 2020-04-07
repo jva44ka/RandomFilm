@@ -56,17 +56,17 @@ namespace randomfilm_backend.Controllers
 
         // GET: api/Films/Random
         [HttpGet("Random")]
-        public async Task<ActionResult<Film>> GetRandomFilm()
+        public async Task<ActionResult<IEnumerable<Film>>> GetRandomFilms()
         {
             return await FilmUtility.GetRandomFilmAsync();
         }
 
-        [HttpGet("SpecificityFilm")]
+        [HttpGet("Specificity")]
         [Authorize]
-        public async Task<ActionResult<Film>> GetSpecificityFilm()
+        public async Task<ActionResult<IEnumerable<Film>>> GetSpecificityFilms()
         {
             Account thisUser = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
-            Film result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
+            List<Film> result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
             return result;
         }
 
