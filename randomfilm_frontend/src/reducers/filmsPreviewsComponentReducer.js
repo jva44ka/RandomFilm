@@ -4,8 +4,8 @@ import {FILMSPREVIEWS_GET_SPECIFICITY_FILM_REQUEST, FILMSPREVIEWS_GET_SPECIFICIT
     FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE} from "../actions/filmsPreviewsComponentActions";
 
 const initialState = {
-    specificityFilm: {},
-    randomFilm: {},
+    specificityFilms: {},
+    randomFilms: {},
     specificityFilmLoading: false,
     randomFilmLoading: false,
     specificityFilmMini: true,
@@ -35,28 +35,28 @@ const filmsPreviewsComponentReducer = (state = initialState, action) => {
         case FILMSPREVIEWS_GET_SPECIFICITY_FILM_SUCCSESS:
             return {
                 ...state,
-                specificityFilm: action.payload,
+                specificityFilms: action.payload,
                 specificityFilmLoading: false
             };
 
         case FILMSPREVIEWS_GET_RANDOM_FILM_SUCCSESS:
             return {
                 ...state,
-                randomFilm: action.payload,
+                randomFilms: action.payload,
                 randomFilmLoading: false
             };
 
         case FILMSPREVIEWS_GET_SPECIFICITY_FILM_FAIL:
             return {
                 ...state,
-                specificityFilm: {},
+                specificityFilms: {},
                 specificityFilmLoading: false
             };
 
         case FILMSPREVIEWS_GET_RANDOM_FILM_FAIL:
             return {
                 ...state,
-                randomFilm: {},
+                randomFilms: {},
                 randomFilmLoading: false
             };
 

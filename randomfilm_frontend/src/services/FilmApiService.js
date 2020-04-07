@@ -17,11 +17,11 @@ export default class FilmApiService {
         return await this.apiService.GetNonAuthRequest(this.Controller, id);
     };
 
-    GetRandomFilm = async () => {
+    GetRandomFilms = async () => {
         return await this.apiService.GetNonAuthRequest(this.Controller, 'Random');
     };
 
-    GetSpecifityFilm = async () => {
+    GetSpecifityFilms = async () => {
         return await this.apiService.GetAuthRequest(this.Controller, 'Specificity', this.authApi.getCurrentUser().token);
     };
 }
