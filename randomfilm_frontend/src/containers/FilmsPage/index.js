@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import FilmComponent from '../../components/FilmListItem';
+import Preloader from '../../components/Preloader';
 import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsPageActions';
 
-import loadingImg from '../../generalResources/loadingGif.svg';
 import './styles.css'
 
 class FilmsPage extends  React.Component{
@@ -17,8 +17,8 @@ class FilmsPage extends  React.Component{
         return (
             <div className="filmsPageContainer">
                 {this.props.loading ? (
-                    <div className="loadingImgDiv">
-                        <img src={loadingImg}/>
+                    <div className="preloader-container">
+                        <Preloader/>
                     </div>
                 ) : (
                     <div className="films-list">

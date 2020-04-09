@@ -1,10 +1,10 @@
 import React from 'react';
+
 import FilmMiniView from './FilmMiniView';
 import FilmFullView from './FilmFullView';
+import Preloader from '../../components/Preloader';
 
 import './styles.css';
-
-import loadingImg from '../../generalResources/loadingGif.svg';
 
 const FilmComponent = (props) => {
     return (
@@ -36,11 +36,11 @@ const FilmComponent = (props) => {
                 </div>
             ) : (
                 <div className="FilmComponent">
-                    <img src={loadingImg} id="loadingImg" width="200" height="200"/>
+                    <Preloader/>
                 </div>
             )}
         </React.Fragment>
     )
-}
+};
 
 export default FilmComponent;
