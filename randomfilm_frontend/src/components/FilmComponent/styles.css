@@ -14,27 +14,6 @@
     justify-content: center;
 }
 
-/*Оранжевая кнопка*/
-/*.FilmComponent-Flex > button:nth-child(1){
-    width: 15vw;
-    height: 10vh;
-    min-width: 240px;
-    min-height: 90px;
-
-    margin: 2vh;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 18px;
-    outline: none;
-
-    background-color: coral;
-}
-
-.FilmComponent-Flex > button:nth-child(1):hover{
-    background-color: rgb(255, 85, 23);
-    cursor: pointer;
-}*/
-
 .FilmComponent > #loadingImg {
     width: 200px;
     height: 200px;
@@ -48,11 +27,9 @@
     margin: 10px 20px;
     position: relative;
     overflow: hidden;
-    /*border: 2px solid #fe6637;*/
     border: 2px solid #9e31fe;
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
-    /*color: #fe6637;*/
     color: #9e31fe;
     transition: .2s ease-in-out;
     cursor: pointer;

@@ -1,10 +1,12 @@
 import React from 'react';
+import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+
 import logo from './logo_test50x50.png';
 import './styles.css';
+
 import AuthService from '../../services/AuthenticationService';
 import {HEADER_LOGOUT_BUTTON_ONCLICK} from '../../actions/appHeaderActions';
-import {connect} from "react-redux";
 
 const authService = new AuthService();
 
