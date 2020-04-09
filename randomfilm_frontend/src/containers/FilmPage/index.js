@@ -68,7 +68,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log(JSON.stringify(state));
     return {
         film: state.filmPageReducer.film,
         like: state.filmPageReducer.like,

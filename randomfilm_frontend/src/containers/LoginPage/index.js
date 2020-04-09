@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
+
 import ApiService from '../../services/AuthenticationService';
 import { getToken } from "../../actions/loginPageActions";
 

@@ -4,7 +4,7 @@ import FilmFullView from './FilmFullView';
 
 import './styles.css';
 
-import loadingImg from '../../../../generalResources/loadingGif.svg';
+import loadingImg from '../../generalResources/loadingGif.svg';
 
 const FilmComponent = (props) => {
     return (

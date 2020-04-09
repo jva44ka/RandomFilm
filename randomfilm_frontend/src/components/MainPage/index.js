@@ -1,5 +1,5 @@
 import React from 'react';
-import FilmsPreviewsComponent from './FilmsPreviewsComponent';
+import FilmsPreviewsComponent from '../../containers/FilmsPreviewsComponent';
 
 import './styles.css'
 

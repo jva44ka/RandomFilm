@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import {getRandomFilms, getSpecifityFilms,
-    FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE} from "../../../actions/filmsPreviewsComponentActions";
+    FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE} from "../../actions/filmsPreviewsComponentActions";
 
-import FilmComponent from './FilmComponent';
+import FilmComponent from '../../components/FilmComponent';
 
 import './styles.css';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 
-import FilmComponent from './FilmListItem';
+import FilmComponent from '../../components/FilmListItem';
 import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsPageActions';
 
 import loadingImg from '../../generalResources/loadingGif.svg';

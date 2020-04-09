@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 
 import AppHeader from '../AppHeader';
-import AppFooter from '../AppFooter';
-import MainPage from '../MainPage';
+import AppFooter from '../../components/AppFooter';
+import MainPage from '../../components/MainPage';
 import FilmPage from '../FilmPage';
 import FilmsPage from '../FilmsPage';
 import LoginPage from '../LoginPage';

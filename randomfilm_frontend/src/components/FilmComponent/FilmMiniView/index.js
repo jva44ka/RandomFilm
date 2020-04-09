@@ -7,10 +7,9 @@ import './styles.css';
 
         return (
             <div>
-                {film.urlImg == null ? (
-                    <div className="FilmMiniView" onClick={FilmViewClick}>
+                {film == null ? (
+                    <div className="FilmMiniView">
                         <img id="FilmImage" src={image}/>
-                        <label id="TitleValue">{film.title}</label>
                     </div>
                 ):(
                     <div className="FilmMiniView" onClick={FilmViewClick}>
