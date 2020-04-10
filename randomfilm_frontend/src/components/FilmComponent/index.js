@@ -3,6 +3,7 @@ import React from 'react';
 import FilmMiniView from './FilmMiniView';
 import FilmFullView from './FilmFullView';
 import Preloader from '../../components/Preloader';
+import PrimaryButton from '../../components/PrimaryButton';
 
 import './styles.css';
 
@@ -24,12 +25,12 @@ const FilmComponent = (props) => {
                                         FilmViewClick={props.changeSizeFunc}/>
                                 )}
                                 <div className="FilmComponent-Flex">
-                                    <button id="GetFilmButton" onClick={props.filmSelectFunc}>Еще фильм</button>
+                                    <PrimaryButton onClick={props.filmSelectFunc} content="Еще фильм"/>
                                 </div>
                             </div>
                         ):(
                             <div className="FilmComponent-Flex">
-                                <button id="GetFilmButton" onClick={props.filmSelectFunc}>Получить фильм</button>
+                                <PrimaryButton onClick={props.filmSelectFunc} content="Получить фильм"/>
                             </div>
                         )
                     }
