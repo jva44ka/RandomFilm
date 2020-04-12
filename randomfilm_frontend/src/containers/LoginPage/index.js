@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import ApiService from '../../services/AuthenticationService';
 import { getToken } from "../../actions/loginPageActions";
+import PrimaryButton from '../../components/PrimaryButton';
 
 import './styles.css';
 
@@ -40,8 +41,9 @@ const LoginPage = ({login, password, validationMessage, handleInputChange, reque
                     <div/>
                 )}
 
-                <button name="submit"
-                        type="submit">Войти</button>
+                <div className="submit-container">
+                    <PrimaryButton content="Войти"/>
+                </div>
                 <br/>
             </form>
         </div>

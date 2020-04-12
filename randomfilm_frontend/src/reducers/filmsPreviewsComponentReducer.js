@@ -1,7 +1,8 @@
 import {FILMSPREVIEWS_GET_SPECIFICITY_FILM_REQUEST, FILMSPREVIEWS_GET_SPECIFICITY_FILM_SUCCSESS,
     FILMSPREVIEWS_GET_SPECIFICITY_FILM_FAIL, FILMSPREVIEWS_GET_RANDOM_FILM_REQUEST,
     FILMSPREVIEWS_GET_RANDOM_FILM_SUCCSESS, FILMSPREVIEWS_GET_RANDOM_FILM_FAIL,
-    FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE} from "../actions/filmsPreviewsComponentActions";
+    FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE,
+    FILMSPREVIEWS_RESET_STATE} from "../actions/filmsPreviewsComponentActions";
 
 const initialState = {
     specificityFilms: {},
@@ -70,6 +71,11 @@ const filmsPreviewsComponentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 randomFilmMini: !state.randomFilmMini
+            };
+
+        case FILMSPREVIEWS_RESET_STATE:
+            return {
+                initialState
             };
 
         default:

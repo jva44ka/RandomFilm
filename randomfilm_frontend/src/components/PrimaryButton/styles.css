@@ -1,25 +1,4 @@
-.FilmComponent{
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    margin: 1vh;
-    background-color: rgba(211, 211, 211, 0.25);
-    border-radius: 10px;
-}
-
-.FilmComponent-Flex{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.FilmComponent > #loadingImg {
-    width: 200px;
-    height: 200px;
-}
-
-.FilmComponent-Flex > button:nth-child(1) {
+.primary-button {
     text-decoration: none;
     outline: none;
     display: inline-block;
@@ -35,9 +14,7 @@
     cursor: pointer;
 }
 
-
-
-.FilmComponent-Flex > button:nth-child(1):before {
+.primary-button:before {
     content: "";
     background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.5));
     height: 50px;
@@ -48,17 +25,17 @@
     transform: skewX(-45deg);
 }
 
-.FilmComponent-Flex > button:nth-child(1):hover {
+.primary-button:hover {
     background: #9e31fe;
     color: #fff;
 }
 
-.FilmComponent-Flex > button:nth-child(1):hover:before {
+.primary-button:hover:before {
     left: 150px;
     transition: .5s ease-in-out;
 }
 
-.FilmComponent-Flex > button:nth-child(1):active{
+.primary-button:active{
     background: #c995fe;
     transition: 0.05s;
 }

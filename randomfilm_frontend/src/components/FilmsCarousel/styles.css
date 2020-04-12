@@ -1,0 +1,13 @@
+.films-slides-container{
+    max-width: 45vw;
+    margin: auto;
+    padding: 5vw 0 5vw 0;
+}
+
+.films-slides-container__get-films-button-container{
+    display: grid;
+    min-width: 5vw;
+    min-height: 5vh;
+    justify-content: center;
+    align-items: center;
+}

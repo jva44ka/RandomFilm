@@ -18,7 +18,6 @@
 .films-preview > label:nth-child(1){
     grid-column-start: 1;
     grid-column-end: 3;
-    padding: 5vh;
     background-color: inherit;
     border-style: inherit;
 }

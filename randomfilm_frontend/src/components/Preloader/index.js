@@ -7,9 +7,7 @@ import loadingImg from './loadingGif.svg';
 const Preloader = () => {
     return (
         <React.Fragment>
-            <div className="preloader">
-                <img src={loadingImg} className="preloader__image" width="200" height="200"/>
-            </div>
+            <img src={loadingImg} className="preloader" width="200" height="200"/>
         </React.Fragment>
     )
 };
