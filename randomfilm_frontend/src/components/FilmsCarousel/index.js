@@ -23,11 +23,11 @@ const settings = {
 
 const FilmsCarousel = (props) => {
         return (
-            <React.Fragment>
+            <div className="films-slides-container">
                 {!props.loading ? (
                     <React.Fragment>
                     {props.showed ? (
-                            <div className="films-slides-container">
+                            <React.Fragment>
                                 {(props.films && props.films.length > 0) ? (
                                     <React.Fragment>
                                         <Slider {...settings}>
@@ -47,7 +47,7 @@ const FilmsCarousel = (props) => {
                                         </div>
                                     </React.Fragment>
                                 )}
-                            </div>
+                            </React.Fragment>
                         ) : (
                             <div className="films-slides-container__get-films-button-container">
                                 <PrimaryButton onClick={props.getFilmsFunc} content={"Подобрать фильмы"}/>
@@ -58,7 +58,7 @@ const FilmsCarousel = (props) => {
                 ) : (
                     <Preloader/>
                 )}
-            </React.Fragment>
+            </div>
         )
-}
+};
 export default FilmsCarousel;

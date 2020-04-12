@@ -34,3 +34,21 @@
     padding: 0;
     margin: 1%;
 }
+
+.preview__film-page-link{
+    font-size: 20px;
+    align-self: flex-end;
+    margin: 10px;
+
+    text-decoration: inherit;
+
+    background-color: white;
+    text-decoration: none;
+    outline: none;
+    display: inline-block;
+    padding: 8px 30px;
+    border: 2px solid #9e31fe;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}

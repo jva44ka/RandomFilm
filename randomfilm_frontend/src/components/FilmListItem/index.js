@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 import './styles.css';
-import image from './image-not-found.png'
 import genresToString from '../../services/genresStringify';
 
 const FilmListItem = ({film}) => {
