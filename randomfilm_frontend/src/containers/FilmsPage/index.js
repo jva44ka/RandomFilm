@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 
-import FilmComponent from '../../components/FilmListItem';
+import FilmListItem from '../../components/FilmListItem';
 import Preloader from '../../components/Preloader';
 import {FILMSPAGE_CHANGE_INPUT, getFilms} from './../../actions/filmsPageActions';
 
@@ -33,7 +33,7 @@ class FilmsPage extends  React.Component{
                         {
                             (this.props.filmsShowed || []).map((item) => (
                                 <div key={item.id}>
-                                    <FilmComponent film={item}/>
+                                    <FilmListItem film={item}/>
                                 </div>
                             ))
                         }

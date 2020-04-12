@@ -9,11 +9,7 @@ const FilmListItem = ({film}) => {
     return (
         <Link className="FilmListItem"
               to={`/Film/${film.id}`}>
-            {film.urlImg == null ? (
-                <img id="FilmImage" src={image}/>
-            ) : (
-                <img id="FilmImage" src={film.urlImg}/>
-            )}
+            <img id="FilmImage" src={film.urlImg}/>
             <div className="FilmListItemContent">
                 <label id="TitleValue">{film.title}</label>
                 <label>Жанр</label>

@@ -5,6 +5,7 @@ import {getRandomFilms, getSpecifityFilms,
     FILMSPREVIEWS_SPECIFICITY_FILM_CHANGE_SIZE, FILMSPREVIEWS_RANDOM_FILM_CHANGE_SIZE} from "../../actions/filmsPreviewsComponentActions";
 
 import FilmComponent from '../../components/FilmComponent';
+import FilmsCarousel from '../../components/FilmsCarousel';
 
 import './styles.css';
 
@@ -21,12 +22,10 @@ const FilmsPreviewsComponent = (props) => {
                 Способ №2: Вам выдается фильм в соответствие с вашими предпочтениями. Необходимо зарегестрироваться/войти
                 для данного способа.
             </label>
-            <FilmComponent filmSelectFunc={props.getRandomFilms} changeSizeFunc={props.changeSizeRandomFilm}
-                           film={props.randomFilms[0]} loading={props.randomFilmLoading}
-                           mini={props.randomFilmMini} showed={props.randomFilmShowed}/>
-            <FilmComponent filmSelectFunc={props.getSpecifityFilms} changeSizeFunc={props.changeSizespecificityFilm}
-                           film={props.specificityFilms[0]} loading={props.specificityFilmLoading}
-                           mini={props.specificityFilmMini} showed={props.specificityFilmShowed}/>
+            <FilmsCarousel getFilmsFunc={props.getRandomFilms} films={props.randomFilms}
+                           loading={props.randomFilmLoading} showed={props.randomFilmShowed}/>
+            <FilmsCarousel getFilmsFunc={props.getSpecifityFilms} films={props.specificityFilms}
+                           loading={props.specificityFilmLoading} showed={props.specificityFilmShowed}/>
         </div>
     )
 };

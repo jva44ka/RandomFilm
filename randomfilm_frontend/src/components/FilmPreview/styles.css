@@ -1,23 +1,17 @@
-.FilmMiniView{
+.preview{
     margin: 1vh;
-    /*background-color: rgba(211, 211, 211, 0.5);*/
+    background-color: rgba(186, 186, 186, 0.5);
     border-radius: 5px;
 
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-columns: 1fr;
-    grid-auto-flow: dense;
-    grid-gap: 1vh;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 
     max-width: 50vw;
-    cursor: pointer;
 }
 
-.FilmMiniView:hover{
-    background-color: rgba(186, 186, 186, 0.25);
-}
-
-.FilmMiniView > img, label {
+.preview > img, label {
     font-size: 24px;
     padding: .5em;
     background-color: rgba(186, 186, 186, 0.5);
@@ -26,14 +20,14 @@
     border-radius: inherit;
 }
 
-.FilmMiniView > label{
+.preview > label{
     font-size: 28px;
     justify-self: center;
     background-color: rgba(0, 0, 0, 0.0);
     margin: 1%;
 }
 
-.FilmMiniView > img:nth-child(1){
+.preview > img:nth-child(1){
     justify-self: center;
 
     width: 100%;
