@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using randomfilm_backend.Models;
 using Microsoft.AspNetCore.Cors;
 using randomfilm_backend.Models.Entities;
+using randomfilm_backend.Models.Algorithms;
 
 namespace randomfilm_backend.Controllers
 {
@@ -58,7 +59,9 @@ namespace randomfilm_backend.Controllers
         [HttpGet("Random")]
         public async Task<ActionResult<IEnumerable<Film>>> GetRandomFilms()
         {
-            return await FilmUtility.GetRandomFilmAsync();
+            RandomAlgorithm alg = new RandomAlgorithm(db);
+            //В конструктор передается пустой аккаунт просто как заглушка потому, что в интерфейсе IFilmSelection есть сигнатура метода с параметром
+            return await alg.GetFilmsAsync(new Account());
         }
 
         [HttpGet("Specificity")]
@@ -66,7 +69,8 @@ namespace randomfilm_backend.Controllers
         public async Task<ActionResult<IEnumerable<Film>>> GetSpecificityFilms()
         {
             Account thisUser = await db.Accounts.FirstOrDefaultAsync(x => x.Login == this.HttpContext.User.Identity.Name);
-            List<Film> result = await FilmUtility.GetSpecificityFilmAsync(thisUser);
+            SameUsersAlgorithm alg = new SameUsersAlgorithm(db);
+            List<Film> result = await alg.GetFilmsAsync(thisUser);
             return result;
         }
 

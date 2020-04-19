@@ -5,23 +5,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace randomfilm_backend.Models
+namespace randomfilm_backend.Models.Algorithms
 {
     /// <summary>
-    /// Утилитарный класс для манипуляций с фильмом только уже с контекстом всей бд
+    /// Алгоритм выдачи фильма с учетом предпочтений пользователя
+    /// Кратко: алгоритм ищет пользователей с такими же лайкнутыми фильмами. Затем сортирует по количеству совпадений и берет 
+    /// какое-то число соседей (k) и смотрит какие у этих соседей общие лайкнутые фильмы, которые не лайкнул исходный пользователь.
+    /// Если не находит берет рандомный из лайкнутых соседями но не лайкнутый пользователем.
     /// </summary>
-    public static class FilmUtility
+    public class RandomAlgorithm : IFilmSelection
     {
-        static RandomFilmDBContext db = new RandomFilmDBContext();
+        RandomFilmDBContext db;
+        public RandomAlgorithm(RandomFilmDBContext db)
+        {
+            this.db = db;
+        }
 
-        /// <summary>
-        /// Метод, возвращающий рандомный фильм из коллекции, переданной в параметр
-        /// </summary>
-        /// <returns>Возвращаемый фильм</returns>
-        public static async Task<Film[]> GetRandomFilmAsync()
+        public async Task<List<Film>> GetFilmsAsync(Account user)
         {
             //Вытаскиваем бд в кеш
-            List<Film> filmsCache = await db.Films
+            List<Film> filmsCache = await this.db.Films
                                 .Include(x => x.Likes)
                                 .Include(x => x.FilmsGenres)
                                     .ThenInclude(x => x.Genre)
@@ -42,12 +45,7 @@ namespace randomfilm_backend.Models
                 filmsCache.Remove(selectedFilm);
             }
 
-            return result;
-        }
-
-        public static async Task<List<Film>> GetSpecificityFilmAsync(Account user)
-        {
-            return await SameUsersAlgorithmUtility.GetFilms(user);
+            return result.ToList();
         }
     }
 }

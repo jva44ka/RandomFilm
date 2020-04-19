@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace randomfilm_backend.Models
+namespace randomfilm_backend.Models.Algorithms
 {
     /// <summary>
     /// Алгоритм выдачи фильма с учетом предпочтений пользователя
@@ -13,32 +13,37 @@ namespace randomfilm_backend.Models
     /// какое-то число соседей (k) и смотрит какие у этих соседей общие лайкнутые фильмы, которые не лайкнул исходный пользователь.
     /// Если не находит берет рандомный из лайкнутых соседями но не лайкнутый пользователем.
     /// </summary>
-    public static class SameUsersAlgorithmUtility
+    public class SameUsersAlgorithm : IFilmSelection
     {
         // Количество ближайших соседей
         private const int k = 1;
 
-        private static RandomFilmDBContext db = new RandomFilmDBContext();
+        private RandomFilmDBContext db;
 
-        private static Account[] accountsCache;
-        private static Film[] filmsCache;
-        private static Like[] likesCache;
+        private Account[] accountsCache;
+        private Film[] filmsCache;
+        private Like[] likesCache;
+
+        public SameUsersAlgorithm(RandomFilmDBContext db)
+        {
+            this.db = db;
+        }
 
         /// <summary>
         /// Публичный метод для использования данного алгоритма 
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static async Task<List<Film>> GetFilms(Account user)
+        public async Task<List<Film>> GetFilmsAsync(Account user)
         {
             List<Film> result;
 
             // 0. Вытаскивыние базы в кеш
-            accountsCache = await db.Accounts.Include(x => x.Likes)
+            accountsCache = await this.db.Accounts.Include(x => x.Likes)
                                         .ToArrayAsync();
-            filmsCache = await db.Films.Include(x => x.Likes)
+            filmsCache = await this.db.Films.Include(x => x.Likes)
                                     .ToArrayAsync();
-            likesCache = await db.Likes.Include(x => x.Film)
+            likesCache = await this.db.Likes.Include(x => x.Film)
                                     .ToArrayAsync();
 
             /* 1. Нахождение для каждого пользователя общих лайков с нашим пользователем*/
@@ -47,7 +52,7 @@ namespace randomfilm_backend.Models
             /* 2. Сортировка по совпадениям лайков и выбор ближайших соседей */
             Dictionary<Account, int> nearestToUser = usersMatches
                 .OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value)
-                .Take(SameUsersAlgorithmUtility.k).ToDictionary(x => x.Key, x => x.Value);
+                .Take(SameUsersAlgorithm.k).ToDictionary(x => x.Key, x => x.Value);
 
             /* 3. Выборка фильма для пользователя */
             result = SelectFilms(user, nearestToUser);
@@ -65,7 +70,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user">Пользователь, для которого подбирается фильм</param>
         /// <returns>Словарь вида "пользователь"-"количество общих лайков с пользователем для которого подбирается фильм"</returns>
-        private static Dictionary<Account, int> GetUsersWithSameLakes(Account user)
+        private Dictionary<Account, int> GetUsersWithSameLakes(Account user)
         {
             // Ищем лайкнутые фильмы пользователя
             Like[] userLikes = likesCache.Where(x => x.AccountId == user.Id).ToArray();
@@ -102,7 +107,7 @@ namespace randomfilm_backend.Models
         /// <param name="user">Пользователь, для которого подбирается фильм</param>
         /// <param name="nearestToUser">Ближайшие соседи</param>
         /// <returns>Подобраный фильм</returns>
-        private static List<Film> SelectFilms(Account user, Dictionary<Account, int> nearestToUser)
+        private List<Film> SelectFilms(Account user, Dictionary<Account, int> nearestToUser)
         {
             // Выясняем какие фильмы еще не оценивал (соответственно не смотрел) пользователь (посмотрел)
             Film[] notLikedFilmsByUser = GetNotLikedFilmsByUser(user);
@@ -153,7 +158,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user">конкретный пользовател</param>
         /// <returns>Коллекция оцененных фильмов</returns>
-        private static Film[] GetLikedFilmsByUser(Account user)
+        private Film[] GetLikedFilmsByUser(Account user)
         {
             Like[] likesByUser = likesCache.Where(x => x.AccountId == user.Id).ToArray();
             List<Film> filmsLikedByUser = new List<Film>();
@@ -168,7 +173,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user">конкретный пользовател</param>
         /// <returns>Коллекция оцененных фильмов</returns>
-        private static Film[] GetNotLikedFilmsByUser (Account user)
+        private Film[] GetNotLikedFilmsByUser (Account user)
         {
             Like[] likesByUser = likesCache.Where(x => x.AccountId == user.Id).ToArray();
             List<Film> filmsNotLikedByUser = new List<Film>(filmsCache);
