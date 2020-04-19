@@ -1,9 +1,11 @@
-﻿using randomfilm_backend.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using randomfilm_backend.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace randomfilm_backend.Models
+namespace randomfilm_backend.Models.Algorithms
 {
     /// <summary>
     /// Алгоритм выдачи фильма с учетом предпочтений пользователя (на основе метода ближайших k соседей)
@@ -11,34 +13,42 @@ namespace randomfilm_backend.Models
     /// также средние значения у всех пользователей пользователей, находит ближайших соседей по этим значениям и смотрит
     /// какие у этих соседей общие лайкнутые фильмы.
     /// </summary>
-    public static class KnnAlgorithmUtility
+    public class KnnAlgorithm : IFilmSelection
     {
         // Количество ближайших соседей
         private const int k = 3;
 
-        private static RandomFilmDBContext db = new RandomFilmDBContext();
+        private RandomFilmDBContext db;
 
-        private static Account[] accountsCache;
-        private static Genre[] genresCache;
-        private static FilmsGenres[] filmsGenresCache;
-        private static Film[] filmsCache;
-        private static Like[] likesCache;
+        private Account[] accountsCache;
+        private Genre[] genresCache;
+        private FilmsGenres[] filmsGenresCache;
+        private Film[] filmsCache;
+        private Like[] likesCache;
+
+        public KnnAlgorithm(RandomFilmDBContext db)
+        {
+            this.db = db;
+        }
 
         /// <summary>
         /// Публичный метод для использования данного алгоритма 
         /// </summary>
         /// <param name="user">Пользователь, под которого подбирается фильм</param>
         /// <returns>Фильм</returns>
-        public static Film GetFilm(Account user)
+        public async Task<List<Film>> GetFilmsAsync(Account user)
         {
-            Film result;
+            List<Film> result;
 
             // 0. Вытаскивыние базы в кеш
-            accountsCache = db.Accounts.ToArray();
-            genresCache = db.Genres.ToArray();
-            filmsCache = db.Films.ToArray();
-            filmsGenresCache = db.FilmsGenres.ToArray();
-            likesCache = db.Likes.ToArray();
+            accountsCache = await db.Accounts.Include(x => x.Likes)
+                                        .ToArrayAsync();
+            genresCache = await db.Genres.ToArrayAsync();
+            filmsCache = await db.Films.Include(x => x.Likes)
+                                    .ToArrayAsync();
+            filmsGenresCache = await db.FilmsGenres.ToArrayAsync();
+            likesCache = await db.Likes.Include(x => x.Film)
+                                    .ToArrayAsync(); ;
 
             /* 1. Нахождение для каждого пользователя (кроме того, для которого подбираем фильм) 
                  среднего значения в каждой метрике (жанр 1, жанр 2, ..., жанр n)*/
@@ -60,12 +70,12 @@ namespace randomfilm_backend.Models
                 OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
             /* 4. Выбор ближайших соседей */
-            Dictionary<Account, double> nearestToUser = distances.Take(KnnAlgorithmUtility.k).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<Account, double> nearestToUser = distances.Take(KnnAlgorithm.k).ToDictionary(x => x.Key, x => x.Value);
 
             /* 5. Выборка фильма для пользователя */
-            result = GetFilm(user, nearestToUser);
+            result = GetResultFilms(user, nearestToUser);
 
-            return result; ;
+            return result;
         }
 
         /// <summary>
@@ -73,7 +83,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="account">Пользователь, для которого расчитываются средние значения оценок</param>
         /// <returns></returns>
-        private static double[] GetAveregeLikes(Account account)
+        private double[] GetAveregeLikes(Account account)
         {
             double[] methrics = new double[genresCache.Length + 1];
             // Посчитываем средние значения оценки для каждого жанра
@@ -90,7 +100,7 @@ namespace randomfilm_backend.Models
         /// <param name="account">Пользователь</param>
         /// <param name="genre">Жанр</param>
         /// <returns></returns>
-        private static double GetAveregeLikeInGenre(Account account, Genre genre)
+        private double GetAveregeLikeInGenre(Account account, Genre genre)
         {
             double result;
             double summOfLikes = 0;
@@ -145,7 +155,7 @@ namespace randomfilm_backend.Models
         /// <param name="userMethrics">Средние значения (метрики) пользователя, до которого исчется расстояния</param>
         /// <param name="methrics">Пары "пользователь-средние оценки" других пользователей</param>
         /// <returns>Пары "пользователь-дистанция до исходного пользователя"</returns>
-        private static Dictionary<Account, double> GetDistances(Account user, double[] userMethrics, Dictionary<Account, double[]> methrics)
+        private Dictionary<Account, double> GetDistances(Account user, double[] userMethrics, Dictionary<Account, double[]> methrics)
         {
             Dictionary<Account, double> result = new Dictionary<Account, double>();
             //Буферная переменная
@@ -170,7 +180,7 @@ namespace randomfilm_backend.Models
         /// <param name="user">Пользователь, для которого подбирается фильм</param>
         /// <param name="nearestToUser">Ближайшие соседи</param>
         /// <returns>Подобраный фильм</returns>
-        private static Film GetFilm(Account user, Dictionary<Account, double> nearestToUser)
+        private List<Film> GetResultFilms(Account user, Dictionary<Account, double> nearestToUser)
         {
             // Выясняем какие фильмы еще не оценивал (соответственно не смотрел) пользователь (посмотрел)
             Film[] notLikedFilmsByUser = GetNotLikedFilmsByUser(user);
@@ -200,10 +210,10 @@ namespace randomfilm_backend.Models
             }
 
             // Сортируем получившийся словарь по убыванию рейтинга и даем первый элемент как результат
-            Film result;
+            List<Film> result;
             try
             {
-                result = filmsLikes.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.First();
+                result = filmsLikes.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.ToList();
             }
             catch(System.InvalidOperationException ex)
             {
@@ -218,7 +228,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user">конкретный пользовател</param>
         /// <returns>Коллекция оцененных фильмов</returns>
-        private static Film[] GetLikedFilmsByUser(Account user)
+        private Film[] GetLikedFilmsByUser(Account user)
         {
             Like[] likesByUser = likesCache.Where(x => x.AccountId == user.Id).ToArray();
             List<Film> filmsLikedByUser = new List<Film>();
@@ -233,7 +243,7 @@ namespace randomfilm_backend.Models
         /// </summary>
         /// <param name="user">конкретный пользовател</param>
         /// <returns>Коллекция оцененных фильмов</returns>
-        private static Film[] GetNotLikedFilmsByUser (Account user)
+        private Film[] GetNotLikedFilmsByUser(Account user)
         {
             Like[] likesByUser = likesCache.Where(x => x.AccountId == user.Id).ToArray();
             List<Film> filmsNotLikedByUser = new List<Film>(filmsCache);
